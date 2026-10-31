@@ -295,6 +295,7 @@
                 <div id="salesBulkActions" class="no-print bg-amber-50 dark:bg-dark-200 border-b border-beige-200 dark:border-dark-300 px-6 py-3 hidden flex items-center justify-between">
                     <span class="text-xs font-bold text-amber-900 dark:text-amber-400 en-num" id="salesSelectedCount">تم تحديد 0 طلب</span>
                     <div class="flex items-center gap-2">
+                        <button id="btnPrintSelectedSales" onclick="printSelectedItems('sales')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer hidden">🖨️ طباعة المحددين</button>
                         <button onclick="bulkMarkSalesReady()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">تحديد كـ "جاهز" ✓</button>
                         <button onclick="bulkDeleteSales()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">حذف المحدد 🗑️</button>
                     </div>
@@ -344,7 +345,10 @@
 
                 <div id="customersBulkActions" class="no-print bg-amber-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-6 py-3 rounded-xl hidden flex items-center justify-between">
                     <span class="text-xs font-bold text-amber-900 dark:text-amber-400 en-num" id="customersSelectedCount">تم تحديد 0 عميل</span>
-                    <button onclick="bulkDeleteCustomers()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">حذف العملاء المحددون 🗑️</button>
+                    <div class="flex items-center gap-2">
+                        <button id="btnPrintSelectedCustomers" onclick="printSelectedItems('customers')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer hidden">🖨️ طباعة المحددين</button>
+                        <button onclick="bulkDeleteCustomers()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">حذف العملاء المحددون 🗑️</button>
+                    </div>
                 </div>
 
                 <div class="no-print flex items-center gap-2 px-1">
@@ -400,7 +404,10 @@
 
                 <div id="expensesBulkActions" class="no-print bg-amber-50 dark:bg-dark-200 border-b border-beige-200 dark:border-dark-300 px-6 py-3 hidden flex items-center justify-between">
                     <span class="text-xs font-bold text-amber-900 dark:text-amber-400 en-num" id="expensesSelectedCount">تم تحديد 0 مصروف</span>
-                    <button onclick="bulkDeleteExpenses()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">حذف المحدد 🗑️</button>
+                    <div class="flex items-center gap-2">
+                        <button id="btnPrintSelectedExpenses" onclick="printSelectedItems('expenses')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer hidden">🖨️ طباعة المحددين</button>
+                        <button onclick="bulkDeleteExpenses()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">حذف المحدد 🗑️</button>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -468,6 +475,21 @@
                 <div>
                     <label class="block text-sm font-medium text-beige-700 dark:text-dark-800 mb-2" data-i18n="lbl_thank_msg">رسالة الشكر أسفل الفاتورة</label>
                     <input type="text" id="cfgThankMsg" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-beige-600 text-beige-900 dark:text-dark-900">
+                </div>
+
+                <!-- ميزة النسخ الاحتياطي (تصدير واستيراد JSON) -->
+                <div class="border-t border-beige-200 dark:border-dark-300 pt-6">
+                    <h3 class="text-base font-bold text-beige-800 dark:text-dark-900 mb-2">📦 النسخ الاحتياطي ونقل البيانات (JSON)</h3>
+                    <p class="text-xs text-beige-600 dark:text-dark-700 mb-4">يمكنك تصدير كافة بياناتك (الطلبات، المصروفات، والعملاء) في ملف نسخ احتياطي لنقلها بسهولة واستعادتها في أي متصفح أو جهاز آخر.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="exportBackupJSON()" type="button" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-sm cursor-pointer flex items-center gap-2">
+                            💾 تصدير النسخة الاحتياطية (JSON)
+                        </button>
+                        <label class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-sm cursor-pointer flex items-center gap-2">
+                            📂 استيراد نسخة احتياطية
+                            <input type="file" accept=".json" onchange="importBackupJSON(event)" class="hidden">
+                        </label>
+                    </div>
                 </div>
 
                 <!-- زر تصفير وبدء فترة جديدة -->
@@ -1623,15 +1645,25 @@
         function updateSalesBulkBar() {
             const bar = document.getElementById('salesBulkActions');
             const countEl = document.getElementById('salesSelectedCount');
+            const printBtn = document.getElementById('btnPrintSelectedSales');
             if(!bar || !countEl) return;
 
             if(selectedSalesIds.size > 0) {
                 bar.classList.remove('hidden');
                 bar.classList.add('flex');
                 countEl.innerText = currentLang === 'ar' ? `تم تحديد ${selectedSalesIds.size} طلب` : `${selectedSalesIds.size} orders selected`;
+                
+                if(printBtn) {
+                    if(selectedSalesIds.size >= 2) {
+                        printBtn.classList.remove('hidden');
+                    } else {
+                        printBtn.classList.add('hidden');
+                    }
+                }
             } else {
                 bar.classList.add('hidden');
                 bar.classList.remove('flex');
+                if(printBtn) printBtn.classList.add('hidden');
             }
         }
 
@@ -1687,15 +1719,25 @@
         function updateCustomersBulkBar() {
             const bar = document.getElementById('customersBulkActions');
             const countEl = document.getElementById('customersSelectedCount');
+            const printBtn = document.getElementById('btnPrintSelectedCustomers');
             if(!bar || !countEl) return;
 
             if(selectedCustomerPhones.size > 0) {
                 bar.classList.remove('hidden');
                 bar.classList.add('flex');
                 countEl.innerText = currentLang === 'ar' ? `تم تحديد ${selectedCustomerPhones.size} عميل` : `${selectedCustomerPhones.size} customers selected`;
+                
+                if(printBtn) {
+                    if(selectedCustomerPhones.size >= 2) {
+                        printBtn.classList.remove('hidden');
+                    } else {
+                        printBtn.classList.add('hidden');
+                    }
+                }
             } else {
                 bar.classList.add('hidden');
                 bar.classList.remove('flex');
+                if(printBtn) printBtn.classList.add('hidden');
             }
         }
 
@@ -1739,15 +1781,25 @@
         function updateExpensesBulkBar() {
             const bar = document.getElementById('expensesBulkActions');
             const countEl = document.getElementById('expensesSelectedCount');
+            const printBtn = document.getElementById('btnPrintSelectedExpenses');
             if(!bar || !countEl) return;
 
             if(selectedExpenseIds.size > 0) {
                 bar.classList.remove('hidden');
                 bar.classList.add('flex');
                 countEl.innerText = currentLang === 'ar' ? `تم تحديد ${selectedExpenseIds.size} مصروف` : `${selectedExpenseIds.size} expenses selected`;
+                
+                if(printBtn) {
+                    if(selectedExpenseIds.size >= 2) {
+                        printBtn.classList.remove('hidden');
+                    } else {
+                        printBtn.classList.add('hidden');
+                    }
+                }
             } else {
                 bar.classList.add('hidden');
                 bar.classList.remove('flex');
+                if(printBtn) printBtn.classList.add('hidden');
             }
         }
 
@@ -1760,6 +1812,51 @@
                 if(master) master.checked = false;
                 updateUI();
             }
+        }
+
+        function printSelectedItems(sectionKey) {
+            const tableId = sectionKey === 'sales' ? 'salesTable' : (sectionKey === 'expenses' ? 'expensesTable' : 'customersGrid');
+            
+            // إخفاء كافة العناصر غير المحددة مؤقتاً للطباعة
+            if(sectionKey === 'sales') {
+                document.querySelectorAll('.sale-checkbox').forEach(cb => {
+                    const row = cb.closest('tr');
+                    if(row) {
+                        if(!cb.checked) row.classList.add('temp-hide-print');
+                        else row.classList.remove('temp-hide-print');
+                    }
+                });
+            } else if(sectionKey === 'expenses') {
+                document.querySelectorAll('.expense-checkbox').forEach(cb => {
+                    const row = cb.closest('tr');
+                    if(row) {
+                        if(!cb.checked) row.classList.add('temp-hide-print');
+                        else row.classList.remove('temp-hide-print');
+                    }
+                });
+            } else if(sectionKey === 'customers') {
+                document.querySelectorAll('.customer-checkbox').forEach(cb => {
+                    const card = cb.closest('div.bg-white, div.dark\\:bg-dark-100');
+                    if(card) {
+                        if(!cb.checked) card.classList.add('temp-hide-print');
+                        else card.classList.remove('temp-hide-print');
+                    }
+                });
+            }
+
+            // إضافة ستايل مؤقت لإخفاء الصفوف غير المحددة عند الطباعة
+            const styleTag = document.createElement('style');
+            styleTag.id = 'tempPrintStyle';
+            styleTag.innerHTML = `@media print { tr.temp-hide-print, div.temp-hide-print { display: none !important; } }`;
+            document.head.appendChild(styleTag);
+
+            printSection(sectionKey);
+
+            setTimeout(() => {
+                const st = document.getElementById('tempPrintStyle');
+                if(st) st.remove();
+                document.querySelectorAll('.temp-hide-print').forEach(el => el.classList.remove('temp-hide-print'));
+            }, 500);
         }
 
         function updateUI() {
@@ -2472,6 +2569,47 @@
             saveDb();
             applySettings();
             alert(i18nDict[currentLang].alert_settings_saved);
+        }
+
+        function exportBackupJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `pizalooo_backup_${new Date().toISOString().slice(0, 10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importBackupJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const confirmMsg = currentLang === 'ar' ? 
+                'هل أنت متأكد من استيراد النسخة الاحتياطية؟ سيتم تحديث كافة البيانات الحالية بالبيانات الموجودة في الملف.' :
+                'Are you sure you want to import this backup? Current data will be replaced by the imported data.';
+
+            if (confirm(confirmMsg)) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedDb = JSON.parse(e.target.result);
+                        if (importedDb && (importedDb.sales || importedDb.expenses || importedDb.customers)) {
+                            db = importedDb;
+                            saveDb();
+                            applySettings();
+                            updateUI();
+                            const successMsg = currentLang === 'ar' ? 'تم استيراد النسخة الاحتياطية بنجاح!' : 'Backup imported successfully!';
+                            alert(successMsg);
+                        } else {
+                            alert(currentLang === 'ar' ? 'الملف المحدد غير صالح!' : 'Invalid backup file!');
+                        }
+                    } catch (err) {
+                        alert(currentLang === 'ar' ? 'حدث خطأ أثناء قراءة الملف!' : 'Error reading backup file!');
+                    }
+                };
+                reader.readAsText(file);
+            }
         }
 
         function resetPeriodData() {
