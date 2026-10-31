@@ -161,6 +161,11 @@
 </head>
 <body id="appBody" class="bg-beige-50 dark:bg-dark-50 text-beige-900 dark:text-dark-900 min-h-screen">
 
+    <!-- مؤشر حالة المزامنة السحابية -->
+    <div id="syncStatusIndicator" class="no-print bg-beige-800 text-white text-xs px-4 py-1 text-center font-bold tracking-wide">
+        ☁️ جاري مزامنة البيانات من السحابة...
+    </div>
+
     <div class="max-w-6xl mx-auto px-4 py-8">
         
         <!-- الترويسة -->
@@ -856,8 +861,11 @@
         </div>
     </div>
 
-    <!-- جافاسكريبت التشغيل الأساسي والترجمة الشاملة -->
+    <!-- جافاسكريبت التشغيل الأساسي والترجمة والربط السحابي بـ Gist -->
     <script>
+        // رابط الـ Gist المباشر (Raw) الخاص بك للتزامن السحابي
+        const GIST_RAW_URL = "https://gist.githubusercontent.com/Pizalooo/0c87d3dda49bbf710768374ac64a4a5a/raw/968e199ad093c4b4fbt759805832464b1d27239/data.json";
+
         let currentLang = localStorage.getItem('pizalooo_lang') || 'ar';
         let currentSalesFilter = 'active';
         let currentExpensesFilter = 'active';
@@ -1088,7 +1096,8 @@
             }
         };
 
-        let db = JSON.parse(localStorage.getItem('pizalooo_db')) || {
+        // هيكل قاعدة البيانات الافتراضي
+        let db = {
             sales: [],
             expenses: [],
             customers: [],
@@ -1111,6 +1120,37 @@
         let pickerSelectedYear = new Date().getFullYear();
         let pickerSelectedMonth = new Date().getMonth();
         let pickerSelectedDay = new Date().getDate();
+
+        // جلب البيانات من السحابة (GitHub Gist) عند تحميل الصفحة
+        function loadCloudData() {
+            const statusEl = document.getElementById('syncStatusIndicator');
+            fetch(GIST_RAW_URL + "?t=" + new Date().getTime())
+                .then(response => response.json())
+                .then(data => {
+                    if (data && (data.sales || data.expenses || data.customers)) {
+                        db = data;
+                    }
+                    initializeAppUI();
+                    if(statusEl) {
+                        statusEl.innerText = "✅ متصل بالسحابة وتمت المزامنة بنجاح";
+                        setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
+                    }
+                })
+                .catch(error => {
+                    console.error("خطأ في الاتصال السحابي، جاري الاعتماد على النسخة المحلية:", error);
+                    // في حال عدم الاتصال بالسحابة يتم جلبها من التخزين المحلي كبديل مؤقت
+                    const localFallback = localStorage.getItem('pizalooo_db');
+                    if(localFallback) {
+                        try { db = JSON.parse(localFallback); } catch(e){}
+                    }
+                    initializeAppUI();
+                    if(statusEl) {
+                        statusEl.innerText = "⚠️ تعمل حالياً بالوضع المحلي (تعذر الاتصال بالسحابة)";
+                        statusEl.style.backgroundColor = "#b91c1c";
+                        setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
+                    }
+                });
+        }
 
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
@@ -1383,14 +1423,17 @@
         window.onload = function() {
             applyDarkMode();
             applyLanguage();
+            loadCloudData();
+        };
 
+        function initializeAppUI() {
             const date = new Date();
             const yearMonth = date.toISOString().slice(0, 7);
             const monthInput = document.getElementById('filterMonth');
-            if(monthInput) monthInput.value = yearMonth;
+            if(monthInput && !monthInput.value) monthInput.value = yearMonth;
             
             const todayStr = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-            if(document.getElementById('expenseDate')) {
+            if(document.getElementById('expenseDate') && !document.getElementById('expenseDate').value) {
                 document.getElementById('expenseDate').value = todayStr;
                 const disp = document.getElementById('expenseDateDisplay');
                 if(disp) { disp.innerText = todayStr; disp.classList.remove('text-beige-500', 'dark:text-dark-700'); disp.classList.add('text-beige-900', 'dark:text-dark-900', 'font-bold'); }
@@ -1401,11 +1444,10 @@
                     c.createdAt = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0') + ':' + String(date.getSeconds()).padStart(2, '0');
                 }
             });
-            saveDb();
 
             applySettings();
             updateUI();
-        };
+        }
 
         function applySettings() {
             const s = db.settings;
@@ -1610,7 +1652,7 @@
             if(document.getElementById('expenseDate')) {
                 document.getElementById('expenseDate').value = todayStr;
                 const disp = document.getElementById('expenseDateDisplay');
-                if(disp) { disp.innerText = todayStr; disp.className = 'text-beige-900 dark:text-dark-900 font-bold'; }
+                if(disp) { disp.innerText = todayStr; disp.classList.remove('text-beige-500', 'dark:text-dark-700'); disp.classList.add('text-beige-900', 'dark:text-dark-900', 'font-bold'); }
             }
             
             updateUI();
@@ -1815,9 +1857,6 @@
         }
 
         function printSelectedItems(sectionKey) {
-            const tableId = sectionKey === 'sales' ? 'salesTable' : (sectionKey === 'expenses' ? 'expensesTable' : 'customersGrid');
-            
-            // إخفاء كافة العناصر غير المحددة مؤقتاً للطباعة
             if(sectionKey === 'sales') {
                 document.querySelectorAll('.sale-checkbox').forEach(cb => {
                     const row = cb.closest('tr');
@@ -1844,7 +1883,6 @@
                 });
             }
 
-            // إضافة ستايل مؤقت لإخفاء الصفوف غير المحددة عند الطباعة
             const styleTag = document.createElement('style');
             styleTag.id = 'tempPrintStyle';
             styleTag.innerHTML = `@media print { tr.temp-hide-print, div.temp-hide-print { display: none !important; } }`;
@@ -2638,8 +2676,13 @@
             }
         }
 
+        // دالة الحفظ المحلي والسحابي (تحديث التخزين المحلي وتنبيه بضرورة التحديث سحابياً إن لزم)
         function saveDb() {
             localStorage.setItem('pizalooo_db', JSON.stringify(db));
+            
+            // ملاحظة توجيهية للمستخدم: البيانات تُحفظ محلياً لحظياً على الجهاز، 
+            // وعند الرغبة بمزامنتها الكاملة عبر الـ Gist، يمكنك نسخ محتوى البيانات وتحديث ملف Gist مباشرة.
+            console.log("تم حفظ البيانات محلياً وتحديث حالة التطبيق.");
         }
 
         function exportData() {
