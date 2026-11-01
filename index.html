@@ -113,7 +113,6 @@
                 display: none !important;
             }
 
-            /* إعادة ضبط وتصميم جديد بالكامل لطباعة التقارير بحدود واضحة وفاصلة بين الأعمدة والصفوف */
             body.printing-section .printable-active-section h3,
             body.printing-section .printable-active-section h2 {
                 text-align: center !important;
@@ -876,7 +875,7 @@
                 <button id="invWhatsappBtn" type="button" onclick="" class="bg-emerald-600 hover:bg-emerald-700 text-white px-7 sm:px-9 py-4 rounded-2xl font-bold text-base sm:text-lg transition shadow-md cursor-pointer flex items-center gap-2">
                     📲 <span>إرسال عبر واتساب (PDF)</span>
                 </button>
-                <button onclick="closeInvoice()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 text-beige-800 dark:text-dark-900 px-7 sm:px-9 py-4 rounded-2xl font-bold text-base sm:text-lg transition cursor-pointer" data-i18n="btn_close">
+                <button onclick="closeInvoice()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 text-beige-800 dark:text-dark-900 px-7 sm:px-9 py-4 rounded-2xl font-bold text-base sm:text-lg cursor-pointer" data-i18n="btn_close">
                     إغلاق
                 </button>
             </div>
@@ -1199,14 +1198,12 @@
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // توليد ملف الـ PDF وإرساله مباشرة للدردشة بدون إرسال نص وبدون إجبار التحميل اليدوي
             html2pdf().from(element).set(opt).outputPdf('blob').then((pdfBlob) => {
                 let formattedPhone = cleanPhone;
                 if (formattedPhone.startsWith('05') || formattedPhone.startsWith('0')) {
                     formattedPhone = '966' + formattedPhone.substring(1);
                 }
 
-                // فتح محادثة واتساب المباشرة دون إرسال رسالة نصية مسبقة
                 const waUrl = `https://wa.me/${formattedPhone}`;
                 window.open(waUrl, '_blank');
             });
@@ -2750,43 +2747,20 @@
             }
         }
 
+        // تم إصلاح مشكلة الطباعة في الجوال بالاعتماد على مكتبة html2pdf لتوليد وتحميل ملف الطباعة بسلاسة تامة على الهواتف
         function printInvoice() {
-            const printContent = document.getElementById('invoicePrintContent');
-            if (!printContent) return;
+            const element = document.getElementById('invoicePrintContent');
+            if (!element) return;
 
-            const printWindow = window.open('', '_blank', 'width=800,height=600');
-            if (!printWindow) {
-                alert('يرجى السماح بفتح النوافذ المنبثقة (Pop-ups) من إعدادات المتصفح للطباعة.');
-                return;
-            }
+            const opt = {
+                margin:       10,
+                filename:     `Invoice_${Date.now()}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
 
-            printWindow.document.write(`
-                <html lang="ar" dir="rtl">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>طباعة الفاتورة</title>
-                    <script src="https://cdn.tailwindcss.com"><\/script>
-                    <style>
-                        body { font-family: 'Rubik', sans-serif; background: #fdfbf7 !important; color: #3a3020 !important; margin: 0; padding: 20px; }
-                        .no-print { display: none !important; }
-                        * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        @page { size: auto; margin: 10mm; }
-                    </style>
-                </head>
-                <body>
-                    <div style="max-width: 100%; min-height: 95vh; display: flex; flex-direction: column; justify-content: space-between; margin: 0 auto; background: #fdfbf7; padding: 30px; border-radius: 20px; border: 2px solid #e5d7c3;">
-                        ${printContent.innerHTML}
-                    </div>
-                    <script>
-                        setTimeout(() => {
-                            window.print();
-                            window.close();
-                        }, 400);
-                    <\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
+            html2pdf().from(element).set(opt).save();
         }
 
         function printSection(sectionKey) {
@@ -2916,7 +2890,7 @@
 
                 setSalesFilter('active');
                 setExpensesFilter('active');
-                updateUI();
+                    updateUI();
                 
                 const successMsg = currentLang === 'ar' ? 'تمت عملية التصفير وأرشفة الفترة السابقة سحابياً بنجاح! الإحصائيات الآن تبدأ من الصفر.' : 'Period reset and archived in the cloud successfully!';
                 alert(successMsg);
