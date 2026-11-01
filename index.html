@@ -113,39 +113,43 @@
                 display: none !important;
             }
 
-            /* تنسيق عناوين التقارير المطبوعة لتكون في المنتصف ومسطرة ومرتبة منفصلة الخلايا */
+            /* تنسيق عناوين التقارير المطبوعة لتكون في المنتصف ومسطرة ومرتبة منفصلة الخلايا ومنع أي تداخل */
             body.printing-section .printable-active-section h3,
             body.printing-section .printable-active-section h2 {
                 text-align: center !important;
                 width: 100% !important;
                 display: block !important;
-                margin-bottom: 20px !important;
-                font-size: 16pt !important;
+                margin-bottom: 25px !important;
+                font-size: 18pt !important;
+                font-weight: bold !important;
             }
 
             body.printing-section table {
                 width: 100% !important;
                 border-collapse: collapse !important;
                 margin-top: 15px !important;
+                table-layout: fixed !important;
             }
 
             body.printing-section th {
-                border: 1px solid #8c7853 !important;
+                border: 1.5px solid #8c7853 !important;
                 background-color: #f4ede2 !important;
-                padding: 10px 8px !important;
+                padding: 12px 10px !important;
                 font-size: 11pt !important;
                 font-weight: bold !important;
                 color: #3a3020 !important;
                 text-align: center !important;
+                word-wrap: break-word !important;
             }
 
             body.printing-section td {
                 border: 1px solid #d1bfa2 !important;
-                padding: 9px 8px !important;
+                padding: 10px 8px !important;
                 font-size: 10pt !important;
                 color: #222222 !important;
                 background-color: #ffffff !important;
                 text-align: center !important;
+                word-wrap: break-word !important;
             }
 
             html, body { 
@@ -805,68 +809,75 @@
         </div>
     </div>
 
-    <!-- نافذة الفاتورة المنبثقة -->
+    <!-- نافذة الفاتورة المنبثقة (موزعة على كامل الصفحة ومترابطة بشكل أنيق) -->
     <div id="invoiceModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto z-50 animate-fade">
-        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 dark:bg-dark-100 w-full max-w-3xl p-6 sm:p-10 rounded-3xl shadow-2xl relative border-2 border-beige-200 dark:border-dark-300 my-auto space-y-5">
+        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 dark:bg-dark-100 w-full max-w-3xl min-h-[85vh] flex flex-col justify-between p-8 sm:p-12 rounded-3xl shadow-2xl relative border-2 border-beige-200 dark:border-dark-300 my-auto space-y-8">
             <button onclick="closeInvoice()" class="no-print absolute left-6 top-6 text-beige-600 dark:text-dark-700 hover:text-beige-900 dark:hover:text-dark-900 text-2xl font-bold cursor-pointer">✕</button>
             
-            <div class="flex flex-col items-center text-center pb-1 gap-2">
+            <!-- ترويسة الفاتورة -->
+            <div class="flex flex-col items-center text-center gap-3 border-b-2 border-beige-200 dark:border-dark-300 pb-6">
                 <img id="invLogo" src="" alt="Store Logo" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-3xl hidden mb-1 border-2 border-beige-300 dark:border-dark-300 shadow-md">
                 <div>
-                    <h2 id="invStoreName" class="text-2xl sm:text-3xl font-extrabold text-beige-900 dark:text-dark-900 tracking-wide"></h2>
-                    <p id="invStoreDesc" class="text-sm sm:text-base text-beige-600 dark:text-dark-700 mt-1 font-semibold"></p>
+                    <h2 id="invStoreName" class="text-2xl sm:text-4xl font-extrabold text-beige-900 dark:text-dark-900 tracking-wide"></h2>
+                    <p id="invStoreDesc" class="text-sm sm:text-base text-beige-600 dark:text-dark-700 mt-2 font-semibold"></p>
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-dark-200 p-4 sm:p-6 rounded-3xl border-2 border-beige-200 dark:border-dark-300 space-y-3 shadow-sm">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-beige-200 dark:border-dark-300 pb-3 gap-2">
-                    <div class="text-sm sm:text-base font-bold text-beige-800 dark:text-dark-900"><span data-i18n="inv_num_label">🧾 رقم الفاتورة:</span> <span id="invId" class="text-beige-900 dark:text-dark-900 font-extrabold text-base sm:text-lg en-num">#9002</span></div>
-                    <div class="text-xs sm:text-sm font-bold text-beige-700 dark:text-dark-700 time-badge"><span id="invDate" class="en-num"></span></div>
+            <!-- معلومات الفاتورة والعميل (موزعة بكامل المساحة) -->
+            <div class="space-y-6 flex-1 flex flex-col justify-center">
+                <div class="bg-white dark:bg-dark-200 p-6 sm:p-8 rounded-3xl border-2 border-beige-200 dark:border-dark-300 space-y-6 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-beige-200 dark:border-dark-300 pb-4 gap-3">
+                        <div class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900"><span data-i18n="inv_num_label">🧾 رقم الفاتورة:</span> <span id="invId" class="text-beige-900 dark:text-dark-900 font-extrabold text-lg sm:text-xl en-num">#9002</span></div>
+                        <div class="text-sm sm:text-base font-bold text-beige-700 dark:text-dark-700 time-badge"><span id="invDate" class="en-num"></span></div>
+                    </div>
+
+                    <div id="invScheduledWrapper" class="no-print bg-amber-50 dark:bg-dark-300 border border-amber-200 dark:border-amber-600 p-4 rounded-2xl hidden">
+                        <span class="text-amber-900 dark:text-amber-400 font-bold block text-xs mb-1" data-i18n="lbl_delivery_time">⏰ وقت التوصيل المطلوب:</span>
+                        <span id="invScheduledTimeVal" class="text-amber-800 dark:text-amber-300 font-extrabold text-base sm:text-lg en-num"></span>
+                    </div>
+
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-beige-900 dark:text-dark-900 mb-3 border-r-4 border-beige-700 dark:border-dark-700 pr-3" data-i18n="inv_cust_details_title">تفاصيل العميل وعنوان التوصيل:</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base sm:text-lg">
+                            <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_name">اسم العميل:</span> <span id="invClient" class="font-extrabold text-beige-900 dark:text-dark-900 text-lg sm:text-xl"></span></div>
+                            <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_phone">رقم الجوال:</span> <span id="invPhone" class="font-extrabold text-beige-900 dark:text-dark-900 text-lg sm:text-xl en-num"></span></div>
+                        </div>
+                        <div class="pt-3">
+                            <span class="text-beige-600 dark:text-dark-700 font-medium block mb-1 text-sm sm:text-base" data-i18n="lbl_cust_address">عنوان التوصيل / الحي:</span>
+                            <div id="invAddress" class="font-extrabold text-beige-900 dark:text-dark-900 text-base sm:text-lg leading-relaxed"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="invScheduledWrapper" class="no-print bg-amber-50 dark:bg-dark-300 border border-amber-200 dark:border-amber-600 p-3 rounded-2xl hidden">
-                    <span class="text-amber-900 dark:text-amber-400 font-bold block text-xs mb-0.5" data-i18n="lbl_delivery_time">⏰ وقت التوصيل المطلوب:</span>
-                    <span id="invScheduledTimeVal" class="text-amber-800 dark:text-amber-300 font-extrabold text-sm sm:text-base en-num"></span>
+                <!-- ملخص الطلب -->
+                <div class="space-y-2">
+                    <div class="text-sm sm:text-base font-bold text-beige-800 dark:text-dark-900 px-2" data-i18n="inv_order_summary_title">🛒 ملخص الطلب والمنتج:</div>
+                    <div class="bg-white dark:bg-dark-200 p-6 sm:p-8 rounded-3xl border-2 border-beige-200 dark:border-dark-300 shadow-sm">
+                        <span id="invItemName" class="font-black text-beige-900 dark:text-dark-900 text-xl sm:text-2xl block mb-2"></span> 
+                        <span id="invItemNotes" class="text-sm sm:text-base text-beige-600 dark:text-dark-700 block font-medium"></span>
+                    </div>
                 </div>
 
-                <h3 class="text-sm sm:text-base font-bold text-beige-900 dark:text-dark-900 mb-1 border-r-4 border-beige-700 dark:border-dark-700 pr-2" data-i18n="inv_cust_details_title">تفاصيل العميل وعنوان التوصيل:</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm sm:text-base">
-                    <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_name">اسم العميل:</span> <span id="invClient" class="font-extrabold text-beige-900 dark:text-dark-900 text-base sm:text-lg"></span></div>
-                    <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_phone">رقم الجوال:</span> <span id="invPhone" class="font-extrabold text-beige-900 dark:text-dark-900 text-base sm:text-lg en-num"></span></div>
-                </div>
-                <div class="pt-1">
-                    <span class="text-beige-600 dark:text-dark-700 font-medium block mb-0.5 text-xs sm:text-sm" data-i18n="lbl_cust_address">عنوان التوصيل / الحي:</span>
-                    <div id="invAddress" class="font-extrabold text-beige-900 dark:text-dark-900 text-sm sm:text-base leading-relaxed"></div>
+                <!-- مبلغ الفاتورة المستحق في الأسفل -->
+                <div class="bg-emerald-50 dark:bg-dark-200 p-6 sm:p-8 rounded-3xl border-2 border-emerald-300 dark:border-emerald-600 flex justify-between items-center shadow-md">
+                    <span class="font-extrabold text-emerald-900 dark:text-emerald-300 text-base sm:text-xl" data-i18n="inv_total_amount_label">إجمالي مبلغ الفاتورة المستحق:</span>
+                    <div id="invItemPrice" class="font-black text-emerald-700 dark:text-emerald-400 money-val text-3xl sm:text-4xl"><span>0</span> <span class="currencyLabel text-xl sm:text-2xl">ر.س</span></div>
                 </div>
             </div>
 
-            <!-- ملخص الطلب -->
-            <div class="space-y-1.5">
-                <div class="text-xs sm:text-sm font-bold text-beige-800 dark:text-dark-900" data-i18n="inv_order_summary_title">🛒 ملخص الطلب والمنتج:</div>
-                <div class="bg-white dark:bg-dark-200 p-4 sm:p-5 rounded-3xl border-2 border-beige-200 dark:border-dark-300 shadow-sm">
-                    <span id="invItemName" class="font-black text-beige-900 dark:text-dark-900 text-lg sm:text-xl block"></span> 
-                    <span id="invItemNotes" class="text-xs sm:text-sm text-beige-600 dark:text-dark-700 mt-1 block font-medium"></span>
-                </div>
-            </div>
-
-            <!-- مبلغ الفاتورة مستقل في الأسفل -->
-            <div class="bg-emerald-50 dark:bg-dark-200 p-4 sm:p-5 rounded-3xl border-2 border-emerald-300 dark:border-emerald-600 flex justify-between items-center shadow-md">
-                <span class="font-extrabold text-emerald-900 dark:text-emerald-300 text-sm sm:text-lg" data-i18n="inv_total_amount_label">إجمالي مبلغ الفاتورة المستحق:</span>
-                <div id="invItemPrice" class="font-black text-emerald-700 dark:text-emerald-400 money-val text-2xl sm:text-3xl"><span>0</span> <span class="currencyLabel text-lg sm:text-xl">ر.س</span></div>
-            </div>
-
-            <div class="text-center text-xs sm:text-sm font-bold text-beige-700 dark:text-dark-700 border-t-2 border-beige-200 dark:border-dark-300 pt-3 mt-1">
+            <!-- تذييل الفاتورة وشكر العملاء -->
+            <div class="text-center text-sm sm:text-base font-bold text-beige-700 dark:text-dark-700 border-t-2 border-beige-200 dark:border-dark-300 pt-6 mt-4">
                 <p id="invThankMsg">شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!</p>
             </div>
 
-            <div class="no-print pt-2 flex flex-wrap justify-end gap-3">
-                <button onclick="printInvoice()" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white px-6 sm:px-8 py-3 rounded-2xl font-bold text-sm sm:text-base transition shadow-md cursor-pointer flex items-center gap-2">
+            <div class="no-print pt-4 flex flex-wrap justify-end gap-3">
+                <button onclick="printInvoice()" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white px-6 sm:px-8 py-3.5 rounded-2xl font-bold text-sm sm:text-base transition shadow-md cursor-pointer flex items-center gap-2">
                     🖨️ <span data-i18n="btn_print_invoice">طباعة الفاتورة</span>
                 </button>
-                <button id="invWhatsappBtn" type="button" onclick="" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 sm:px-6 py-3 rounded-2xl font-bold text-sm sm:text-base transition shadow-md cursor-pointer flex items-center gap-2">
+                <button id="invWhatsappBtn" type="button" onclick="" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 sm:px-8 py-3.5 rounded-2xl font-bold text-sm sm:text-base transition shadow-md cursor-pointer flex items-center gap-2">
                     📲 <span>إرسال عبر واتساب (PDF)</span>
                 </button>
-                <button onclick="closeInvoice()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 text-beige-800 dark:text-dark-900 px-6 sm:px-8 py-3 rounded-2xl font-bold text-sm sm:text-base transition cursor-pointer" data-i18n="btn_close">
+                <button onclick="closeInvoice()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 text-beige-800 dark:text-dark-900 px-6 sm:px-8 py-3.5 rounded-2xl font-bold text-sm sm:text-base transition cursor-pointer" data-i18n="btn_close">
                     إغلاق
                 </button>
             </div>
@@ -1148,7 +1159,6 @@
         let pickerSelectedMonth = new Date().getMonth();
         let pickerSelectedDay = new Date().getDate();
 
-        // ----------------- دوال التحقق من صحة المدخلات (Validation Functions) -----------------
         function sanitizeAndValidatePhone(phoneStr) {
             if (!phoneStr) return false;
             const clean = phoneStr.toString().replace(/[\s\-\+\(\)]/g, '');
@@ -1166,9 +1176,7 @@
         function validateNotEmptyText(text) {
             return text && text.trim().length > 0;
         }
-        // --------------------------------------------------------------------------------------
 
-        // ----------------- دالة توليد وإرسال الفاتورة عبر واتساب كملف PDF بتصميم بيجي أنيق -----------------
         function sendOrderInvoicePDFWhatsApp(saleId) {
             const targetId = Number(saleId);
             const sale = (db.sales || []).find(s => Number(s.id) === targetId);
@@ -1192,7 +1200,6 @@
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // توليد ملف PDF وتحميله تلقائياً ومن ثم توجيه المستخدم لواتساب
             html2pdf().from(element).set(opt).outputPdf('blob').then((pdfBlob) => {
                 const pdfUrl = URL.createObjectURL(pdfBlob);
                 const downloadLink = document.createElement('a');
@@ -1209,14 +1216,13 @@
 
                 const storeName = db.settings.storeName || 'متجرنا';
                 const msg = currentLang === 'ar' ? 
-                    `مرحباً ${sale.name} 👋\nتجيهز فاتورة طلبك رقم ${shortId} من *${storeName}*.\nتم تحميل ملف الفاتورة (PDF) على جهازك، ويمكنك إرفاقه مباشرة هنا في المحادثة.` :
+                    `مرحباً ${sale.name} 👋\nتجهيز فاتورة طلبك رقم ${shortId} من *${storeName}*.\nتم تحميل ملف الفاتورة (PDF) على جهازك، ويمكنك إرفاقه مباشرة هنا في المحادثة.` :
                     `Hello ${sale.name} 👋\nYour invoice ${shortId} from *${storeName}* is ready. The PDF file has been downloaded to your device.`;
 
                 const waUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(msg)}`;
                 window.open(waUrl, '_blank');
             });
         }
-        // --------------------------------------------------------------------------------------
 
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
@@ -1486,7 +1492,6 @@
             return `${datePart}${timeStr}`;
         }
 
-        // جلب البيانات من سحابة Firebase عند تحميل الصفحة وتفعيل المزامنة الفورية
         window.onload = function() {
             applyDarkMode();
             applyLanguage();
@@ -1503,7 +1508,6 @@
                 if(disp) { disp.innerText = todayStr; disp.classList.remove('text-beige-500', 'dark:text-dark-700'); disp.classList.add('text-beige-900', 'dark:text-dark-900', 'font-bold'); }
             }
 
-            // الاستماع للتحديثات السحابية لحظياً (Realtime)
             dbCloud.collection('pizalooo_store').doc('main_data').onSnapshot((doc) => {
                 if (doc.exists) {
                     db = doc.data();
@@ -1511,7 +1515,7 @@
                         db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
                     }
                 } else {
-                    saveDb(); // إنشاء المستند لأول مرة إن لم يكن موجوداً
+                    saveDb();
                 }
                 applySettings();
                 updateUI();
@@ -2746,7 +2750,6 @@
             const defaultThank = currentLang === 'ar' ? 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' : 'Thank you for your business!';
             document.getElementById('invThankMsg').innerText = s.thankMsg || defaultThank;
 
-            // ربط زر الواتساب داخل الفاتورة بتوليد وإرسال ملف الـ PDF عبر واتساب
             const invWaBtn = document.getElementById('invWhatsappBtn');
             if (invWaBtn) {
                 invWaBtn.onclick = function() { sendOrderInvoicePDFWhatsApp(sale.id); };
@@ -2759,7 +2762,6 @@
             }
         }
 
-        // دالة طباعة الفاتورة عبر نافذة منفصلة بنفس الألوان البيجية والترتيب الأنيق
         function printInvoice() {
             const printContent = document.getElementById('invoicePrintContent');
             if (!printContent) return;
@@ -2777,14 +2779,14 @@
                     <title>طباعة الفاتورة</title>
                     <script src="https://cdn.tailwindcss.com"><\/script>
                     <style>
-                        body { font-family: 'Rubik', sans-serif; background: #fdfbf7 !important; color: #3a3020 !important; margin: 0; padding: 20px; }
+                        body { font-family: 'Rubik', sans-serif; background: #fdfbf7 !important; color: #3a3020 !important; margin: 0; padding: 30px; }
                         .no-print { display: none !important; }
                         * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        @page { size: auto; margin: 10mm; }
+                        @page { size: auto; margin: 15mm; }
                     </style>
                 </head>
                 <body>
-                    <div style="max-width: 100%; margin: 0 auto; background: #fdfbf7; padding: 15px; border-radius: 20px; border: 2px solid #e5d7c3;">
+                    <div style="max-width: 100%; min-height: 90vh; display: flex; flex-direction: column; justify-content: space-between; margin: 0 auto; background: #fdfbf7; padding: 25px; border-radius: 20px; border: 2px solid #e5d7c3;">
                         ${printContent.innerHTML}
                     </div>
                     <script>
@@ -2933,7 +2935,6 @@
             }
         }
 
-        // حفظ البيانات مباشرة إلى سحابة Firebase Firestore
         function saveDb() {
             dbCloud.collection('pizalooo_store').doc('main_data').set(db)
                 .then(() => {
