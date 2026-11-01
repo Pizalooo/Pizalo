@@ -89,28 +89,39 @@
         }
 
         @media print {
-            body * { visibility: hidden !important; }
+            body * { 
+                visibility: hidden !important; 
+            }
             
             body.printing-invoice #invoiceModal, 
             body.printing-invoice #invoiceModal * { 
                 visibility: visible !important; 
             }
             body.printing-invoice #invoiceModal {
-                position: fixed !important; 
+                position: absolute !important; 
                 left: 0 !important; 
                 top: 0 !important; 
                 width: 100% !important; 
-                height: 100% !important;
+                height: auto !important;
                 margin: 0 !important; 
                 padding: 10px !important; 
                 background: #ffffff !important; 
                 color: #000000 !important;
                 box-shadow: none !important; 
                 border: none !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
+                display: block !important;
                 z-index: 999999 !important;
+            }
+
+            body.printing-invoice .invoice-paper {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 10px !important;
+                margin: 0 auto !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
 
             body.printing-section .printable-active-section,
@@ -159,8 +170,18 @@
                 text-align: center !important;
             }
 
-            html, body { height: auto !important; margin: 0 !important; padding: 0 !important; background: #ffffff !important; color: #000000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .no-print { display: none !important; }
+            html, body { 
+                height: auto !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                background: #ffffff !important; 
+                color: #000000 !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
+            }
+            .no-print { 
+                display: none !important; 
+            }
         }
     </style>
 </head>
@@ -798,63 +819,63 @@
 
     <!-- نافذة الفاتورة المنبثقة -->
     <div id="invoiceModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto z-50 animate-fade">
-        <div class="invoice-paper bg-beige-50 dark:bg-dark-100 w-full max-w-3xl p-10 rounded-3xl shadow-2xl relative border-2 border-beige-200 dark:border-dark-300 my-auto space-y-6">
+        <div class="invoice-paper bg-beige-50 dark:bg-dark-100 w-full max-w-3xl p-6 sm:p-10 rounded-3xl shadow-2xl relative border-2 border-beige-200 dark:border-dark-300 my-auto space-y-5">
             <button onclick="closeInvoice()" class="no-print absolute left-6 top-6 text-beige-600 dark:text-dark-700 hover:text-beige-900 dark:hover:text-dark-900 text-2xl font-bold cursor-pointer">✕</button>
             
-            <div class="flex flex-col items-center text-center pb-1 gap-3">
-                <img id="invLogo" src="" alt="Store Logo" class="w-28 h-28 object-cover rounded-3xl hidden mb-1 border-2 border-beige-300 dark:border-dark-300 shadow-md">
+            <div class="flex flex-col items-center text-center pb-1 gap-2">
+                <img id="invLogo" src="" alt="Store Logo" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-3xl hidden mb-1 border-2 border-beige-300 dark:border-dark-300 shadow-md">
                 <div>
-                    <h2 id="invStoreName" class="text-3xl font-extrabold text-beige-900 dark:text-dark-900 tracking-wide"></h2>
-                    <p id="invStoreDesc" class="text-base text-beige-600 dark:text-dark-700 mt-1 font-semibold"></p>
+                    <h2 id="invStoreName" class="text-2xl sm:text-3xl font-extrabold text-beige-900 dark:text-dark-900 tracking-wide"></h2>
+                    <p id="invStoreDesc" class="text-sm sm:text-base text-beige-600 dark:text-dark-700 mt-1 font-semibold"></p>
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-dark-200 p-6 rounded-3xl border-2 border-beige-200 dark:border-dark-300 space-y-4 shadow-sm">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-beige-200 dark:border-dark-300 pb-4 gap-2">
-                    <div class="text-base font-bold text-beige-800 dark:text-dark-900"><span data-i18n="inv_num_label">🧾 رقم الفاتورة:</span> <span id="invId" class="text-beige-900 dark:text-dark-900 font-extrabold text-lg en-num">#9002</span></div>
-                    <div class="text-sm font-bold text-beige-700 dark:text-dark-700 time-badge"><span id="invDate" class="en-num"></span></div>
+            <div class="bg-white dark:bg-dark-200 p-4 sm:p-6 rounded-3xl border-2 border-beige-200 dark:border-dark-300 space-y-3 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-beige-200 dark:border-dark-300 pb-3 gap-2">
+                    <div class="text-sm sm:text-base font-bold text-beige-800 dark:text-dark-900"><span data-i18n="inv_num_label">🧾 رقم الفاتورة:</span> <span id="invId" class="text-beige-900 dark:text-dark-900 font-extrabold text-base sm:text-lg en-num">#9002</span></div>
+                    <div class="text-xs sm:text-sm font-bold text-beige-700 dark:text-dark-700 time-badge"><span id="invDate" class="en-num"></span></div>
                 </div>
 
                 <div id="invScheduledWrapper" class="no-print bg-amber-50 dark:bg-dark-300 border border-amber-200 dark:border-amber-600 p-3 rounded-2xl hidden">
                     <span class="text-amber-900 dark:text-amber-400 font-bold block text-xs mb-0.5" data-i18n="lbl_delivery_time">⏰ وقت التوصيل المطلوب:</span>
-                    <span id="invScheduledTimeVal" class="text-amber-800 dark:text-amber-300 font-extrabold text-base en-num"></span>
+                    <span id="invScheduledTimeVal" class="text-amber-800 dark:text-amber-300 font-extrabold text-sm sm:text-base en-num"></span>
                 </div>
 
-                <h3 class="text-base font-bold text-beige-900 dark:text-dark-900 mb-2 border-r-4 border-beige-700 dark:border-dark-700 pr-3" data-i18n="inv_cust_details_title">تفاصيل العميل وعنوان التوصيل:</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
-                    <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_name">اسم العميل:</span> <span id="invClient" class="font-extrabold text-beige-900 dark:text-dark-900 text-lg"></span></div>
-                    <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_phone">رقم الجوال:</span> <span id="invPhone" class="font-extrabold text-beige-900 dark:text-dark-900 text-lg en-num"></span></div>
+                <h3 class="text-sm sm:text-base font-bold text-beige-900 dark:text-dark-900 mb-1 border-r-4 border-beige-700 dark:border-dark-700 pr-2" data-i18n="inv_cust_details_title">تفاصيل العميل وعنوان التوصيل:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm sm:text-base">
+                    <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_name">اسم العميل:</span> <span id="invClient" class="font-extrabold text-beige-900 dark:text-dark-900 text-base sm:text-lg"></span></div>
+                    <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_phone">رقم الجوال:</span> <span id="invPhone" class="font-extrabold text-beige-900 dark:text-dark-900 text-base sm:text-lg en-num"></span></div>
                 </div>
                 <div class="pt-1">
-                    <span class="text-beige-600 dark:text-dark-700 font-medium block mb-0.5" data-i18n="lbl_cust_address">عنوان التوصيل / الحي:</span>
-                    <div id="invAddress" class="font-extrabold text-beige-900 dark:text-dark-900 text-base leading-relaxed"></div>
+                    <span class="text-beige-600 dark:text-dark-700 font-medium block mb-0.5 text-xs sm:text-sm" data-i18n="lbl_cust_address">عنوان التوصيل / الحي:</span>
+                    <div id="invAddress" class="font-extrabold text-beige-900 dark:text-dark-900 text-sm sm:text-base leading-relaxed"></div>
                 </div>
             </div>
 
             <!-- ملخص الطلب -->
-            <div class="space-y-2">
-                <div class="text-sm font-bold text-beige-800 dark:text-dark-900" data-i18n="inv_order_summary_title">🛒 ملخص الطلب والمنتج:</div>
-                <div class="bg-white dark:bg-dark-200 p-5 rounded-3xl border-2 border-beige-200 dark:border-dark-300 shadow-sm">
-                    <span id="invItemName" class="font-black text-beige-900 dark:text-dark-900 text-xl block"></span> 
-                    <span id="invItemNotes" class="text-sm text-beige-600 dark:text-dark-700 mt-1.5 block font-medium"></span>
+            <div class="space-y-1.5">
+                <div class="text-xs sm:text-sm font-bold text-beige-800 dark:text-dark-900" data-i18n="inv_order_summary_title">🛒 ملخص الطلب والمنتج:</div>
+                <div class="bg-white dark:bg-dark-200 p-4 sm:p-5 rounded-3xl border-2 border-beige-200 dark:border-dark-300 shadow-sm">
+                    <span id="invItemName" class="font-black text-beige-900 dark:text-dark-900 text-lg sm:text-xl block"></span> 
+                    <span id="invItemNotes" class="text-xs sm:text-sm text-beige-600 dark:text-dark-700 mt-1 block font-medium"></span>
                 </div>
             </div>
 
             <!-- مبلغ الفاتورة مستقل في الأسفل -->
-            <div class="bg-emerald-50 dark:bg-dark-200 p-5 rounded-3xl border-2 border-emerald-300 dark:border-emerald-600 flex justify-between items-center shadow-md">
-                <span class="font-extrabold text-emerald-900 dark:text-emerald-300 text-lg" data-i18n="inv_total_amount_label">إجمالي مبلغ الفاتورة المستحق:</span>
-                <div id="invItemPrice" class="font-black text-emerald-700 dark:text-emerald-400 money-val text-3xl"><span>0</span> <span class="currencyLabel text-xl">ر.س</span></div>
+            <div class="bg-emerald-50 dark:bg-dark-200 p-4 sm:p-5 rounded-3xl border-2 border-emerald-300 dark:border-emerald-600 flex justify-between items-center shadow-md">
+                <span class="font-extrabold text-emerald-900 dark:text-emerald-300 text-sm sm:text-lg" data-i18n="inv_total_amount_label">إجمالي مبلغ الفاتورة المستحق:</span>
+                <div id="invItemPrice" class="font-black text-emerald-700 dark:text-emerald-400 money-val text-2xl sm:text-3xl"><span>0</span> <span class="currencyLabel text-lg sm:text-xl">ر.س</span></div>
             </div>
 
-            <div class="text-center text-sm font-bold text-beige-700 dark:text-dark-700 border-t-2 border-beige-200 dark:border-dark-300 pt-4 mt-2">
+            <div class="text-center text-xs sm:text-sm font-bold text-beige-700 dark:text-dark-700 border-t-2 border-beige-200 dark:border-dark-300 pt-3 mt-1">
                 <p id="invThankMsg">شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!</p>
             </div>
 
             <div class="no-print pt-2 flex justify-end gap-3">
-                <button onclick="printInvoice()" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white px-8 py-3.5 rounded-2xl font-bold text-base transition shadow-md cursor-pointer flex items-center gap-2">
+                <button onclick="printInvoice()" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white px-6 sm:px-8 py-3 rounded-2xl font-bold text-sm sm:text-base transition shadow-md cursor-pointer flex items-center gap-2">
                     🖨️ <span data-i18n="btn_print_invoice">طباعة الفاتورة</span>
                 </button>
-                <button onclick="closeInvoice()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 text-beige-800 dark:text-dark-900 px-8 py-3.5 rounded-2xl font-bold text-base transition cursor-pointer" data-i18n="btn_close">
+                <button onclick="closeInvoice()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 text-beige-800 dark:text-dark-900 px-6 sm:px-8 py-3 rounded-2xl font-bold text-sm sm:text-base transition cursor-pointer" data-i18n="btn_close">
                     إغلاق
                 </button>
             </div>
@@ -2532,10 +2553,20 @@
             }
         }
 
+        // دالة طباعة الفاتورة المحدثة والمتوافقة مع أجهزة المحمول (آيفون وأندرويد)
         function printInvoice() {
+            const invoiceModal = document.getElementById('invoiceModal');
+            if (!invoiceModal) return;
+
             document.body.classList.add('printing-invoice');
-            window.print();
-            document.body.classList.remove('printing-invoice');
+
+            setTimeout(() => {
+                window.print();
+                
+                setTimeout(() => {
+                    document.body.classList.remove('printing-invoice');
+                }, 500);
+            }, 300);
         }
 
         function printSection(sectionKey) {
