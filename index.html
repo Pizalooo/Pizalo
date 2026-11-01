@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة المبيعات والأرباح - متجر الأكل</title>
+    <title>إدارة مشروعي</title>
     <!-- خطوط Google العربية الشاملة -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Dubai:wght@400;700&family=El+Messiri:wght@400;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Rubik:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- مكتبات Firebase السحابية -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -160,11 +165,6 @@
     </style>
 </head>
 <body id="appBody" class="bg-beige-50 dark:bg-dark-50 text-beige-900 dark:text-dark-900 min-h-screen">
-
-    <!-- مؤشر حالة المزامنة السحابية -->
-    <div id="syncStatusIndicator" class="no-print bg-beige-800 text-white text-xs px-4 py-1 text-center font-bold tracking-wide">
-        ☁️ جاري مزامنة البيانات من السحابة...
-    </div>
 
     <div class="max-w-6xl mx-auto px-4 py-8">
         
@@ -861,10 +861,20 @@
         </div>
     </div>
 
-    <!-- جافاسكريبت التشغيل الأساسي والترجمة والربط السحابي بـ Gist -->
+    <!-- جافاسكريبت التشغيل الأساسي والترجمة الشاملة مع Firebase -->
     <script>
-        // رابط الـ Gist المباشر (Raw) الخاص بك للتزامن السحابي
-        const GIST_RAW_URL = "https://gist.githubusercontent.com/Pizalooo/0c87d3dda49bbf710768374ac64a4a5a/raw/968e199ad093c4b4fbt759805832464b1d27239/data.json";
+        // إعدادات Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBqqwQbcqgmiQEuAZO8fC5CDCl2mxxQRWQ",
+            authDomain: "pizalooo.firebaseapp.com",
+            projectId: "pizalooo",
+            storageBucket: "pizalooo.firebasestorage.app",
+            messagingSenderId: "223390956145",
+            appId: "1:223390956145:web:8d060aba2f4ed134dcf9d0"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const dbCloud = firebase.firestore();
 
         let currentLang = localStorage.getItem('pizalooo_lang') || 'ar';
         let currentSalesFilter = 'active';
@@ -1096,7 +1106,6 @@
             }
         };
 
-        // هيكل قاعدة البيانات الافتراضي
         let db = {
             sales: [],
             expenses: [],
@@ -1120,37 +1129,6 @@
         let pickerSelectedYear = new Date().getFullYear();
         let pickerSelectedMonth = new Date().getMonth();
         let pickerSelectedDay = new Date().getDate();
-
-        // جلب البيانات من السحابة (GitHub Gist) عند تحميل الصفحة
-        function loadCloudData() {
-            const statusEl = document.getElementById('syncStatusIndicator');
-            fetch(GIST_RAW_URL + "?t=" + new Date().getTime())
-                .then(response => response.json())
-                .then(data => {
-                    if (data && (data.sales || data.expenses || data.customers)) {
-                        db = data;
-                    }
-                    initializeAppUI();
-                    if(statusEl) {
-                        statusEl.innerText = "✅ متصل بالسحابة وتمت المزامنة بنجاح";
-                        setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
-                    }
-                })
-                .catch(error => {
-                    console.error("خطأ في الاتصال السحابي، جاري الاعتماد على النسخة المحلية:", error);
-                    // في حال عدم الاتصال بالسحابة يتم جلبها من التخزين المحلي كبديل مؤقت
-                    const localFallback = localStorage.getItem('pizalooo_db');
-                    if(localFallback) {
-                        try { db = JSON.parse(localFallback); } catch(e){}
-                    }
-                    initializeAppUI();
-                    if(statusEl) {
-                        statusEl.innerText = "⚠️ تعمل حالياً بالوضع المحلي (تعذر الاتصال بالسحابة)";
-                        statusEl.style.backgroundColor = "#b91c1c";
-                        setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
-                    }
-                });
-        }
 
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
@@ -1420,34 +1398,39 @@
             return `${datePart}${timeStr}`;
         }
 
+        // جلب البيانات من سحابة Firebase عند تحميل الصفحة وتفعيل المزامنة الفورية
         window.onload = function() {
             applyDarkMode();
             applyLanguage();
-            loadCloudData();
-        };
 
-        function initializeAppUI() {
             const date = new Date();
             const yearMonth = date.toISOString().slice(0, 7);
             const monthInput = document.getElementById('filterMonth');
-            if(monthInput && !monthInput.value) monthInput.value = yearMonth;
+            if(monthInput) monthInput.value = yearMonth;
             
             const todayStr = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-            if(document.getElementById('expenseDate') && !document.getElementById('expenseDate').value) {
+            if(document.getElementById('expenseDate')) {
                 document.getElementById('expenseDate').value = todayStr;
                 const disp = document.getElementById('expenseDateDisplay');
                 if(disp) { disp.innerText = todayStr; disp.classList.remove('text-beige-500', 'dark:text-dark-700'); disp.classList.add('text-beige-900', 'dark:text-dark-900', 'font-bold'); }
             }
 
-            db.customers.forEach(c => {
-                if(!c.createdAt) {
-                    c.createdAt = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0') + ' ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0') + ':' + String(date.getSeconds()).padStart(2, '0');
+            // الاستماع للتحديثات السحابية لحظياً (Realtime)
+            dbCloud.collection('pizalooo_store').doc('main_data').onSnapshot((doc) => {
+                if (doc.exists) {
+                    db = doc.data();
+                    if(!db.settings) {
+                        db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
+                    }
+                } else {
+                    saveDb(); // إنشاء المستند لأول مرة إن لم يكن موجوداً
                 }
+                applySettings();
+                updateUI();
+            }, (error) => {
+                console.error("Error getting cloud data: ", error);
             });
-
-            applySettings();
-            updateUI();
-        }
+        };
 
         function applySettings() {
             const s = db.settings;
@@ -1607,8 +1590,10 @@
                 name, phone, address, item, price, notes, attachment
             };
 
+            if(!db.sales) db.sales = [];
             db.sales.unshift(newSale);
 
+            if(!db.customers) db.customers = [];
             let cust = db.customers.find(c => c.phone === phone);
             if(!cust) {
                 db.customers.push({
@@ -1644,6 +1629,7 @@
                 title, amount, date: fullDateTime, notes, isArchived: false
             };
 
+            if(!db.expenses) db.expenses = [];
             db.expenses.unshift(newExp);
             saveDb();
             document.getElementById('expenseForm').reset();
@@ -1652,7 +1638,7 @@
             if(document.getElementById('expenseDate')) {
                 document.getElementById('expenseDate').value = todayStr;
                 const disp = document.getElementById('expenseDateDisplay');
-                if(disp) { disp.innerText = todayStr; disp.classList.remove('text-beige-500', 'dark:text-dark-700'); disp.classList.add('text-beige-900', 'dark:text-dark-900', 'font-bold'); }
+                if(disp) { disp.innerText = todayStr; disp.className = 'text-beige-900 dark:text-dark-900 font-bold'; }
             }
             
             updateUI();
@@ -1903,8 +1889,11 @@
             const searchVal = document.getElementById('searchSales') ? document.getElementById('searchSales').value.toLowerCase() : '';
             const searchExpVal = document.getElementById('searchExpenses') ? document.getElementById('searchExpenses').value.toLowerCase() : '';
 
-            const activeSalesForStats = db.sales.filter(s => !s.isArchived && s.dateTime.startsWith(filterVal));
-            const activeExpensesForStats = db.expenses.filter(ex => !ex.isArchived && ex.date.startsWith(filterVal));
+            const salesArr = db.sales || [];
+            const expArr = db.expenses || [];
+
+            const activeSalesForStats = salesArr.filter(s => !s.isArchived && s.dateTime.startsWith(filterVal));
+            const activeExpensesForStats = expArr.filter(ex => !ex.isArchived && ex.date.startsWith(filterVal));
 
             const totalSalesVal = activeSalesForStats.reduce((acc, cur) => acc + cur.price, 0);
             const totalExpVal = activeExpensesForStats.reduce((acc, cur) => acc + cur.amount, 0);
@@ -1920,7 +1909,7 @@
 
             checkScheduledAlerts();
 
-            const filteredSales = db.sales.filter(s => {
+            const filteredSales = salesArr.filter(s => {
                 const saleIdStr = '#' + s.id.toString().slice(-6);
                 const matchMonth = s.dateTime.startsWith(filterVal);
                 const matchSearch = saleIdStr.toLowerCase().includes(searchVal) ||
@@ -1946,7 +1935,7 @@
                 return matchSearch && matchFilter;
             });
 
-            const filteredExpenses = db.expenses.filter(ex => {
+            const filteredExpenses = expArr.filter(ex => {
                 const matchTitle = ex.title.toLowerCase().includes(searchExpVal) || (ex.notes && ex.notes.toLowerCase().includes(searchExpVal));
                 let matchFilter = true;
                 if(currentExpensesFilter === 'active') {
@@ -2009,7 +1998,7 @@
         }
 
         function viewAttachment(saleId) {
-            const sale = db.sales.find(s => Number(s.id) === Number(saleId));
+            const sale = (db.sales || []).find(s => Number(s.id) === Number(saleId));
             if(!sale || !sale.attachment) return;
 
             const container = document.getElementById('attachmentContentContainer');
@@ -2041,7 +2030,7 @@
             const tomorrow = new Date(now.getTime() + (24 * 60 * 60 * 1000));
             const tomorrowStr = tomorrow.getFullYear() + '-' + String(tomorrow.getMonth() + 1).padStart(2, '0') + '-' + String(tomorrow.getDate()).padStart(2, '0');
 
-            const scheduledSales = db.sales.filter(s => {
+            const scheduledSales = (db.sales || []).filter(s => {
                 if (!s.scheduledTime || s.confirmedReady || s.isArchived) return false;
                 const schedDatePart = s.scheduledTime.split(' ')[0];
                 return schedDatePart === tomorrowStr;
@@ -2078,7 +2067,7 @@
 
         function confirmOrderReadyPrompt(id) {
             if(confirm(i18nDict[currentLang].confirm_ready_prompt)) {
-                const sale = db.sales.find(s => Number(s.id) === Number(id));
+                const sale = (db.sales || []).find(s => Number(s.id) === Number(id));
                 if(sale) {
                     sale.confirmedReady = true;
                     saveDb();
@@ -2127,7 +2116,8 @@
             if(!grid) return;
             grid.innerHTML = '';
 
-            const filtered = db.customers.filter(c => c.name.toLowerCase().includes(searchVal) || c.phone.includes(searchVal));
+            const customersArr = db.customers || [];
+            const filtered = customersArr.filter(c => c.name.toLowerCase().includes(searchVal) || c.phone.includes(searchVal));
 
             if(filtered.length === 0) {
                 const noCustTxt = currentLang === 'ar' ? 'لا يوجد عملاء مطابقين للبحث' : 'No customers matching search';
@@ -2138,7 +2128,7 @@
             const currSymbol = db.settings.currency ? db.settings.currency : '';
 
             filtered.forEach(c => {
-                const custSales = db.sales.filter(s => s.phone === c.phone || s.name === c.name);
+                const custSales = (db.sales || []).filter(s => s.phone === c.phone || s.name === c.name);
                 const totalSpent = custSales.reduce((acc, cur) => acc + cur.price, 0);
                 const joinedFormatted = c.createdAt ? formatDateTimeSimple(c.createdAt) : (currentLang === 'ar' ? 'غير محدد' : 'Unset');
 
@@ -2182,7 +2172,7 @@
         function deleteSale(id) {
             if(confirm(i18nDict[currentLang].confirm_del_order)) {
                 const targetId = Number(id);
-                db.sales = db.sales.filter(s => Number(s.id) !== targetId);
+                db.sales = (db.sales || []).filter(s => Number(s.id) !== targetId);
                 saveDb();
                 updateUI();
             }
@@ -2191,7 +2181,7 @@
         function deleteExp(id) {
             if(confirm(i18nDict[currentLang].confirm_del_exp)) {
                 const targetId = Number(id);
-                db.expenses = db.expenses.filter(ex => Number(ex.id) !== targetId);
+                db.expenses = (db.expenses || []).filter(ex => Number(ex.id) !== targetId);
                 saveDb();
                 updateUI();
             }
@@ -2199,7 +2189,7 @@
 
         function deleteCustomer(phone) {
             if(confirm(i18nDict[currentLang].confirm_del_cust)) {
-                db.customers = db.customers.filter(c => c.phone !== phone);
+                db.customers = (db.customers || []).filter(c => c.phone !== phone);
                 saveDb();
                 renderCustomers();
             }
@@ -2207,7 +2197,7 @@
 
         function openEditSale(id) {
             const targetId = Number(id);
-            const sale = db.sales.find(s => Number(s.id) === targetId);
+            const sale = (db.sales || []).find(s => Number(s.id) === targetId);
             if(!sale) return;
             currentEditingSaleId = targetId;
             document.getElementById('editSaleId').value = targetId;
@@ -2241,7 +2231,7 @@
 
         function saveSaleEdit(e) {
             e.preventDefault();
-            const sale = db.sales.find(s => Number(s.id) === Number(currentEditingSaleId));
+            const sale = (db.sales || []).find(s => Number(s.id) === Number(currentEditingSaleId));
             if(!sale) return;
 
             const name = document.getElementById('editClientName').value.trim();
@@ -2287,7 +2277,7 @@
 
         function openEditExp(id) {
             const targetId = Number(id);
-            const ex = db.expenses.find(x => Number(x.id) === targetId);
+            const ex = (db.expenses || []).find(x => Number(x.id) === targetId);
             if(!ex) return;
             currentEditingExpId = targetId;
             document.getElementById('editExpId').value = targetId;
@@ -2310,7 +2300,7 @@
 
         function saveExpEdit(e) {
             e.preventDefault();
-            const ex = db.expenses.find(x => Number(x.id) === Number(currentEditingExpId));
+            const ex = (db.expenses || []).find(x => Number(x.id) === Number(currentEditingExpId));
             if(ex) {
                 const dateInput = document.getElementById('editExpDate').value;
                 const prevTime = ex.date.includes(' ') ? ex.date.split(' ')[1] : '00:00';
@@ -2339,6 +2329,7 @@
             const address = document.getElementById('newCustAddress').value.trim();
             const notes = document.getElementById('newCustNotes').value.trim();
 
+            if(!db.customers) db.customers = [];
             if(db.customers.some(c => c.phone === phone)) {
                 alert(i18nDict[currentLang].alert_phone_exists);
                 return;
@@ -2355,7 +2346,7 @@
         }
 
         function openCustomerProfile(phone) {
-            const cust = db.customers.find(c => c.phone === phone);
+            const cust = (db.customers || []).find(c => c.phone === phone);
             if(!cust) return;
             activeCustomerForProfile = cust;
 
@@ -2365,7 +2356,7 @@
             document.getElementById('profClientJoined').innerText = cust.createdAt ? formatDateTimeSimple(cust.createdAt) : (currentLang === 'ar' ? 'غير مسجل' : 'Unregistered');
             document.getElementById('profClientNotes').value = cust.notes || '';
 
-            const custSales = db.sales.filter(s => s.phone === cust.phone || s.name === cust.name);
+            const custSales = (db.sales || []).filter(s => s.phone === cust.phone || s.name === cust.name);
             const totalSpent = custSales.reduce((acc, cur) => acc + cur.price, 0);
 
             document.getElementById('profTotalCount').innerText = custSales.length;
@@ -2434,19 +2425,21 @@
             const newPhone = document.getElementById('editCustPhone').value.trim();
             const newAddress = document.getElementById('editCustAddress').value.trim();
 
-            const cust = db.customers.find(c => c.phone === origPhone);
+            const cust = (db.customers || []).find(c => c.phone === origPhone);
             if(cust) {
                 cust.name = newName;
                 cust.phone = newPhone;
                 cust.address = newAddress;
 
-                db.sales.forEach(s => {
-                    if(s.phone === origPhone) {
-                        s.name = newName;
-                        s.phone = newPhone;
-                        s.address = newAddress;
-                    }
-                });
+                if(db.sales) {
+                    db.sales.forEach(s => {
+                        if(s.phone === origPhone) {
+                            s.name = newName;
+                            s.phone = newPhone;
+                            s.address = newAddress;
+                        }
+                    });
+                }
 
                 saveDb();
                 closeModal('editCustomerModal');
@@ -2463,7 +2456,7 @@
             const notesInput = document.getElementById('profClientNotes');
             if(!notesInput) return;
             const notesVal = notesInput.value;
-            const cust = db.customers.find(c => c.phone === activeCustomerForProfile.phone);
+            const cust = (db.customers || []).find(c => c.phone === activeCustomerForProfile.phone);
             if(cust) {
                 cust.notes = notesVal;
                 saveDb();
@@ -2472,7 +2465,7 @@
 
         function openInvoice(saleId) {
             const targetId = Number(saleId);
-            const sale = db.sales.find(s => Number(s.id) === targetId);
+            const sale = (db.sales || []).find(s => Number(s.id) === targetId);
             if(!sale) return;
 
             const s = db.settings;
@@ -2584,6 +2577,7 @@
                 reader.onload = function(uploadEvent) {
                     db.settings.logo = uploadEvent.target.result;
                     applySettings();
+                    saveDb();
                 };
                 reader.readAsDataURL(file);
             }
@@ -2624,8 +2618,8 @@
             if (!file) return;
 
             const confirmMsg = currentLang === 'ar' ? 
-                'هل أنت متأكد من استيراد النسخة الاحتياطية؟ سيتم تحديث كافة البيانات الحالية بالبيانات الموجودة في الملف.' :
-                'Are you sure you want to import this backup? Current data will be replaced by the imported data.';
+                'هل أنت متأكد من استيراد النسخة الاحتياطية؟ سيتم تحديث كافة البيانات السحابية الحالية بالبيانات الموجودة في الملف.' :
+                'Are you sure you want to import this backup? Current cloud data will be replaced by the imported data.';
 
             if (confirm(confirmMsg)) {
                 const reader = new FileReader();
@@ -2637,7 +2631,7 @@
                             saveDb();
                             applySettings();
                             updateUI();
-                            const successMsg = currentLang === 'ar' ? 'تم استيراد النسخة الاحتياطية بنجاح!' : 'Backup imported successfully!';
+                            const successMsg = currentLang === 'ar' ? 'تم استيراد النسخة الاحتياطية ومزامنتها سحابياً بنجاح!' : 'Backup imported and synced successfully!';
                             alert(successMsg);
                         } else {
                             alert(currentLang === 'ar' ? 'الملف المحدد غير صالح!' : 'Invalid backup file!');
@@ -2652,18 +2646,18 @@
 
         function resetPeriodData() {
             const confirmMsg = currentLang === 'ar' ? 
-                'هل أنت متأكد تماماً من تصفير الأرقام وبدء فترة جديدة؟ سيتم أرشفة الطلبات والمصروفات الحالية بعلامة تصفير، وستبدأ الأرباح والمؤشرات من الصفر مع الحفاظ الكامل على سجلات ودليل العملاء.' :
-                'Are you sure you want to reset and start a new period? Current orders and expenses will be archived, and new period stats will start from zero while keeping customer records intact.';
+                'هل أنت متأكد تماماً من تصفير الأرقام وبدء فترة جديدة؟ سيتم أرشفة الطلبات والمصروفات الحالية بعلامة تصفير سحابياً، وستبدأ الأرباح والمؤشرات من الصفر مع الحفاظ الكامل على سجلات ودليل العملاء.' :
+                'Are you sure you want to reset and start a new period? Current orders and expenses will be archived cloud-wide, and new period stats will start from zero while keeping customer records intact.';
             
             if (confirm(confirmMsg)) {
                 exportData();
 
-                db.sales.forEach(s => {
-                    s.isArchived = true;
-                });
-                db.expenses.forEach(ex => {
-                    ex.isArchived = true;
-                });
+                if(db.sales) {
+                    db.sales.forEach(s => { s.isArchived = true; });
+                }
+                if(db.expenses) {
+                    db.expenses.forEach(ex => { ex.isArchived = true; });
+                }
 
                 saveDb();
 
@@ -2671,18 +2665,20 @@
                 setExpensesFilter('active');
                 updateUI();
                 
-                const successMsg = currentLang === 'ar' ? 'تمت عملية التصفير وأرشفة الفترة السابقة بنجاح! الإحصائيات الآن تبدأ من الصفر مع الاحتفاظ بسجلات العملاء كاملة.' : 'Period reset and archived successfully! Stats now start from zero.';
+                const successMsg = currentLang === 'ar' ? 'تمت عملية التصفير وأرشفة الفترة السابقة سحابياً بنجاح! الإحصائيات الآن تبدأ من الصفر.' : 'Period reset and archived in the cloud successfully!';
                 alert(successMsg);
             }
         }
 
-        // دالة الحفظ المحلي والسحابي (تحديث التخزين المحلي وتنبيه بضرورة التحديث سحابياً إن لزم)
+        // حفظ البيانات مباشرة إلى سحابة Firebase Firestore
         function saveDb() {
-            localStorage.setItem('pizalooo_db', JSON.stringify(db));
-            
-            // ملاحظة توجيهية للمستخدم: البيانات تُحفظ محلياً لحظياً على الجهاز، 
-            // وعند الرغبة بمزامنتها الكاملة عبر الـ Gist، يمكنك نسخ محتوى البيانات وتحديث ملف Gist مباشرة.
-            console.log("تم حفظ البيانات محلياً وتحديث حالة التطبيق.");
+            dbCloud.collection('pizalooo_store').doc('main_data').set(db)
+                .then(() => {
+                    console.log("Data successfully saved to Firebase cloud!");
+                })
+                .catch((error) => {
+                    console.error("Error writing document to cloud: ", error);
+                });
         }
 
         function exportData() {
@@ -2693,7 +2689,7 @@
                 '\uFEFFرقم الطلب؛وقت التسجيل؛وقت التوصيل المطلوب؛حالة الأرشيف؛حالة الجاهزية؛اسم العميل؛رقم الجوال؛العنوان / الحي؛الوجبة / الطلب؛الملاحظات؛المبلغ\n' :
                 '\uFEFFOrder ID;Created At;Scheduled Time;Archive Status;Status;Customer Name;Phone;Address;Item;Notes;Amount\n';
             
-            db.sales.forEach(s => {
+            (db.sales || []).forEach(s => {
                 const shortId = '#' + s.id.toString().slice(-6);
                 const regTime = s.dateTime || '';
                 const schedTime = s.scheduledTime || (currentLang === 'ar' ? 'فوري' : 'Immediate');
