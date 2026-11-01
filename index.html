@@ -2547,11 +2547,13 @@
                 target.classList.add('printable-active-section');
             }
             document.body.classList.add('printing-section');
-            window.print();
-            document.body.classList.remove('printing-section');
-            if (target) {
-                target.classList.remove('printable-active-section');
-            }
+            setTimeout(() => {
+                window.print();
+                document.body.classList.remove('printing-section');
+                if (target) {
+                    target.classList.remove('printable-active-section');
+                }
+            }, 100);
         }
 
         function closeInvoice() {
