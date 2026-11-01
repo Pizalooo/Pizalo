@@ -102,7 +102,7 @@
                 top: 0 !important;
                 width: 100% !important;
                 margin: 0 !important;
-                padding: 10px !important;
+                padding: 15px !important;
                 background: #ffffff !important;
                 box-shadow: none !important;
                 border: none !important;
@@ -113,15 +113,22 @@
                 display: none !important;
             }
 
-            body.printing-section .printable-active-section h3,
-            body.printing-section .printable-active-section h2 {
+            /* توسيط عناوين التقارير عند الطباعة */
+            body.printing-section .printable-active-section h2,
+            body.printing-section .printable-active-section h3 {
                 text-align: center !important;
                 width: 100% !important;
                 display: block !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
                 margin-bottom: 20px !important;
-                font-size: 20pt !important;
+                font-size: 18pt !important;
                 font-weight: bold !important;
                 color: #111 !important;
+            }
+
+            body.printing-section .printable-active-section .flex {
+                justify-content: center !important;
             }
 
             body.printing-section table {
@@ -280,7 +287,7 @@
             <div id="printContainerSales" class="bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 p-6 rounded-2xl shadow-sm space-y-4">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-beige-200 dark:border-dark-300 pb-4">
                     <div class="flex items-center gap-3 flex-wrap">
-                        <h3 class="font-bold text-beige-800 dark:text-dark-900 text-lg" data-i18n="title_orders_report">📋 تقرير قائمة الطلبات المسجلة</h3>
+                        <h3 class="font-bold text-beige-800 dark:text-dark-900 text-lg text-center w-full md:w-auto" data-i18n="title_orders_report">📋 تقرير قائمة الطلبات المسجلة</h3>
                         <div class="no-print flex items-center gap-1.5 bg-beige-100 dark:bg-dark-200 p-1 rounded-xl text-xs font-semibold">
                             <button onclick="setSalesFilter('all')" id="filterBtnAll" class="px-3 py-1.5 rounded-lg transition text-beige-700 dark:text-dark-700 hover:bg-beige-200 dark:hover:bg-dark-300 cursor-pointer" data-i18n="filter_all">الكل</button>
                             <button onclick="setSalesFilter('active')" id="filterBtnActive" class="px-3 py-1.5 rounded-lg transition bg-beige-800 dark:bg-dark-800 text-white cursor-pointer" data-i18n="filter_active">الفترة الحالية</button>
@@ -335,8 +342,7 @@
             <div id="printContainerCustomers" class="bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 p-6 rounded-2xl shadow-sm space-y-4">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-beige-200 dark:border-dark-300 pb-4">
                     <div>
-                        <h2 class="text-lg font-bold text-beige-800 dark:text-dark-900" data-i18n="title_cust_dir">👥 سجل ودليل العملاء الكامل</h2>
-                        <p id="custSectionDesc" class="text-xs text-beige-600 dark:text-dark-700 mt-0.5" data-i18n="desc_cust_dir">استعرض كافة العملاء وحساباتهم وملاحظاتهم الخاصة ومعلومات الاتصال وتاريخ الانضمام</p>
+                        <h2 class="text-lg font-bold text-beige-800 dark:text-dark-950 text-center md:text-right" data-i18n="title_cust_dir">👥 سجل ودليل العملاء الكامل</h2>
                     </div>
                     <div class="flex flex-wrap gap-3 w-full md:w-auto">
                         <input type="text" id="searchCustomers" placeholder="🔍 بحث باسم العميل أو رقم الجوال..." oninput="renderCustomers()" class="no-print bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2 rounded-xl text-sm w-full md:w-72 focus:outline-none focus:border-beige-600 text-beige-900 dark:text-dark-900" data-i18n-ph="ph_search_cust">
@@ -397,7 +403,7 @@
             <div id="printContainerExpenses" class="bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 p-6 rounded-2xl shadow-sm space-y-4">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-beige-200 dark:border-dark-300 pb-4">
                     <div class="flex items-center gap-3 flex-wrap">
-                        <h3 class="font-bold text-beige-800 dark:text-dark-900 text-lg" data-i18n="title_exp_report">💸 تقرير المصروفات والمشتريات</h3>
+                        <h3 class="font-bold text-beige-800 dark:text-dark-900 text-lg text-center w-full md:w-auto" data-i18n="title_exp_report">💸 تقرير المصروفات والمشتريات</h3>
                         <div class="no-print flex items-center gap-1.5 bg-beige-100 dark:bg-dark-200 p-1 rounded-xl text-xs font-semibold">
                             <button onclick="setExpensesFilter('all')" id="expFilterBtnAll" class="px-3 py-1.5 rounded-lg transition text-beige-700 dark:text-dark-700 hover:bg-beige-200 dark:hover:bg-dark-300 cursor-pointer" data-i18n="filter_all">الكل</button>
                             <button onclick="setExpensesFilter('active')" id="expFilterBtnActive" class="px-3 py-1.5 rounded-lg transition bg-beige-800 dark:bg-dark-800 text-white cursor-pointer" data-i18n="filter_active">الفترة الحالية</button>
@@ -807,75 +813,72 @@
         </div>
     </div>
 
-    <!-- نافذة الفاتورة المنبثقة (مكبرة وتملأ كامل الصفحة والورقة بشكل منسق وموزع) -->
+    <!-- نافذة الفاتورة المنبثقة (منسقة كصفحة A4 متكاملة ومحترفة للجوال والكمبيوتر) -->
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-6 overflow-y-auto z-50 animate-fade">
-        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 dark:bg-dark-100 w-full max-w-4xl min-h-[92vh] flex flex-col justify-between p-8 sm:p-14 rounded-3xl shadow-2xl relative border-2 border-beige-200 dark:border-dark-300 my-auto space-y-10">
-            <button onclick="closeInvoice()" class="no-print absolute left-6 top-6 text-beige-600 dark:text-dark-700 hover:text-beige-900 dark:hover:text-dark-900 text-2xl font-bold cursor-pointer">✕</button>
+        <div id="invoicePrintContent" class="invoice-paper bg-white text-gray-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-10 sm:p-16 rounded-3xl shadow-2xl relative border border-gray-200 my-auto space-y-8">
+            <button onclick="closeInvoice()" class="no-print absolute left-6 top-6 text-gray-500 hover:text-gray-900 text-2xl font-bold cursor-pointer">✕</button>
             
             <!-- ترويسة الفاتورة -->
-            <div class="flex flex-col items-center text-center gap-4 border-b-2 border-beige-200 dark:border-dark-300 pb-8">
-                <img id="invLogo" src="" alt="Store Logo" class="w-28 h-28 sm:w-32 sm:h-32 object-cover rounded-3xl hidden mb-1 border-2 border-beige-300 dark:border-dark-300 shadow-md">
+            <div class="flex flex-col items-center text-center gap-3 border-b-2 border-gray-200 pb-6">
+                <img id="invLogo" src="" alt="Store Logo" class="w-24 h-24 object-cover rounded-2xl hidden mb-1 border border-gray-300 shadow-sm">
                 <div>
-                    <h2 id="invStoreName" class="text-3xl sm:text-5xl font-extrabold text-beige-900 dark:text-dark-900 tracking-wide"></h2>
-                    <p id="invStoreDesc" class="text-base sm:text-lg text-beige-600 dark:text-dark-700 mt-2 font-semibold"></p>
+                    <h2 id="invStoreName" class="text-3xl sm:text-4xl font-extrabold tracking-wide text-gray-900"></h2>
+                    <p id="invStoreDesc" class="text-sm sm:text-base text-gray-600 mt-1 font-semibold"></p>
                 </div>
             </div>
 
-            <!-- معلومات الفاتورة والعميل (موزعة بكامل المساحة) -->
-            <div class="space-y-8 flex-1 flex flex-col justify-center">
-                <div class="bg-white dark:bg-dark-200 p-8 sm:p-10 rounded-3xl border-2 border-beige-200 dark:border-dark-300 space-y-8 shadow-sm">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-beige-200 dark:border-dark-300 pb-6 gap-4">
-                        <div class="text-lg sm:text-xl font-bold text-beige-800 dark:text-dark-900"><span data-i18n="inv_num_label">🧾 رقم الفاتورة:</span> <span id="invId" class="text-beige-900 dark:text-dark-900 font-extrabold text-xl sm:text-2xl en-num">#9002</span></div>
-                        <div class="text-base sm:text-lg font-bold text-beige-700 dark:text-dark-700 time-badge"><span id="invDate" class="en-num"></span></div>
+            <!-- معلومات الفاتورة والعميل -->
+            <div class="space-y-6 flex-1 flex flex-col justify-center">
+                <div class="bg-gray-50 p-6 sm:p-8 rounded-2xl border border-gray-200 space-y-6 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200 pb-4 gap-3">
+                        <div class="text-base sm:text-lg font-bold text-gray-800"><span data-i18n="inv_num_label">🧾 رقم الفاتورة:</span> <span id="invId" class="text-gray-900 font-extrabold text-lg sm:text-xl en-num">#9002</span></div>
+                        <div class="text-sm sm:text-base font-bold text-gray-600 time-badge"><span id="invDate" class="en-num"></span></div>
                     </div>
 
-                    <div id="invScheduledWrapper" class="no-print bg-amber-50 dark:bg-dark-300 border border-amber-200 dark:border-amber-600 p-5 rounded-2xl hidden">
-                        <span class="text-amber-900 dark:text-amber-400 font-bold block text-sm mb-1" data-i18n="lbl_delivery_time">⏰ وقت التوصيل المطلوب:</span>
-                        <span id="invScheduledTimeVal" class="text-amber-800 dark:text-amber-300 font-extrabold text-lg sm:text-xl en-num"></span>
+                    <div id="invScheduledWrapper" class="no-print bg-amber-50 border border-amber-200 p-4 rounded-xl hidden">
+                        <span class="text-amber-900 font-bold block text-xs mb-1" data-i18n="lbl_delivery_time">⏰ وقت التوصيل المطلوب:</span>
+                        <span id="invScheduledTimeVal" class="text-amber-800 font-extrabold text-base en-num"></span>
                     </div>
 
                     <div>
-                        <h3 class="text-lg sm:text-xl font-bold text-beige-900 dark:text-dark-900 mb-4 border-r-4 border-beige-700 dark:border-dark-700 pr-3" data-i18n="inv_cust_details_title">تفاصيل العميل وعنوان التوصيل:</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg sm:text-xl">
-                            <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_name">اسم العميل:</span> <span id="invClient" class="font-extrabold text-beige-900 dark:text-dark-900 text-xl sm:text-2xl"></span></div>
-                            <div><span class="text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_cust_phone">رقم الجوال:</span> <span id="invPhone" class="font-extrabold text-beige-900 dark:text-dark-900 text-xl sm:text-2xl en-num"></span></div>
+                        <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-3 border-r-4 border-amber-700 pr-3" data-i18n="inv_cust_details_title">تفاصيل العميل وعنوان التوصيل:</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base sm:text-lg">
+                            <div><span class="text-gray-600 font-medium" data-i18n="lbl_cust_name">اسم العميل:</span> <span id="invClient" class="font-extrabold text-gray-900 text-lg sm:text-xl"></span></div>
+                            <div><span class="text-gray-600 font-medium" data-i18n="lbl_cust_phone">رقم الجوال:</span> <span id="invPhone" class="font-extrabold text-gray-900 text-lg sm:text-xl en-num"></span></div>
                         </div>
-                        <div class="pt-4">
-                            <span class="text-beige-600 dark:text-dark-700 font-medium block mb-2 text-base sm:text-lg" data-i18n="lbl_cust_address">عنوان التوصيل / الحي:</span>
-                            <div id="invAddress" class="font-extrabold text-beige-900 dark:text-dark-900 text-lg sm:text-xl leading-relaxed"></div>
+                        <div class="pt-3">
+                            <span class="text-gray-600 font-medium block mb-1 text-sm sm:text-base" data-i18n="lbl_cust_address">عنوان التوصيل / الحي:</span>
+                            <div id="invAddress" class="font-extrabold text-gray-900 text-base sm:text-lg leading-relaxed"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- ملخص الطلب -->
-                <div class="space-y-3">
-                    <div class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900 px-2" data-i18n="inv_order_summary_title">🛒 ملخص الطلب والمنتج:</div>
-                    <div class="bg-white dark:bg-dark-200 p-8 sm:p-10 rounded-3xl border-2 border-beige-200 dark:border-dark-300 shadow-sm">
-                        <span id="invItemName" class="font-black text-beige-900 dark:text-dark-900 text-2xl sm:text-3xl block mb-3"></span> 
-                        <span id="invItemNotes" class="text-base sm:text-lg text-beige-600 dark:text-dark-700 block font-medium"></span>
+                <div class="space-y-2">
+                    <div class="text-sm sm:text-base font-bold text-gray-800 px-1" data-i18n="inv_order_summary_title">🛒 ملخص الطلب والمنتج:</div>
+                    <div class="bg-gray-50 p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm">
+                        <span id="invItemName" class="font-black text-gray-900 text-xl sm:text-2xl block mb-2"></span> 
+                        <span id="invItemNotes" class="text-sm sm:text-base text-gray-600 block font-medium"></span>
                     </div>
                 </div>
 
                 <!-- مبلغ الفاتورة المستحق في الأسفل -->
-                <div class="bg-emerald-50 dark:bg-dark-200 p-8 sm:p-10 rounded-3xl border-2 border-emerald-300 dark:border-emerald-600 flex justify-between items-center shadow-md">
-                    <span class="font-extrabold text-emerald-900 dark:text-emerald-300 text-lg sm:text-2xl" data-i18n="inv_total_amount_label">إجمالي مبلغ الفاتورة المستحق:</span>
-                    <div id="invItemPrice" class="font-black text-emerald-700 dark:text-emerald-400 money-val text-4xl sm:text-5xl"><span>0</span> <span class="currencyLabel text-2xl sm:text-3xl">ر.س</span></div>
+                <div class="bg-emerald-50 p-6 sm:p-8 rounded-2xl border-2 border-emerald-300 flex justify-between items-center shadow-sm">
+                    <span class="font-extrabold text-emerald-900 text-base sm:text-xl" data-i18n="inv_total_amount_label">إجمالي مبلغ الفاتورة المستحق:</span>
+                    <div id="invItemPrice" class="font-black text-emerald-700 money-val text-3xl sm:text-4xl"><span>0</span> <span class="currencyLabel text-xl sm:text-2xl">ر.س</span></div>
                 </div>
             </div>
 
             <!-- تذييل الفاتورة وشكر العملاء -->
-            <div class="text-center text-base sm:text-lg font-bold text-beige-700 dark:text-dark-700 border-t-2 border-beige-200 dark:border-dark-300 pt-8 mt-6">
+            <div class="text-center text-sm sm:text-base font-bold text-gray-600 border-t-2 border-gray-200 pt-6 mt-4">
                 <p id="invThankMsg">شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!</p>
             </div>
 
-            <div class="no-print pt-6 flex flex-wrap justify-end gap-3">
-                <button onclick="printInvoice()" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white px-7 sm:px-9 py-4 rounded-2xl font-bold text-base sm:text-lg transition shadow-md cursor-pointer flex items-center gap-2">
+            <div class="no-print pt-4 flex flex-wrap justify-end gap-3">
+                <button onclick="printInvoice()" class="bg-beige-800 hover:bg-beige-900 text-white px-7 sm:px-9 py-3.5 rounded-2xl font-bold text-base transition shadow-md cursor-pointer flex items-center gap-2">
                     🖨️ <span data-i18n="btn_print_invoice">طباعة الفاتورة</span>
                 </button>
-                <button id="invWhatsappBtn" type="button" onclick="" class="bg-emerald-600 hover:bg-emerald-700 text-white px-7 sm:px-9 py-4 rounded-2xl font-bold text-base sm:text-lg transition shadow-md cursor-pointer flex items-center gap-2">
-                    📲 <span>إرسال عبر واتساب (PDF)</span>
-                </button>
-                <button onclick="closeInvoice()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 text-beige-800 dark:text-dark-900 px-7 sm:px-9 py-4 rounded-2xl font-bold text-base sm:text-lg cursor-pointer" data-i18n="btn_close">
+                <button onclick="closeInvoice()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-7 sm:px-9 py-3.5 rounded-2xl font-bold text-base cursor-pointer" data-i18n="btn_close">
                     إغلاق
                 </button>
             </div>
@@ -951,7 +954,7 @@
                 th_amount: 'المبلغ',
                 th_actions: 'الإجراءات',
                 title_cust_dir: '👥 سجل ودليل العملاء الكامل',
-                desc_cust_dir: 'استعرض كافة العملاء وحساباتهم وملاحظاتهم الخاصة ومعلومات الاتصال وتاريخ الانضمام',
+                desc_cust_dir: '',
                 ph_search_cust: '🔍 بحث باسم العميل أو رقم الجوال...',
                 btn_add_cust: 'إضافة عميل جديد ➕',
                 title_add_expense: 'تسجيل مصروف جديد (مواد غذائية، تغليف...)',
@@ -1063,7 +1066,7 @@
                 th_amount: 'Amount',
                 th_actions: 'Actions',
                 title_cust_dir: '👥 Complete Customer Directory',
-                desc_cust_dir: 'Browse all customers, accounts, notes, contact info, and join dates',
+                desc_cust_dir: '',
                 ph_search_cust: '🔍 Search by name or phone...',
                 btn_add_cust: 'Add New Customer ➕',
                 title_add_expense: 'Record New Expense (Ingredients, Packaging...)',
@@ -1173,40 +1176,6 @@
 
         function validateNotEmptyText(text) {
             return text && text.trim().length > 0;
-        }
-
-        function sendOrderInvoicePDFWhatsApp(saleId) {
-            const targetId = Number(saleId);
-            const sale = (db.sales || []).find(s => Number(s.id) === targetId);
-            if (!sale) return;
-
-            const cleanPhone = sanitizeAndValidatePhone(sale.phone);
-            if (!cleanPhone) {
-                alert(i18nDict[currentLang].val_phone_invalid);
-                return;
-            }
-
-            const element = document.getElementById('invoicePrintContent');
-            if(!element) return;
-
-            const shortId = '#' + sale.id.toString().slice(-6);
-            const opt = {
-                margin:       10,
-                filename:     `Invoice_${shortId}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().from(element).set(opt).outputPdf('blob').then((pdfBlob) => {
-                let formattedPhone = cleanPhone;
-                if (formattedPhone.startsWith('05') || formattedPhone.startsWith('0')) {
-                    formattedPhone = '966' + formattedPhone.substring(1);
-                }
-
-                const waUrl = `https://wa.me/${formattedPhone}`;
-                window.open(waUrl, '_blank');
-            });
         }
 
         function toggleDarkMode() {
@@ -2735,11 +2704,6 @@
             const defaultThank = currentLang === 'ar' ? 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' : 'Thank you for your business!';
             document.getElementById('invThankMsg').innerText = s.thankMsg || defaultThank;
 
-            const invWaBtn = document.getElementById('invWhatsappBtn');
-            if (invWaBtn) {
-                invWaBtn.onclick = function() { sendOrderInvoicePDFWhatsApp(sale.id); };
-            }
-
             const modal = document.getElementById('invoiceModal');
             if(modal) {
                 modal.classList.remove('hidden');
@@ -2747,7 +2711,6 @@
             }
         }
 
-        // تم إصلاح مشكلة الطباعة في الجوال بالاعتماد على مكتبة html2pdf لتوليد وتحميل ملف الطباعة بسلاسة تامة على الهواتف
         function printInvoice() {
             const element = document.getElementById('invoicePrintContent');
             if (!element) return;
@@ -2890,7 +2853,7 @@
 
                 setSalesFilter('active');
                 setExpensesFilter('active');
-                    updateUI();
+                updateUI();
                 
                 const successMsg = currentLang === 'ar' ? 'تمت عملية التصفير وأرشفة الفترة السابقة سحابياً بنجاح! الإحصائيات الآن تبدأ من الصفر.' : 'Period reset and archived in the cloud successfully!';
                 alert(successMsg);
