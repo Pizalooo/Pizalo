@@ -837,11 +837,11 @@
             </div>
 
             <div class="no-print pt-2 flex flex-wrap justify-end gap-3">
-                <button id="invWhatsappBtn" type="button" onclick="" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 sm:px-6 py-3 rounded-2xl font-bold text-sm sm:text-base transition shadow-md cursor-pointer flex items-center gap-2">
-                    📲 <span>إرسال عبر واتساب</span>
-                </button>
                 <button onclick="printInvoice()" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white px-6 sm:px-8 py-3 rounded-2xl font-bold text-sm sm:text-base transition shadow-md cursor-pointer flex items-center gap-2">
                     🖨️ <span data-i18n="btn_print_invoice">طباعة الفاتورة</span>
+                </button>
+                <button id="invWhatsappBtn" type="button" onclick="" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 sm:px-6 py-3 rounded-2xl font-bold text-sm sm:text-base transition shadow-md cursor-pointer flex items-center gap-2">
+                    📲 <span>إرسال عبر واتساب</span>
                 </button>
                 <button onclick="closeInvoice()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 text-beige-800 dark:text-dark-900 px-6 sm:px-8 py-3 rounded-2xl font-bold text-sm sm:text-base transition cursor-pointer" data-i18n="btn_close">
                     إغلاق
@@ -1128,9 +1128,7 @@
         // ----------------- دوال التحقق من صحة المدخلات (Validation Functions) -----------------
         function sanitizeAndValidatePhone(phoneStr) {
             if (!phoneStr) return false;
-            // تنقية الرقم وتخليصه من الفواصل والمسافات وعلامة الزائد
             const clean = phoneStr.toString().replace(/[\s\-\+\(\)]/g, '');
-            // التثبت من أنه يتكون فقط من أرقام ولا يقل طوله عن 8 أرقام
             if (/^\d{8,15}$/.test(clean)) {
                 return clean;
             }
@@ -1189,7 +1187,6 @@
             }
 
             const encodedMsg = encodeURIComponent(msg);
-            // تحويل رقم الجوال إلى الصيغة الدولية إذا بدأ بـ 0
             let formattedPhone = cleanPhone;
             if (formattedPhone.startsWith('05')) {
                 formattedPhone = '966' + formattedPhone.substring(1);
@@ -1637,7 +1634,6 @@
             const notes = document.getElementById('itemNotes').value.trim();
             const fileInput = document.getElementById('saleAttachment');
 
-            // --- التحقق من صحة المدخلات (Validation) ---
             if (!validateNotEmptyText(name) || !validateNotEmptyText(address) || !validateNotEmptyText(item)) {
                 alert(i18nDict[currentLang].val_required_fields);
                 return;
@@ -1654,7 +1650,6 @@
                 return;
             }
             const price = parseFloat(priceVal);
-            // --------------------------------------------
 
             const now = new Date();
             const dateTimeStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + ' ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
@@ -1711,7 +1706,6 @@
             const dateInput = document.getElementById('expenseDate').value;
             const notes = document.getElementById('expenseNotes').value.trim();
 
-            // --- التحقق من صحة مدخلات المصروف ---
             if (!validateNotEmptyText(title)) {
                 alert(i18nDict[currentLang].val_required_fields);
                 return;
@@ -1721,7 +1715,6 @@
                 return;
             }
             const amount = parseFloat(amountVal);
-            // --------------------------------------
 
             const now = new Date();
             const timePart = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
@@ -2086,7 +2079,6 @@
                                 <td class="p-4 text-center font-bold text-emerald-600 dark:text-emerald-400 en-num">${Math.round(s.price)} ${currSymbol}</td>
                                 <td class="p-4 text-center no-print">
                                     <div class="flex items-center justify-center gap-1.5">
-                                        <button type="button" onclick="sendOrderInvoiceWhatsApp(${s.id})" title="إرسال عبر واتساب" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 p-2 rounded-xl text-xs transition cursor-pointer">📲</button>
                                         <button type="button" onclick="openInvoice(${s.id})" title="Invoice" class="bg-blue-50 dark:bg-dark-200 hover:bg-blue-100 dark:hover:bg-dark-300 text-blue-700 dark:text-blue-400 p-2 rounded-xl text-xs transition cursor-pointer">📄</button>
                                         <button type="button" onclick="openEditSale(${s.id})" title="Edit Order" class="bg-amber-50 dark:bg-dark-200 hover:bg-amber-100 dark:hover:bg-dark-300 text-amber-700 dark:text-amber-400 p-2 rounded-xl text-xs transition cursor-pointer">✏️</button>
                                         <button type="button" onclick="deleteSale(${s.id})" title="Delete Order" class="bg-rose-50 dark:bg-dark-200 hover:bg-rose-100 dark:hover:bg-dark-300 text-rose-700 dark:text-rose-400 p-2 rounded-xl text-xs transition cursor-pointer">🗑️</button>
@@ -2159,7 +2151,6 @@
                             <div class="flex items-center gap-2.5 flex-wrap">
                                 <span class="bg-amber-100 dark:bg-amber-900 text-amber-900 dark:text-amber-200 font-bold px-3 py-1.5 rounded-xl text-xs">${formatDateTimeSimple(s.scheduledTime)}</span>
                                 <button onclick="confirmOrderReadyPrompt(${s.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-sm">${btnReadyTxt}</button>
-                                <button onclick="sendOrderInvoiceWhatsApp(${s.id})" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-sm">📲 واتساب</button>
                                 <button onclick="openInvoice(${s.id})" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white px-3.5 py-1.5 rounded-xl text-xs font-medium transition cursor-pointer">${btnInvTxt}</button>
                             </div>
                         </div>
@@ -2348,7 +2339,6 @@
             const notes = document.getElementById('editItemNotes').value.trim();
             const fileInput = document.getElementById('editSaleAttachment');
 
-            // --- التحقق عند التعديل ---
             if (!validateNotEmptyText(name) || !validateNotEmptyText(address) || !validateNotEmptyText(item)) {
                 alert(i18nDict[currentLang].val_required_fields);
                 return;
@@ -2362,7 +2352,6 @@
                 alert(i18nDict[currentLang].val_price_invalid);
                 return;
             }
-            // ---------------------------
 
             if(sale.scheduledTime !== newSched) {
                 sale.confirmedReady = false;
@@ -2426,7 +2415,6 @@
                 const title = document.getElementById('editExpTitle').value.trim();
                 const amountVal = document.getElementById('editExpAmount').value;
 
-                // --- التحقق عند التعديل ---
                 if (!validateNotEmptyText(title)) {
                     alert(i18nDict[currentLang].val_required_fields);
                     return;
@@ -2435,7 +2423,6 @@
                     alert(i18nDict[currentLang].val_price_invalid);
                     return;
                 }
-                // ---------------------------
 
                 const dateInput = document.getElementById('editExpDate').value;
                 const prevTime = ex.date.includes(' ') ? ex.date.split(' ')[1] : '00:00';
@@ -2526,7 +2513,6 @@
                                 <td class="p-3 text-beige-500 dark:text-dark-700 text-xs">${s.notes || '-'}</td>
                                 <td class="p-3 font-bold text-emerald-600 dark:text-emerald-400 en-num">${Math.round(s.price)} ${currSymbol}</td>
                                 <td class="p-3 text-center">
-                                    <button type="button" onclick="sendOrderInvoiceWhatsApp(${s.id})" title="إرسال عبر واتساب" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2 py-1 rounded-lg text-xs cursor-pointer mr-1">📲</button>
                                     <button type="button" onclick="openInvoice(${s.id})" title="Invoice" class="bg-blue-50 dark:bg-dark-200 hover:bg-blue-100 dark:hover:bg-dark-300 text-blue-700 dark:text-blue-400 px-2.5 py-1 rounded-lg text-xs cursor-pointer">📄</button>
                                 </td>
                             </tr>
@@ -2683,7 +2669,7 @@
             const defaultThank = currentLang === 'ar' ? 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' : 'Thank you for your business!';
             document.getElementById('invThankMsg').innerText = s.thankMsg || defaultThank;
 
-            // ربط زر الواتساب داخل الفاتورة بالطلب الحالي
+            // ربط زر الواتساب داخل الفاتورة بالطلب الحالي بجانب زر الطباعة
             const invWaBtn = document.getElementById('invWhatsappBtn');
             if (invWaBtn) {
                 invWaBtn.onclick = function() { sendOrderInvoiceWhatsApp(sale.id); };
