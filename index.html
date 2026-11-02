@@ -906,7 +906,7 @@
 
                     <div>
 
-                        <label class="block text-sm font-medium text-beige-700 dark:text-dark-800 mb-2" data-i18n="lbl_store_name">اسم المتجر / المشروع (اختياري)</label>
+                        <label class="block text-sm font-medium text-beige-700 dark:text-dark-800 mb-2" data-i18n="lbl_store_name">اسم المتجر / المشروع</label>
 
                         <input type="text" id="cfgStoreName" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-beige-600 text-beige-900 dark:text-dark-900">
 
@@ -1626,27 +1626,27 @@
 
 
 
-    <!-- نافذة الفاتورة المنبثقة بتصميم منسق ومخصص للطباعة المباشرة -->
+    <!-- نافذة الفاتورة المنبثقة بتصميم منسق ومخصص للطباعة المباشرة بلون بيجي مريح -->
 
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-6 overflow-y-auto z-50 animate-fade">
 
-        <div id="invoicePrintContent" class="invoice-paper bg-white text-gray-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-10 sm:p-16 rounded-3xl shadow-2xl relative border border-gray-200 my-auto space-y-6">
+        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 text-beige-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-10 sm:p-16 rounded-3xl shadow-2xl relative border border-beige-200 my-auto space-y-6">
 
-            <button onclick="closeInvoice()" class="no-print absolute left-6 top-6 text-gray-500 hover:text-gray-900 text-2xl font-bold cursor-pointer">✕</button>
+            <button onclick="closeInvoice()" class="no-print absolute left-6 top-6 text-beige-500 hover:text-beige-900 text-2xl font-bold cursor-pointer">✕</button>
 
             
 
             <!-- ترويسة الفاتورة -->
 
-            <div class="flex flex-col items-center text-center gap-2 border-b-2 border-gray-200 pb-5">
+            <div class="flex flex-col items-center text-center gap-2 border-b-2 border-beige-200 pb-5">
 
-                <img id="invLogo" src="" alt="Store Logo" class="w-20 h-20 object-cover rounded-2xl hidden mb-1 border border-gray-300 shadow-sm">
+                <img id="invLogo" src="" alt="Store Logo" class="w-20 h-20 object-cover rounded-2xl hidden mb-1 border border-beige-300 shadow-sm">
 
                 <div>
 
-                    <h2 id="invStoreName" class="text-3xl font-extrabold tracking-wide text-gray-900"></h2>
+                    <h2 id="invStoreName" class="text-3xl font-extrabold tracking-wide text-beige-900"></h2>
 
-                    <p id="invStoreDesc" class="text-sm text-gray-600 mt-1 font-semibold"></p>
+                    <p id="invStoreDesc" class="text-sm text-beige-700 mt-1 font-semibold"></p>
 
                 </div>
 
@@ -1654,49 +1654,49 @@
 
 
 
-            <!-- معلومات الفاتورة والعميل -->
+            <!-- معلومات الفاتورة والعميل (تم زيادة الارتفاع والمساحة الداخلية مع تكبير الخط) -->
 
-            <div class="space-y-5 flex-1 flex flex-col justify-center">
+            <div class="space-y-6 flex-1 flex flex-col justify-center">
 
-                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 space-y-4 shadow-sm">
+                <div class="bg-beige-100 p-8 sm:p-10 rounded-2xl border border-beige-200 space-y-6 shadow-sm">
 
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200 pb-3 gap-2">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-beige-200 pb-4 gap-2">
 
-                        <div class="text-base font-bold text-gray-800"><span data-i18n="inv_num_label">🧾 رقم الفاتورة:</span> <span id="invId" class="text-gray-900 font-extrabold text-lg en-num">#9002</span></div>
+                        <div class="text-lg font-bold text-beige-900"><span data-i18n="inv_num_label">🧾 رقم الفاتورة:</span> <span id="invId" class="text-beige-900 font-black text-xl en-num">#9002</span></div>
 
-                        <div class="text-sm font-bold text-gray-600 time-badge"><span id="invDate" class="en-num"></span></div>
-
-                    </div>
-
-
-
-                    <div id="invScheduledWrapper" class="no-print bg-amber-50 border border-amber-200 p-3 rounded-xl hidden">
-
-                        <span class="text-amber-900 font-bold block text-xs mb-1" data-i18n="lbl_delivery_time">⏰ وقت التوصيل المطلوب:</span>
-
-                        <span id="invScheduledTimeVal" class="text-amber-800 font-extrabold text-sm en-num"></span>
+                        <div class="text-base font-bold text-beige-700 time-badge"><span id="invDate" class="en-num"></span></div>
 
                     </div>
 
 
 
-                    <div>
+                    <div id="invScheduledWrapper" class="no-print bg-amber-100/60 border border-amber-300 p-4 rounded-xl hidden">
 
-                        <h3 class="text-sm font-bold text-gray-900 mb-2 border-r-4 border-amber-700 pr-2" data-i18n="inv_cust_details_title">تفاصيل العميل وعنوان التوصيل:</h3>
+                        <span class="text-amber-900 font-bold block text-sm mb-1" data-i18n="lbl_delivery_time">⏰ وقت التوصيل المطلوب:</span>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                        <span id="invScheduledTimeVal" class="text-amber-900 font-black text-base en-num"></span>
 
-                            <div><span class="text-gray-600 font-medium" data-i18n="lbl_cust_name">اسم العميل:</span> <span id="invClient" class="font-extrabold text-gray-900"></span></div>
+                    </div>
 
-                            <div><span class="text-gray-600 font-medium" data-i18n="lbl_cust_phone">رقم الجوال:</span> <span id="invPhone" class="font-extrabold text-gray-900 en-num"></span></div>
+
+
+                    <div class="space-y-3">
+
+                        <h3 class="text-base font-extrabold text-beige-900 border-r-4 border-amber-700 pr-2.5" data-i18n="inv_cust_details_title">تفاصيل العميل وعنوان التوصيل:</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base pt-1">
+
+                            <div><span class="text-beige-700 font-semibold" data-i18n="lbl_cust_name">اسم العميل:</span> <span id="invClient" class="font-black text-beige-900"></span></div>
+
+                            <div><span class="text-beige-700 font-semibold" data-i18n="lbl_cust_phone">رقم الجوال:</span> <span id="invPhone" class="font-black text-beige-900 en-num"></span></div>
 
                         </div>
 
                         <div class="pt-2">
 
-                            <span class="text-gray-600 font-medium block mb-1 text-xs" data-i18n="lbl_cust_address">العنوان:</span>
+                            <span class="text-beige-700 font-semibold block mb-1 text-sm" data-i18n="lbl_cust_address">العنوان:</span>
 
-                            <div id="invAddress" class="font-extrabold text-gray-900 text-sm leading-relaxed"></div>
+                            <div id="invAddress" class="font-black text-beige-900 text-base leading-relaxed"></div>
 
                         </div>
 
@@ -1708,15 +1708,15 @@
 
                 <!-- ملخص الطلب -->
 
-                <div class="space-y-1">
+                <div class="space-y-1.5">
 
-                    <div class="text-sm font-bold text-gray-800 px-1" data-i18n="inv_order_summary_title">🛒 ملخص الطلب والمنتج:</div>
+                    <div class="text-base font-bold text-beige-800 px-1" data-i18n="inv_order_summary_title">🛒 ملخص الطلب والمنتج:</div>
 
-                    <div class="bg-gray-50 p-5 rounded-2xl border border-gray-200 shadow-sm">
+                    <div class="bg-beige-100 p-6 rounded-2xl border border-beige-200 shadow-sm">
 
-                        <span id="invItemName" class="font-black text-gray-900 text-lg block mb-1"></span> 
+                        <span id="invItemName" class="font-black text-beige-900 text-xl block mb-1"></span> 
 
-                        <span id="invItemNotes" class="text-xs text-gray-600 block font-medium"></span>
+                        <span id="invItemNotes" class="text-sm text-beige-700 block font-semibold"></span>
 
                     </div>
 
@@ -1726,11 +1726,11 @@
 
                 <!-- مبلغ الفاتورة المستحق في الأسفل -->
 
-                <div class="bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-300 flex justify-between items-center shadow-sm">
+                <div class="bg-emerald-50 p-6 rounded-2xl border-2 border-emerald-300 flex justify-between items-center shadow-sm">
 
-                    <span class="font-extrabold text-emerald-900 text-base" data-i18n="inv_total_amount_label">إجمالي مبلغ الفاتورة المستحق:</span>
+                    <span class="font-extrabold text-emerald-950 text-lg" data-i18n="inv_total_amount_label">إجمالي مبلغ الفاتورة المستحق:</span>
 
-                    <div id="invItemPrice" class="font-black text-emerald-700 money-val text-2xl"><span>0</span> <span class="currencyLabel text-lg">ر.س</span></div>
+                    <div id="invItemPrice" class="font-black text-emerald-800 money-val text-3xl"><span>0</span> <span class="currencyLabel text-xl">ر.س</span></div>
 
                 </div>
 
@@ -1740,7 +1740,7 @@
 
             <!-- تذييل الفاتورة وشكر العملاء -->
 
-            <div class="text-center text-sm font-bold text-gray-600 border-t-2 border-gray-200 pt-4 mt-2">
+            <div class="text-center text-base font-bold text-beige-700 border-t-2 border-beige-200 pt-5 mt-2">
 
                 <p id="invThankMsg">شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!</p>
 
@@ -1758,7 +1758,7 @@
 
                 </button>
 
-                <button onclick="closeInvoice()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-7 py-3 rounded-2xl font-bold text-sm cursor-pointer" data-i18n="btn_close">
+                <button onclick="closeInvoice()" class="bg-beige-200 hover:bg-beige-300 text-beige-900 px-7 py-3 rounded-2xl font-bold text-sm cursor-pointer" data-i18n="btn_close">
 
                     إغلاق
 
