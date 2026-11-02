@@ -180,6 +180,14 @@
 
         @media print {
 
+            @page {
+
+                margin: 15mm 10mm 15mm 10mm;
+
+            }
+
+            
+
             body.printing-section .printable-active-section,
 
             body.printing-section .printable-active-section * {
@@ -308,7 +316,7 @@
 
 
 
-            /* طباعة الفاتورة باللون البيجي والمظهر الفاخر */
+            /* طباعة الفاتورة باللون البيجي والمظهر الفاخر وقياس ممتاز */
 
             #invoiceModal {
 
@@ -342,9 +350,9 @@
 
                 max-width: 100% !important;
 
-                min-h: auto !important;
+                min-height: auto !important;
 
-                padding: 20px !important;
+                padding: 30px 20px 20px 20px !important;
 
                 background-color: #fdfbf7 !important;
 
@@ -1678,17 +1686,17 @@
 
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-6 overflow-y-auto z-50 animate-fade">
 
-        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 text-beige-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-6 sm:p-10 md:p-14 rounded-3xl shadow-2xl relative border-2 border-beige-200 my-auto space-y-6">
+        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 text-beige-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-6 sm:p-10 md:p-14 pt-10 sm:pt-14 rounded-3xl shadow-2xl relative border-2 border-beige-200 my-auto space-y-6">
 
             <button onclick="closeInvoice()" class="no-print absolute left-4 sm:left-6 top-4 sm:top-6 text-beige-600 hover:text-beige-900 text-2xl font-bold cursor-pointer">✕</button>
 
             
 
-            <!-- ترويسة الفاتورة البيجية -->
+            <!-- ترويسة الفاتورة البيجية المحسنة والمضبوطة بالكامل أسفل الحواف العلوية -->
 
-            <div class="flex flex-col items-center text-center gap-2 border-b-2 border-beige-200 pb-5">
+            <div class="flex flex-col items-center text-center gap-2 border-b-2 border-beige-200 pb-5 pt-4">
 
-                <img id="invLogo" src="" alt="Store Logo" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-2xl hidden mb-1 border border-beige-300 shadow-sm">
+                <img id="invLogo" src="" alt="Store Logo" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-2xl hidden mb-1 border border-beige-300 shadow-sm mx-auto">
 
                 <div>
 
