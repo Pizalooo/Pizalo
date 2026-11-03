@@ -396,7 +396,7 @@
 
 </head>
 
-<body id="appBody" class="bg-beige-50 dark:bg-dark-50 text-beige-900 dark:text-dark-900 min-h-screen flex flex-col justify-center">
+<body id="appBody" class="bg-beige-50 dark:bg-dark-50 text-beige-900 dark:text-dark-900 min-h-screen flex flex-col justify-center" onclick="closeUserMenuOnClickOutside(event)">
 
 
 
@@ -432,9 +432,11 @@
 
 
 
-            <!-- تنبيه الأخطاء -->
+            <!-- تنبيه الأخطاء / الرسائل -->
 
             <div id="authErrorMsg" class="hidden bg-rose-50 dark:bg-dark-200 border border-rose-200 text-rose-700 dark:text-rose-400 p-3 rounded-xl text-xs text-right"></div>
+
+            <div id="authSuccessMsg" class="hidden bg-emerald-50 dark:bg-dark-200 border border-emerald-200 text-emerald-700 dark:text-emerald-400 p-3 rounded-xl text-xs text-right"></div>
 
 
 
@@ -450,7 +452,13 @@
 
                 <div>
 
-                    <label class="block text-xs font-bold text-beige-800 dark:text-dark-800 mb-1">كلمة المرور</label>
+                    <div class="flex justify-between items-center mb-1">
+
+                        <label class="block text-xs font-bold text-beige-800 dark:text-dark-800">كلمة المرور</label>
+
+                        <button type="button" onclick="handleForgotPassword()" id="forgotPasswordBtn" class="text-xs text-beige-600 hover:text-beige-900 dark:text-dark-700 dark:hover:text-dark-900 font-semibold cursor-pointer">هل نسيت كلمة المرور؟</button>
+
+                    </div>
 
                     <input type="password" id="authPassword" required placeholder="••••••••" minlength="6" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-beige-600 text-beige-900 dark:text-dark-900">
 
@@ -514,32 +522,6 @@
 
             <div class="flex items-center gap-2 sm:gap-3 flex-wrap justify-center md:justify-end w-full md:w-auto">
 
-                <span id="userEmailBadge" class="bg-beige-100 dark:bg-dark-200 text-beige-800 dark:text-dark-900 text-xs font-semibold px-3 py-2 rounded-xl en-num"></span>
-
-
-
-                <button onclick="logoutUser()" title="تسجيل الخروج" class="bg-rose-100 dark:bg-dark-300 hover:bg-rose-200 text-rose-700 dark:text-rose-400 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm">
-
-                    🚪 <span>خروج</span>
-
-                </button>
-
-
-
-                <button onclick="toggleDarkMode()" title="النمط الداكن / الفاتح" class="bg-beige-200 dark:bg-dark-300 hover:bg-beige-300 text-beige-800 dark:text-dark-900 w-10 h-10 rounded-xl text-base transition flex items-center justify-center cursor-pointer shadow-sm">
-
-                    <span id="darkModeIcon">🌙</span>
-
-                </button>
-
-
-
-                <button onclick="toggleLanguage()" class="bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 dark:hover:bg-dark-900 text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm">
-
-                    🌐 <span id="langBtnText">English</span>
-
-                </button>
-
 
 
                 <div class="flex items-center gap-2 bg-beige-100 dark:bg-dark-200 px-3 py-2 rounded-xl">
@@ -550,11 +532,75 @@
 
                 </div>
 
-                <button onclick="exportData()" class="bg-beige-200 dark:bg-dark-200 hover:bg-beige-300 dark:hover:bg-dark-300 text-beige-800 dark:text-dark-900 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-1.5 cursor-pointer">
 
-                    📥 <span data-i18n="btn_export_excel">تصدير Excel</span>
 
-                </button>
+                <!-- زر الثلاث نقاط القائمة المنسدلة -->
+
+                <div class="relative inline-block text-left" id="userMenuDropdown">
+
+                    <button onclick="toggleUserMenu(event)" title="خيارات الحساب والموقع" class="bg-beige-200 dark:bg-dark-300 hover:bg-beige-300 dark:hover:bg-dark-200 text-beige-800 dark:text-dark-900 w-10 h-10 rounded-xl text-lg font-bold transition flex items-center justify-center cursor-pointer shadow-sm">
+
+                        ⋮
+
+                    </button>
+
+
+
+                    <div id="userMenuContent" class="hidden absolute left-0 md:left-0 right-auto mt-2 w-56 rounded-2xl shadow-xl bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 z-50 overflow-hidden animate-fade">
+
+                        <div class="px-4 py-3 bg-beige-50 dark:bg-dark-200 border-b border-beige-200 dark:border-dark-300">
+
+                            <p class="text-[10px] text-beige-500 dark:text-dark-700 font-bold">الحساب الحالي</p>
+
+                            <p id="userEmailMenuBadge" class="text-xs font-extrabold text-beige-800 dark:text-dark-900 truncate en-num"></p>
+
+                        </div>
+
+
+
+                        <div class="p-1.5 space-y-1">
+
+                            <button onclick="toggleLanguage(); closeUserMenu();" class="w-full text-right px-3 py-2 rounded-xl text-xs font-bold text-beige-800 dark:text-dark-900 hover:bg-beige-100 dark:hover:bg-dark-200 transition flex items-center gap-2 cursor-pointer">
+
+                                🌐 <span id="menuLangText">تغيير اللغة (English)</span>
+
+                            </button>
+
+
+
+                            <button onclick="toggleDarkMode(); closeUserMenu();" class="w-full text-right px-3 py-2 rounded-xl text-xs font-bold text-beige-800 dark:text-dark-900 hover:bg-beige-100 dark:hover:bg-dark-200 transition flex items-center gap-2 cursor-pointer">
+
+                                <span id="menuDarkModeIcon">🌙</span> <span id="menuDarkModeText">النمط الداكن</span>
+
+                            </button>
+
+
+
+                            <button onclick="exportData(); closeUserMenu();" class="w-full text-right px-3 py-2 rounded-xl text-xs font-bold text-beige-800 dark:text-dark-900 hover:bg-beige-100 dark:hover:bg-dark-200 transition flex items-center gap-2 cursor-pointer">
+
+                                📥 <span data-i18n="btn_export_excel">تصدير Excel</span>
+
+                            </button>
+
+
+
+                            <div class="border-t border-beige-200 dark:border-dark-300 my-1"></div>
+
+
+
+                            <button onclick="logoutUser(); closeUserMenu();" class="w-full text-right px-3 py-2 rounded-xl text-xs font-bold text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-dark-200 transition flex items-center gap-2 cursor-pointer">
+
+                                🚪 <span>تسجيل الخروج</span>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
 
             </div>
 
@@ -2476,6 +2522,54 @@
 
 
 
+        // ------------------ إدارة القائمة الرأسية ------------------
+
+
+
+        function toggleUserMenu(e) {
+
+            if(e) e.stopPropagation();
+
+            const menu = document.getElementById('userMenuContent');
+
+            if(menu) {
+
+                menu.classList.toggle('hidden');
+
+            }
+
+        }
+
+
+
+        function closeUserMenu() {
+
+            const menu = document.getElementById('userMenuContent');
+
+            if(menu) {
+
+                menu.classList.add('hidden');
+
+            }
+
+        }
+
+
+
+        function closeUserMenuOnClickOutside(e) {
+
+            const dropdown = document.getElementById('userMenuDropdown');
+
+            if(dropdown && !dropdown.contains(e.target)) {
+
+                closeUserMenu();
+
+            }
+
+        }
+
+
+
         // ------------------ إدارة المصادقة (Auth Functions) ------------------
 
         
@@ -2494,7 +2588,7 @@
 
                 currentUser = user;
 
-                document.getElementById('userEmailBadge').innerText = user.email;
+                document.getElementById('userEmailMenuBadge').innerText = user.email;
 
                 
 
@@ -2546,9 +2640,13 @@
 
             const errorMsg = document.getElementById('authErrorMsg');
 
+            const successMsg = document.getElementById('authSuccessMsg');
+
 
 
             errorMsg.classList.add('hidden');
+
+            successMsg.classList.add('hidden');
 
 
 
@@ -2592,11 +2690,15 @@
 
             const errorMsg = document.getElementById('authErrorMsg');
 
+            const successMsg = document.getElementById('authSuccessMsg');
+
             const submitBtn = document.getElementById('authSubmitBtn');
 
 
 
             errorMsg.classList.add('hidden');
+
+            successMsg.classList.add('hidden');
 
             submitBtn.disabled = true;
 
@@ -2643,6 +2745,66 @@
                 submitBtn.disabled = false;
 
                 submitBtn.classList.remove('opacity-50');
+
+            }
+
+        }
+
+
+
+        async function handleForgotPassword() {
+
+            const email = document.getElementById('authEmail').value.trim();
+
+            const errorMsg = document.getElementById('authErrorMsg');
+
+            const successMsg = document.getElementById('authSuccessMsg');
+
+
+
+            errorMsg.classList.add('hidden');
+
+            successMsg.classList.add('hidden');
+
+
+
+            if (!email) {
+
+                errorMsg.classList.remove('hidden');
+
+                errorMsg.innerText = 'يرجى إدخال البريد الإلكتروني في الحقل أولاً لإعادة تعيين كلمة المرور.';
+
+                return;
+
+            }
+
+
+
+            try {
+
+                await auth.sendPasswordResetEmail(email);
+
+                successMsg.classList.remove('hidden');
+
+                successMsg.innerText = 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني بنجاح!';
+
+            } catch (error) {
+
+                errorMsg.classList.remove('hidden');
+
+                if (error.code === 'auth/user-not-found') {
+
+                    errorMsg.innerText = 'هذا البريد الإلكتروني غير مسجل بالخدمة!';
+
+                } else if (error.code === 'auth/invalid-email') {
+
+                    errorMsg.innerText = 'صيغة البريد الإلكتروني غير صحيحة!';
+
+                } else {
+
+                    errorMsg.innerText = error.message || 'تعذر إرسال رابط إعادة تعيين كلمة المرور، حاول مجدداً.';
+
+                }
 
             }
 
@@ -2756,19 +2918,27 @@
 
             const htmlEl = document.documentElement;
 
-            const iconEl = document.getElementById('darkModeIcon');
+            const menuIconEl = document.getElementById('menuDarkModeIcon');
+
+            const menuTextEl = document.getElementById('menuDarkModeText');
+
+
 
             if(isDarkMode) {
 
                 htmlEl.classList.add('dark');
 
-                if(iconEl) iconEl.innerText = '☀️';
+                if(menuIconEl) menuIconEl.innerText = '☀️';
+
+                if(menuTextEl) menuTextEl.innerText = currentLang === 'ar' ? 'النمط الفاتح' : 'Light Mode';
 
             } else {
 
                 htmlEl.classList.remove('dark');
 
-                if(iconEl) iconEl.innerText = '🌙';
+                if(menuIconEl) menuIconEl.innerText = '🌙';
+
+                if(menuTextEl) menuTextEl.innerText = currentLang === 'ar' ? 'النمط الداكن' : 'Dark Mode';
 
             }
 
@@ -2806,11 +2976,21 @@
 
 
 
-            const langBtnText = document.getElementById('langBtnText');
+            const menuLangText = document.getElementById('menuLangText');
 
-            if(langBtnText) {
+            if(menuLangText) {
 
-                langBtnText.innerText = currentLang === 'ar' ? 'English' : 'عربي';
+                menuLangText.innerText = currentLang === 'ar' ? 'تغيير اللغة (English)' : 'Change Language (عربي)';
+
+            }
+
+
+
+            const menuTextEl = document.getElementById('menuDarkModeText');
+
+            if(menuTextEl) {
+
+                menuTextEl.innerText = isDarkMode ? (currentLang === 'ar' ? 'النمط الفاتح' : 'Light Mode') : (currentLang === 'ar' ? 'النمط الداكن' : 'Dark Mode');
 
             }
 
