@@ -3492,6 +3492,12 @@
 
         function applySettings() {
 
+            if(!db.settings) {
+
+                db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
+
+            }
+
             const s = db.settings;
 
             
@@ -4638,7 +4644,7 @@
 
 
 
-                        const currSymbol = db.settings.currency ? db.settings.currency : '';
+                        const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
 
                         const isChecked = selectedSalesIds.has(Number(s.id)) ? 'checked' : '';
 
@@ -4924,7 +4930,7 @@
 
             }
 
-            const currSymbol = db.settings.currency ? db.settings.currency : '';
+            const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
 
             expList.forEach(ex => {
 
@@ -5018,7 +5024,7 @@
 
 
 
-            const currSymbol = db.settings.currency ? db.settings.currency : '';
+            const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
 
 
 
@@ -5608,7 +5614,7 @@
 
                 } else {
 
-                    const currSymbol = db.settings.currency ? db.settings.currency : '';
+                    const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
 
                     custSales.forEach(s => {
 
@@ -5828,7 +5834,7 @@
 
 
 
-            const s = db.settings;
+            const s = db.settings || {};
 
             const logoEl = document.getElementById('invLogo');
 
@@ -6024,17 +6030,83 @@
 
 
 
+        // ------------------ معالجة الشعار وضمان حفظه سحابياً ------------------
+
+
+
         function handleLogoUpload(e) {
 
             const file = e.target.files[0];
 
-            if(file) {
+            if (!file) return;
 
-                const reader = new FileReader();
 
-                reader.onload = function(uploadEvent) {
 
-                    db.settings.logo = uploadEvent.target.result;
+            const reader = new FileReader();
+
+            reader.onload = function(uploadEvent) {
+
+                const img = new Image();
+
+                img.onload = function() {
+
+                    // تصغير حجم الشعار تلقائياً إذا تجاوز 300px لضمان سرعة التحميل وعدم تجاوز حجم مستند Firestore
+
+                    const canvas = document.createElement('canvas');
+
+                    const maxDim = 300;
+
+                    let width = img.width;
+
+                    let height = img.height;
+
+
+
+                    if (width > height) {
+
+                        if (width > maxDim) {
+
+                            height *= maxDim / width;
+
+                            width = maxDim;
+
+                        }
+
+                    } else {
+
+                        if (height > maxDim) {
+
+                            width *= maxDim / height;
+
+                            height = maxDim;
+
+                        }
+
+                    }
+
+
+
+                    canvas.width = width;
+
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+
+                    ctx.drawImage(img, 0, 0, width, height);
+
+
+
+                    const compressedBase64 = canvas.toDataURL('image/png', 0.85);
+
+
+
+                    if(!db.settings) db.settings = {};
+
+                    db.settings.logo = compressedBase64;
+
+                    
+
+                    // تطبيق وعرض وتأكيد الحفظ السحابي
 
                     applySettings();
 
@@ -6042,15 +6114,19 @@
 
                 };
 
-                reader.readAsDataURL(file);
+                img.src = uploadEvent.target.result;
 
-            }
+            };
+
+            reader.readAsDataURL(file);
 
         }
 
 
 
         function removeLogo() {
+
+            if(!db.settings) db.settings = {};
 
             db.settings.logo = '';
 
@@ -6067,6 +6143,8 @@
 
 
         function saveSettings() {
+
+            if(!db.settings) db.settings = {};
 
             db.settings.storeName = document.getElementById('cfgStoreName').value;
 
