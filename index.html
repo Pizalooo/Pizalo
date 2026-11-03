@@ -118,15 +118,45 @@
 
             -moz-appearance: textfield;
 
+            text-align: right !important;
+
         }
 
 
 
-        input[type="month"], .en-num {
+        input[type="month"] {
+
+            direction: rtl !important;
+
+            unicode-bidi: plaintext !important;
+
+            text-align: right !important;
+
+        }
+
+
+
+        /* توحيد محاذاة كافة خانات التعبئة والنصوص لليمين */
+
+        input, select, textarea {
+
+            text-align: right !important;
+
+            direction: rtl !important;
+
+        }
+
+
+
+        /* استثناء رقم الجوال والأرقام البحتة لتظهر بشكل صحيح مع الحفاظ على المحاذاة اليمنى */
+
+        .en-num {
 
             direction: ltr !important;
 
-            unicode-bidi: plaintext !important;
+            unicode-bidi: embed;
+
+            text-align: right !important;
 
         }
 
@@ -446,7 +476,7 @@
 
                     <label class="block text-xs font-bold text-beige-800 dark:text-dark-800 mb-1">البريد الإلكتروني</label>
 
-                    <input type="email" id="authEmail" required placeholder="name@example.com" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-beige-600 en-num text-beige-900 dark:text-dark-900">
+                    <input type="email" id="authEmail" required placeholder="name@example.com" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-beige-600 text-beige-900 dark:text-dark-900">
 
                 </div>
 
@@ -528,7 +558,7 @@
 
                     <span class="text-xs font-medium text-beige-700 dark:text-dark-700" data-i18n="lbl_month">الشهر:</span>
 
-                    <input type="month" id="filterMonth" lang="en" class="bg-transparent font-medium text-beige-900 dark:text-dark-900 focus:outline-none cursor-pointer en-num w-28 sm:w-32 text-xs" onchange="updateUI()">
+                    <input type="month" id="filterMonth" lang="ar" class="bg-transparent font-medium text-beige-900 dark:text-dark-900 focus:outline-none cursor-pointer w-28 sm:w-32 text-xs" onchange="updateUI()">
 
                 </div>
 
@@ -726,7 +756,7 @@
 
                     <div class="flex flex-col">
 
-                        <label class="text-xs text-beige-600 dark:text-dark-700 mb-1 font-medium" data-i18n="lbl_delivery_time">وقت التوصيل المطلوب:</label>
+                        <label class="text-xs text-beige-600 dark:text-dark-700 mb-1 font-medium text-right" data-i18n="lbl_delivery_time">وقت التوصيل المطلوب:</label>
 
                         <div onclick="openCustomPicker('scheduledTime')" class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-3 py-2.5 rounded-xl text-sm cursor-pointer flex justify-between items-center en-num">
 
@@ -744,7 +774,7 @@
 
                     <div class="flex flex-col">
 
-                        <label class="text-xs text-beige-600 dark:text-dark-700 mb-1 font-medium" data-i18n="lbl_attachment">إيصال التحويل / ملف (اختياري):</label>
+                        <label class="text-xs text-beige-600 dark:text-dark-700 mb-1 font-medium text-right" data-i18n="lbl_attachment">إيصال التحويل / ملف (اختياري):</label>
 
                         <input type="file" id="saleAttachment" accept="image/*,.pdf" class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-3 py-1.5 rounded-xl text-xs text-beige-700 dark:text-dark-800 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-beige-100 dark:file:bg-dark-300 file:text-beige-800 dark:file:text-dark-900 hover:file:bg-beige-200 cursor-pointer w-full">
 
@@ -1284,15 +1314,15 @@
 
                 <div>
 
-                    <label class="block text-xs text-beige-600 dark:text-dark-700 mb-1 font-medium" data-i18n="lbl_year">السنة</label>
+                    <label class="block text-xs text-beige-600 dark:text-dark-700 mb-1 font-medium text-right" data-i18n="lbl_year">السنة</label>
 
-                    <select id="pickerYear" onchange="renderPickerCalendar()" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-2 sm:px-3 py-2 rounded-xl text-xs sm:text-sm en-num font-bold text-beige-900 dark:text-dark-900"></select>
+                    <select id="pickerYear" onchange="renderPickerCalendar()" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-2 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-beige-900 dark:text-dark-900"></select>
 
                 </div>
 
                 <div>
 
-                    <label class="block text-xs text-beige-600 dark:text-dark-700 mb-1 font-medium" data-i18n="lbl_month_sel">الشهر</label>
+                    <label class="block text-xs text-beige-600 dark:text-dark-700 mb-1 font-medium text-right" data-i18n="lbl_month_sel">الشهر</label>
 
                     <select id="pickerMonthSel" onchange="renderPickerCalendar()" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-2 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-beige-900 dark:text-dark-900">
 
@@ -1336,23 +1366,25 @@
 
                 </div>
 
-                <div id="pickerDaysGrid" class="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm font-bold en-num"></div>
+                <div id="pickerDaysGrid" class="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm font-bold"></div>
 
             </div>
 
 
 
-            <div id="pickerTimeSection" class="space-y-2 border-t border-beige-200 dark:border-dark-300 pt-3">
+            <div id="pickerTimeSection" class="space-y-2 border-t border-beige-200 dark:border-dark-300 pt-3 text-right">
 
                 <label class="block text-xs text-beige-600 dark:text-dark-700 font-medium" data-i18n="lbl_delivery_time_select">وقت التوصيل (الساعة والدقيقة):</label>
 
-                <div class="flex items-center justify-center gap-1.5 sm:gap-2 en-num">
+                <div class="flex items-center justify-end gap-1.5 sm:gap-2">
 
-                    <select id="pickerAmPm" class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-2 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-beige-900 dark:text-dark-900">
+                    <select id="pickerHour" class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-2 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-beige-900 dark:text-dark-900">
 
-                        <option value="PM" selected>مساءً (PM)</option>
+                        <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option>
 
-                        <option value="AM">صباحاً (AM)</option>
+                        <option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option>
+
+                        <option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12" selected>12</option>
 
                     </select>
 
@@ -1362,13 +1394,11 @@
 
                     <span class="font-bold">:</span>
 
-                    <select id="pickerHour" class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-2 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-beige-900 dark:text-dark-900">
+                    <select id="pickerAmPm" class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-2 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-beige-900 dark:text-dark-900">
 
-                        <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option>
+                        <option value="PM" selected>مساءً (PM)</option>
 
-                        <option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option>
-
-                        <option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12" selected>12</option>
+                        <option value="AM">صباحاً (AM)</option>
 
                     </select>
 
@@ -1396,7 +1426,7 @@
 
     <div id="addCustomerModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50 animate-fade">
 
-        <div class="bg-white dark:bg-dark-100 w-full max-w-md p-5 sm:p-6 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300">
+        <div class="bg-white dark:bg-dark-100 w-full max-w-md p-5 sm:p-6 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300 text-right">
 
             <button onclick="closeModal('addCustomerModal')" class="absolute left-5 sm:left-6 top-5 sm:top-6 text-beige-500 dark:text-dark-700 hover:text-beige-900 dark:hover:text-dark-900 text-2xl font-bold cursor-pointer">✕</button>
 
@@ -1416,7 +1446,7 @@
 
                     <label class="block text-xs font-medium text-beige-600 dark:text-dark-700 mb-1" data-i18n="lbl_cust_phone">رقم الجوال</label>
 
-                    <input type="tel" id="newCustPhone" required class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2 rounded-xl text-sm en-num text-beige-900 dark:text-dark-900">
+                    <input type="tel" id="newCustPhone" required class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2 rounded-xl text-sm text-beige-900 dark:text-dark-900">
 
                 </div>
 
@@ -1456,7 +1486,7 @@
 
     <div id="editCustomerModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-[60] animate-fade">
 
-        <div class="bg-white dark:bg-dark-100 w-full max-w-md p-5 sm:p-6 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300">
+        <div class="bg-white dark:bg-dark-100 w-full max-w-md p-5 sm:p-6 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300 text-right">
 
             <button onclick="cancelCustomerEdit()" class="absolute left-5 sm:left-6 top-5 sm:top-6 text-beige-500 dark:text-dark-700 hover:text-beige-900 dark:hover:text-dark-900 text-2xl font-bold cursor-pointer">✕</button>
 
@@ -1478,7 +1508,7 @@
 
                     <label class="block text-xs font-medium text-beige-600 dark:text-dark-700 mb-1" data-i18n="lbl_cust_phone">رقم الجوال</label>
 
-                    <input type="tel" id="editCustPhone" required class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2 rounded-xl text-sm en-num text-beige-900 dark:text-dark-900">
+                    <input type="tel" id="editCustPhone" required class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2 rounded-xl text-sm text-beige-900 dark:text-dark-900">
 
                 </div>
 
@@ -1510,7 +1540,7 @@
 
     <div id="customerProfileModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50 animate-fade">
 
-        <div class="bg-white dark:bg-dark-100 w-full max-w-2xl p-5 sm:p-8 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-dark-100 w-full max-w-2xl p-5 sm:p-8 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300 max-h-[90vh] overflow-y-auto text-right">
 
             <button onclick="closeModal('customerProfileModal')" class="absolute left-5 sm:left-6 top-5 sm:top-6 text-beige-500 dark:text-dark-700 hover:text-beige-900 dark:hover:text-dark-900 text-2xl font-bold cursor-pointer">✕</button>
 
@@ -1532,7 +1562,7 @@
 
                 <div class="flex flex-wrap gap-3 sm:gap-4 text-xs text-beige-600 dark:text-dark-700 mt-3">
 
-                    <div>📱 <span data-i18n="lbl_phone_prefix">رقم الجوال:</span> <span id="profClientPhone" class="font-bold text-beige-800 dark:text-dark-900 en-num"></span></div>
+                    <div>📱 <span data-i18n="lbl_phone_prefix">رقم الجوال:</span> <span id="profClientPhone" class="font-bold text-beige-800 dark:text-dark-900"></span></div>
 
                     <div>📍 <span data-i18n="lbl_address_prefix">العنوان:</span> <span id="profClientAddress" class="font-bold text-beige-800 dark:text-dark-900"></span></div>
 
@@ -1636,7 +1666,7 @@
 
     <div id="editSaleModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50 animate-fade">
 
-        <div class="bg-white dark:bg-dark-100 w-full max-w-lg p-5 sm:p-6 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-dark-100 w-full max-w-lg p-5 sm:p-6 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300 max-h-[90vh] overflow-y-auto text-right">
 
             <h3 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900 mb-4" data-i18n="title_edit_order_modal">✏️ تعديل بيانات الطلب</h3>
 
@@ -1656,7 +1686,7 @@
 
                     <label class="block text-xs font-medium text-beige-600 dark:text-dark-700 mb-1" data-i18n="lbl_cust_phone">رقم الجوال</label>
 
-                    <input type="tel" id="editClientPhone" required class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2 rounded-xl text-sm en-num text-beige-900 dark:text-dark-900">
+                    <input type="tel" id="editClientPhone" required class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2 rounded-xl text-sm text-beige-900 dark:text-dark-900">
 
                 </div>
 
@@ -1760,7 +1790,7 @@
 
     <div id="editExpModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50 animate-fade">
 
-        <div class="bg-white dark:bg-dark-100 w-full max-w-lg p-5 sm:p-6 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-dark-100 w-full max-w-lg p-5 sm:p-6 rounded-3xl shadow-2xl relative border border-beige-200 dark:border-dark-300 max-h-[90vh] overflow-y-auto text-right">
 
             <h3 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900 mb-4" data-i18n="title_edit_exp_modal">✏️ تعديل بيانات المصروف</h3>
 
@@ -1836,7 +1866,7 @@
 
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-6 overflow-y-auto z-50 animate-fade">
 
-        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 text-beige-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-6 sm:p-10 md:p-14 pt-8 sm:pt-10 rounded-3xl shadow-2xl relative border-2 border-beige-200 my-auto space-y-6">
+        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 text-beige-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-6 sm:p-10 md:p-14 pt-8 sm:pt-10 rounded-3xl shadow-2xl relative border-2 border-beige-200 my-auto space-y-6 text-right">
 
             <button onclick="closeInvoice()" class="no-print absolute left-4 sm:left-6 top-4 sm:top-6 text-beige-600 hover:text-beige-900 text-2xl font-bold cursor-pointer">✕</button>
 
@@ -5058,7 +5088,7 @@
 
                 grid.innerHTML += `
 
-                    <div class="bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 p-4 sm:p-6 rounded-2xl shadow-sm flex flex-col justify-between space-y-4">
+                    <div class="bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 p-4 sm:p-6 rounded-2xl shadow-sm flex flex-col justify-between space-y-4 text-right">
 
                         <div>
 
