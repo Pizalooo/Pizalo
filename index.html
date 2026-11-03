@@ -184,7 +184,7 @@
 
             @page {
 
-                margin: 20mm 10mm 15mm 10mm;
+                margin: 5mm 10mm 10mm 10mm;
 
             }
 
@@ -210,7 +210,7 @@
 
                 margin: 0 !important;
 
-                padding: 15px !important;
+                padding: 5px !important;
 
                 background: #ffffff !important;
 
@@ -246,9 +246,9 @@
 
                 margin-right: auto !important;
 
-                margin-bottom: 20px !important;
+                margin-bottom: 10px !important;
 
-                font-size: 18pt !important;
+                font-size: 16pt !important;
 
                 font-weight: bold !important;
 
@@ -272,7 +272,7 @@
 
                 border-collapse: collapse !important;
 
-                margin-top: 10px !important;
+                margin-top: 5px !important;
 
                 table-layout: fixed !important;
 
@@ -286,9 +286,9 @@
 
                 background-color: #f4ede2 !important;
 
-                padding: 10px 8px !important;
+                padding: 6px 4px !important;
 
-                font-size: 11pt !important;
+                font-size: 10pt !important;
 
                 font-weight: bold !important;
 
@@ -304,9 +304,9 @@
 
                 border: 1px solid #b0b0b0 !important;
 
-                padding: 8px 6px !important;
+                padding: 5px 4px !important;
 
-                font-size: 10pt !important;
+                font-size: 9pt !important;
 
                 color: #111111 !important;
 
@@ -352,7 +352,7 @@
 
                 min-height: auto !important;
 
-                padding: 55px 25px 25px 25px !important;
+                padding: 20px 20px 20px 20px !important;
 
                 background-color: #fdfbf7 !important;
 
@@ -708,7 +708,7 @@
 
             <div class="no-print bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 p-4 sm:p-6 rounded-2xl shadow-sm">
 
-                <h2 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900 mb-4" data-i18n="title_add_order">تسجيل طلب عميل جديد (فوري أو مجدول)</h2>
+                <h2 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900 mb-4 text-center w-full" data-i18n="title_add_order">تسجيل طلب عميل جديد (فوري أو مجدول)</h2>
 
                 <form id="salesForm" onsubmit="addSale(event)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
@@ -872,7 +872,7 @@
 
 
 
-        <!-- قسم دليل العملاء (مُعدّل لتوسيط العنوان بالمنتصف وحذف الصور الجانبية) -->
+        <!-- قسم دليل العملاء -->
 
         <div id="sectionCustomers" class="space-y-6 hidden animate-fade">
 
@@ -952,7 +952,7 @@
 
             <div class="no-print bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 p-4 sm:p-6 rounded-2xl shadow-sm">
 
-                <h2 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900 mb-4" data-i18n="title_add_expense">تسجيل مصروف جديد</h2>
+                <h2 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900 mb-4 text-center w-full" data-i18n="title_add_expense">تسجيل مصروف جديد</h2>
 
                 <form id="expenseForm" onsubmit="addExpense(event)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
@@ -1836,21 +1836,21 @@
 
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-6 overflow-y-auto z-50 animate-fade">
 
-        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 text-beige-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-6 sm:p-10 md:p-14 pt-16 sm:pt-20 rounded-3xl shadow-2xl relative border-2 border-beige-200 my-auto space-y-6">
+        <div id="invoicePrintContent" class="invoice-paper bg-beige-50 text-beige-900 w-full max-w-[210mm] min-h-[297mm] flex flex-col justify-between p-6 sm:p-10 md:p-14 pt-8 sm:pt-10 rounded-3xl shadow-2xl relative border-2 border-beige-200 my-auto space-y-6">
 
             <button onclick="closeInvoice()" class="no-print absolute left-4 sm:left-6 top-4 sm:top-6 text-beige-600 hover:text-beige-900 text-2xl font-bold cursor-pointer">✕</button>
 
             
 
-            <div class="flex flex-col items-center text-center gap-2 border-b-2 border-beige-200 pb-6 pt-6 mt-4">
+            <div class="flex flex-col items-center text-center gap-1.5 border-b-2 border-beige-200 pb-4 pt-2 mt-1">
 
-                <img id="invLogo" src="" alt="Store Logo" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-2xl hidden mb-2 border border-beige-300 shadow-sm mx-auto">
+                <img id="invLogo" src="" alt="Store Logo" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-2xl hidden mb-1.5 border border-beige-300 shadow-sm mx-auto">
 
                 <div>
 
                     <h2 id="invStoreName" class="text-2xl sm:text-3xl font-extrabold tracking-wide text-beige-900"></h2>
 
-                    <p id="invStoreDesc" class="text-xs sm:text-sm text-beige-700 mt-1 font-semibold"></p>
+                    <p id="invStoreDesc" class="text-xs sm:text-sm text-beige-700 mt-0.5 font-semibold"></p>
 
                 </div>
 
@@ -1858,7 +1858,7 @@
 
 
 
-            <div class="space-y-5 sm:space-y-6 flex-1 flex flex-col justify-center mt-2">
+            <div class="space-y-4 sm:space-y-5 flex-1 flex flex-col justify-center mt-1">
 
                 <div class="bg-beige-100/70 p-4 sm:p-6 rounded-2xl border border-beige-200 space-y-4 shadow-sm">
 
@@ -1936,7 +1936,7 @@
 
 
 
-            <div class="text-center text-xs sm:text-sm font-bold text-beige-700 border-t-2 border-beige-200 pt-4 mt-2">
+            <div class="text-center text-xs sm:text-sm font-bold text-beige-700 border-t-2 border-beige-200 pt-3 mt-1">
 
                 <p id="invThankMsg">شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!</p>
 
