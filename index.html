@@ -500,13 +500,13 @@
 
         
 
-        <!-- الترويسة -->
+        <!-- الترويسة المعدلة لرفع و تكبير الشعار أكثر -->
 
-        <header class="no-print flex flex-col md:flex-row justify-between items-center bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 p-4 sm:p-6 rounded-2xl shadow-sm mb-6 sm:mb-8 gap-4">
+        <header class="no-print flex flex-col md:flex-row justify-between items-center bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-sm mb-6 sm:mb-8 gap-3">
 
             <div class="flex items-center gap-4 w-full md:w-auto justify-center md:justify-start">
 
-                <img id="headerLogo" src="" alt="Logo" class="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-2xl hidden border border-beige-200 dark:border-dark-300">
+                <img id="headerLogo" src="" alt="Logo" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-2xl hidden border-2 border-beige-200 dark:border-dark-300 shadow-sm">
 
                 <div class="text-center md:text-right">
 
@@ -872,7 +872,7 @@
 
 
 
-        <!-- قسم دليل العملاء -->
+        <!-- قسم دليل العملاء (مُعدّل لتوسيط العنوان بالمنتصف وحذف الصور الجانبية) -->
 
         <div id="sectionCustomers" class="space-y-6 hidden animate-fade">
 
@@ -880,13 +880,27 @@
 
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-beige-200 dark:border-dark-300 pb-4">
 
-                    <div>
+                    <div class="w-full text-center">
 
-                        <h2 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-950 text-center md:text-right" data-i18n="title_cust_dir">👥 سجل ودليل العملاء الكامل</h2>
+                        <h2 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-950 w-full" data-i18n="title_cust_dir">سجل ودليل العملاء الكامل</h2>
 
                     </div>
 
-                    <div class="flex flex-wrap gap-2 sm:gap-3 w-full md:w-auto">
+                </div>
+
+
+
+                <div class="no-print flex flex-col md:flex-row justify-between items-center gap-3">
+
+                    <div class="flex items-center gap-2">
+
+                        <input type="checkbox" id="selectAllCustomers" onchange="toggleSelectAllCustomers(this)" class="cursor-pointer">
+
+                        <label for="selectAllCustomers" class="text-xs font-bold text-beige-700 dark:text-dark-700 cursor-pointer">تحديد الكل</label>
+
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 sm:gap-3 w-full md:w-auto justify-end">
 
                         <input type="text" id="searchCustomers" placeholder="🔍 بحث باسم العميل أو رقم الجوال..." oninput="renderCustomers()" class="no-print bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2 rounded-xl text-sm w-full md:w-72 focus:outline-none focus:border-beige-600 text-beige-900 dark:text-dark-900" data-i18n-ph="ph_search_cust">
 
@@ -919,16 +933,6 @@
                         <button onclick="bulkDeleteCustomers()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">حذف العملاء المحددون 🗑️</button>
 
                     </div>
-
-                </div>
-
-
-
-                <div class="no-print flex items-center gap-2 px-1">
-
-                    <input type="checkbox" id="selectAllCustomers" onchange="toggleSelectAllCustomers(this)" class="cursor-pointer">
-
-                    <label for="selectAllCustomers" class="text-xs font-bold text-beige-700 dark:text-dark-700 cursor-pointer">تحديد الكل</label>
 
                 </div>
 
@@ -1164,7 +1168,7 @@
 
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
 
-                        <img id="cfgLogoPreview" src="" alt="Logo Preview" class="w-16 h-16 object-cover rounded-2xl hidden border border-beige-300 dark:border-dark-300">
+                        <img id="cfgLogoPreview" src="" alt="Logo Preview" class="w-20 h-20 object-cover rounded-2xl hidden border border-beige-300 dark:border-dark-300">
 
                         <div class="flex-1 w-full">
 
@@ -1840,7 +1844,7 @@
 
             <div class="flex flex-col items-center text-center gap-2 border-b-2 border-beige-200 pb-6 pt-6 mt-4">
 
-                <img id="invLogo" src="" alt="Store Logo" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-2xl hidden mb-2 border border-beige-300 shadow-sm mx-auto">
+                <img id="invLogo" src="" alt="Store Logo" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-2xl hidden mb-2 border border-beige-300 shadow-sm mx-auto">
 
                 <div>
 
@@ -2108,7 +2112,7 @@
 
                 th_actions: 'الإجراءات',
 
-                title_cust_dir: '👥 سجل ودليل العملاء الكامل',
+                title_cust_dir: 'سجل ودليل العملاء الكامل',
 
                 desc_cust_dir: '',
 
@@ -2332,7 +2336,7 @@
 
                 th_actions: 'Actions',
 
-                title_cust_dir: '👥 Complete Customer Directory',
+                title_cust_dir: 'Complete Customer Directory',
 
                 desc_cust_dir: '',
 
@@ -6050,8 +6054,6 @@
 
                 img.onload = function() {
 
-                    // تصغير حجم الشعار تلقائياً إذا تجاوز 300px لضمان سرعة التحميل وعدم تجاوز حجم مستند Firestore
-
                     const canvas = document.createElement('canvas');
 
                     const maxDim = 300;
@@ -6105,8 +6107,6 @@
                     db.settings.logo = compressedBase64;
 
                     
-
-                    // تطبيق وعرض وتأكيد الحفظ السحابي
 
                     applySettings();
 
