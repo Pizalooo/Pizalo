@@ -138,8 +138,6 @@
 
 
 
-        /* توحيد محاذاة كافة خانات التعبئة والنصوص لليمين وبشكل ممتاز للغة العربية */
-
         input, select, textarea {
 
             text-align: right !important;
@@ -149,8 +147,6 @@
         }
 
 
-
-        /* تعديل خاص لخانة اختيار التاريخ والوقت لضمان عدم انعكاس النقاط */
 
         .picker-display-box {
 
@@ -476,8 +472,6 @@
 
 
 
-            <!-- تنبيه الأخطاء / الرسائل -->
-
             <div id="authErrorMsg" class="hidden bg-rose-50 dark:bg-dark-200 border border-rose-200 text-rose-700 dark:text-rose-400 p-3 rounded-xl text-xs text-right"></div>
 
             <div id="authSuccessMsg" class="hidden bg-emerald-50 dark:bg-dark-200 border border-emerald-200 text-emerald-700 dark:text-emerald-400 p-3 rounded-xl text-xs text-right"></div>
@@ -544,8 +538,6 @@
 
         
 
-        <!-- الترويسة المعدلة لرفع و تكبير الشعار أكثر -->
-
         <header class="no-print flex flex-col md:flex-row justify-between items-center bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-sm mb-6 sm:mb-8 gap-3">
 
             <div class="flex items-center gap-4 w-full md:w-auto justify-center md:justify-start">
@@ -577,8 +569,6 @@
                 </div>
 
 
-
-                <!-- زر الثلاث نقاط القائمة المنسدلة -->
 
                 <div class="relative inline-block text-left" id="userMenuDropdown">
 
@@ -706,7 +696,7 @@
 
 
 
-        <!-- أزرار التنقل بين الأقسام (الافتتاحي: سجل الطلبات) -->
+        <!-- أزرار التنقل بين الأقسام -->
 
         <div class="no-print flex justify-between items-center gap-2 mb-6 border-b border-beige-200 dark:border-dark-300 pb-4 overflow-x-auto">
 
@@ -746,7 +736,7 @@
 
 
 
-        <!-- قسم المبيعات (الافتتاحي النشط) -->
+        <!-- قسم المبيعات -->
 
         <div id="sectionSales" class="space-y-6 animate-fade">
 
@@ -1278,13 +1268,41 @@
 
 
 
-                <!-- ميزة النسخ الاحتياطي (تصدير واستيراد JSON) -->
+                <!-- خاصية النسخ الاحتياطي السحابي والمحلي المباشر -->
+
+                <div class="border-t border-beige-200 dark:border-dark-300 pt-6 space-y-4">
+
+                    <h3 class="text-sm sm:text-base font-bold text-beige-800 dark:text-dark-900">☁️ النسخ الاحتياطي السحابي المباشر (Firebase Cloud)</h3>
+
+                    <p class="text-xs text-beige-600 dark:text-dark-700">يمكنك رفع نسخة احتياطية من جميع بياناتك (الطلبات، المصروفات، والعملاء) مباشرة إلى سحابة Firebase بنقرة واحدة لضمان عدم ضياعها، واستعادتها في أي وقت ومن أي جهاز.</p>
+
+                    <div class="flex flex-wrap gap-3">
+
+                        <button onclick="manualFirebaseBackup()" type="button" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm transition shadow-sm cursor-pointer flex items-center gap-2">
+
+                            ☁️ حفظ نسخة احتياطية في سحابة Firebase
+
+                        </button>
+
+                        <button onclick="manualFirebaseRestore()" type="button" class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm transition shadow-sm cursor-pointer flex items-center gap-2">
+
+                            🔄 استعادة النسخة الاحتياطية من Firebase
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ميزة النسخ الاحتياطي المحلي (JSON) -->
 
                 <div class="border-t border-beige-200 dark:border-dark-300 pt-6">
 
-                    <h3 class="text-sm sm:text-base font-bold text-beige-800 dark:text-dark-900 mb-2">📦 النسخ الاحتياطي ونقل البيانات (JSON)</h3>
+                    <h3 class="text-sm sm:text-base font-bold text-beige-800 dark:text-dark-900 mb-2">📦 النسخ الاحتياطي ونقل البيانات (ملف JSON محلي)</h3>
 
-                    <p class="text-xs text-beige-600 dark:text-dark-700 mb-4">يمكنك تصدير كافة بياناتك (الطلبات، المصروفات، والعملاء) في ملف نسخ احتياطي لنقلها بسهولة واستعادتها في أي متصفح أو جهاز آخر.</p>
+                    <p class="text-xs text-beige-600 dark:text-dark-700 mb-4">يمكنك أيضاً تصدير كافة بياناتك في ملف نسخ احتياطي محلي لنقلها واستعادتها بكل سهولة.</p>
 
                     <div class="flex flex-wrap gap-3">
 
@@ -2686,8 +2704,6 @@
 
 
 
-                // استماع للبيانات الخاصة بالمستخدم المسجل
-
                 subscribeToUserData(user.uid);
 
             } else {
@@ -2943,6 +2959,98 @@
                 console.error("Error getting cloud data: ", error);
 
             });
+
+        }
+
+
+
+        // ------------------ النسخ الاحتياطي والاستعادة السحابية المباشرة ------------------
+
+
+
+        function manualFirebaseBackup() {
+
+            if (!currentUser) {
+
+                alert(currentLang === 'ar' ? 'يرجى تسجيل الدخول أولاً لتنفيذ النسخ الاحتياطي السحابي!' : 'Please sign in first to perform cloud backup!');
+
+                return;
+
+            }
+
+            dbCloud.collection('users_data').doc(currentUser.uid).set(db)
+
+                .then(() => {
+
+                    const msg = currentLang === 'ar' ? 
+
+                        `☁️ تم حفظ النسخة الاحتياطية سحابياً في Firebase بنجاح!\nتاريخ الحفظ: ${new Date().toLocaleString('ar-SA')}` : 
+
+                        `☁️ Cloud backup saved to Firebase successfully!\nSaved at: ${new Date().toLocaleString()}`;
+
+                    alert(msg);
+
+                })
+
+                .catch((error) => {
+
+                    alert((currentLang === 'ar' ? 'حدث خطأ أثناء الحفظ السحابي: ' : 'Cloud backup error: ') + error.message);
+
+                });
+
+        }
+
+
+
+        function manualFirebaseRestore() {
+
+            if (!currentUser) {
+
+                alert(currentLang === 'ar' ? 'يرجى تسجيل الدخول أولاً لاستعادة النسخة السحابية!' : 'Please sign in first to restore cloud backup!');
+
+                return;
+
+            }
+
+            dbCloud.collection('users_data').doc(currentUser.uid).get()
+
+                .then((doc) => {
+
+                    if (doc.exists) {
+
+                        db = doc.data();
+
+                        if(!db.settings) {
+
+                            db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
+
+                        }
+
+                        applySettings();
+
+                        updateUI();
+
+                        if(!document.getElementById('sectionCustomers').classList.contains('hidden')) {
+
+                            renderCustomers();
+
+                        }
+
+                        alert(currentLang === 'ar' ? '🔄 تم استعادة النسخة الاحتياطية من Firebase بنجاح!' : '🔄 Cloud backup restored from Firebase successfully!');
+
+                    } else {
+
+                        alert(currentLang === 'ar' ? 'لم يتم العثور على أي نسخة احتياطية محفوظة سحابياً لهذا الحساب.' : 'No cloud backup found for this account.');
+
+                    }
+
+                })
+
+                .catch((error) => {
+
+                    alert((currentLang === 'ar' ? 'حدث خطأ أثناء الاستعادة السحابية: ' : 'Cloud restore error: ') + error.message);
+
+                });
 
         }
 
