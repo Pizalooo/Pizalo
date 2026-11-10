@@ -136,8 +136,6 @@
 
 
 
-        /* توحيد محاذاة كافة خانات التعبئة والنصوص لليمين وبشكل ممتاز للغة العربية */
-
         input, select, textarea {
 
             text-align: right !important;
@@ -147,8 +145,6 @@
         }
 
 
-
-        /* تعديل خاص لخانة اختيار التاريخ والوقت لضمان عدم انعكاس النقاط */
 
         .picker-display-box {
 
@@ -542,7 +538,7 @@
 
         
 
-        <!-- الترويسة المعدلة لرفع و تكبير الشعار أكثر -->
+        <!-- الترويسة -->
 
         <header class="no-print flex flex-col md:flex-row justify-between items-center bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-sm mb-6 sm:mb-8 gap-3">
 
@@ -576,7 +572,7 @@
 
 
 
-                <!-- زر الثلاث نقاط القائمة المنسدلة -->
+                <!-- زر القائمة المنسدلة -->
 
                 <div class="relative inline-block text-left" id="userMenuDropdown">
 
@@ -704,7 +700,7 @@
 
 
 
-        <!-- أزرار التنقل بين الأقسام (الافتتاحي: سجل الطلبات) -->
+        <!-- أزرار التنقل بين الأقسام -->
 
         <div class="no-print flex justify-between items-center gap-2 mb-6 border-b border-beige-200 dark:border-dark-300 pb-4 overflow-x-auto">
 
@@ -744,7 +740,7 @@
 
 
 
-        <!-- قسم المبيعات (الافتتاحي النشط) -->
+        <!-- قسم المبيعات -->
 
         <div id="sectionSales" class="space-y-6 animate-fade">
 
@@ -1312,7 +1308,7 @@
 
                     <h3 class="text-sm sm:text-base font-bold text-rose-600 dark:text-rose-400 mb-2">🔄 تصفير الأرقام والبدء بفترة جديدة</h3>
 
-                    <p class="text-xs text-beige-600 dark:text-dark-700 mb-4">يقوم هذا الزر بأرشفة الطلبات والمصروفات الحالية بعلامة تصفير لتصبح المؤشرات من الصفر مع الحفاظ الكامل على سجلات العملاء.</p>
+                    <p class="text-xs text-beige-600 dark:text-dark-700 mb-4">يقوم هذا الزر بأرشفة الطلبات والمصروفات الحالية بعلامة وتاريخ تصفير لتصبح المؤشرات من الصفر مع الحفاظ الكامل على سجلات العملاء وتصنيف الأرشيفات حسب وقت وتاريخ تصفيرها.</p>
 
                     <button onclick="resetPeriodData()" type="button" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm transition shadow-sm cursor-pointer">
 
@@ -1912,7 +1908,7 @@
 
 
 
-    <!-- نافذة الفاتورة المنبثقة بتصميم بيجي راقي ومضبوط للطباعة والمعاينة -->
+    <!-- نافذة الفاتورة المنبثقة -->
 
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-6 overflow-y-auto z-50 animate-fade">
 
@@ -2683,8 +2679,6 @@
                 mainDashboard.classList.remove('hidden');
 
 
-
-                // استماع للبيانات الخاصة بالمستخدم المسجل
 
                 subscribeToUserData(user.uid);
 
@@ -3924,6 +3918,8 @@
 
                 isArchived: false,
 
+                archivedAt: '',
+
                 name, phone, address, item, price, notes, attachment
 
             };
@@ -4048,7 +4044,7 @@
 
                 id: Date.now(),
 
-                title, amount, date: fullDateTime, notes, attachment, isArchived: false
+                title, amount, date: fullDateTime, notes, attachment, isArchived: false, archivedAt: ''
 
             };
 
@@ -4564,6 +4560,84 @@
 
 
 
+        // دالة توليد صف الجدول لطلب واحد
+
+        function generateSaleRowHTML(s) {
+
+            const shortId = '#' + s.id.toString().slice(-6);
+
+            const immediateTxt = currentLang === 'ar' ? '<span class="text-beige-400 dark:text-dark-700">فوري</span>' : '<span class="text-beige-400 dark:text-dark-700">Immediate</span>';
+
+            const formattedSched = s.scheduledTime ? formatDateTime12H(s.scheduledTime, s.confirmedReady) : immediateTxt;
+
+            
+
+            const receiptTxt = currentLang === 'ar' ? '📎 إيصال' : '📎 Receipt';
+
+            const noReceiptTxt = currentLang === 'ar' ? 'لا يوجد' : 'None';
+
+            
+
+            const attachBtn = s.attachment ? 
+
+                `<button type="button" onclick="viewAttachment('${s.id}')" title="Preview" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer flex items-center gap-1">${receiptTxt}</button>` : 
+
+                `<span class="text-beige-400 dark:text-dark-700 text-[11px]">${noReceiptTxt}</span>`;
+
+
+
+            const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
+
+            const isChecked = selectedSalesIds.has(Number(s.id)) ? 'checked' : '';
+
+
+
+            return `
+
+                <tr class="hover:bg-beige-50/50 dark:hover:bg-dark-200 transition ${s.scheduledTime && !s.confirmedReady ? 'bg-amber-50/30 dark:bg-dark-200/50' : ''} ${s.isArchived ? 'opacity-90 bg-gray-50/70 dark:bg-dark-200/40' : ''}">
+
+                    <td class="p-2 sm:p-2.5 no-print text-center"><input type="checkbox" class="sale-checkbox cursor-pointer" data-id="${s.id}" ${isChecked} onchange="toggleSaleSelection(this, ${s.id})"></td>
+
+                    <td class="p-2 sm:p-2.5 text-center font-bold text-beige-800 dark:text-dark-900 en-num text-xs">${shortId}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center text-xs">${formatDateTime12H(s.dateTime)}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center font-bold text-amber-800 dark:text-amber-400 text-xs">${formattedSched}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center font-bold text-beige-900 dark:text-dark-900 text-xs">${s.name}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center en-num text-beige-700 dark:text-dark-800 text-xs">${s.phone}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center text-beige-700 dark:text-dark-800 text-xs">${s.address}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center text-beige-800 dark:text-dark-900 font-medium text-xs">${s.item}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center no-print">${attachBtn}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center font-bold text-emerald-600 dark:text-emerald-400 en-num text-xs">${Math.round(s.price)} ${currSymbol}</td>
+
+                    <td class="p-2 sm:p-2.5 text-center no-print">
+
+                        <div class="flex items-center justify-center gap-1">
+
+                            <button type="button" onclick="openInvoice(${s.id})" title="Invoice" class="bg-blue-50 dark:bg-dark-200 hover:bg-blue-100 dark:hover:bg-dark-300 text-blue-700 dark:text-blue-400 p-1.5 rounded-lg text-xs transition cursor-pointer">📄</button>
+
+                            <button type="button" onclick="openEditSale(${s.id})" title="Edit" class="bg-amber-50 dark:bg-dark-200 hover:bg-amber-100 dark:hover:bg-dark-300 text-amber-700 dark:text-amber-400 p-1.5 rounded-lg text-xs transition cursor-pointer">✏️</button>
+
+                            <button type="button" onclick="deleteSale(${s.id})" title="Delete" class="bg-rose-50 dark:bg-dark-200 hover:bg-rose-100 dark:hover:bg-dark-300 text-rose-700 dark:text-rose-400 p-1.5 rounded-lg text-xs transition cursor-pointer">🗑️</button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+
+
         function updateUI() {
 
             const filterInput = document.getElementById('filterMonth');
@@ -4620,8 +4694,6 @@
 
                 const saleIdStr = '#' + s.id.toString().slice(-6);
 
-                const matchMonth = s.dateTime.startsWith(filterVal);
-
                 const matchSearch = saleIdStr.toLowerCase().includes(searchVal) ||
 
                                     s.name.toLowerCase().includes(searchVal) || 
@@ -4640,7 +4712,7 @@
 
                 if(currentSalesFilter === 'active') {
 
-                    matchFilter = !s.isArchived;
+                    matchFilter = !s.isArchived && s.dateTime.startsWith(filterVal);
 
                 } else if(currentSalesFilter === 'archived') {
 
@@ -4676,7 +4748,7 @@
 
                 if(currentExpensesFilter === 'active') {
 
-                    matchFilter = !ex.isArchived;
+                    matchFilter = !ex.isArchived && ex.date.startsWith(filterVal);
 
                 } else if(currentExpensesFilter === 'archived') {
 
@@ -4704,81 +4776,89 @@
 
                 } else {
 
-                    filteredSales.forEach(s => {
+                    // إذا كان الفلتر "أرشيف التصفير"، نقوم بتجميع الطلبات حسب تاريخ/وقت التصفير
 
-                        const shortId = '#' + s.id.toString().slice(-6);
+                    if (currentSalesFilter === 'archived') {
 
-                        const immediateTxt = currentLang === 'ar' ? '<span class="text-beige-400 dark:text-dark-700">فوري</span>' : '<span class="text-beige-400 dark:text-dark-700">Immediate</span>';
+                        const groups = {};
 
-                        const formattedSched = s.scheduledTime ? formatDateTime12H(s.scheduledTime, s.confirmedReady) : immediateTxt;
+                        filteredSales.forEach(s => {
 
-                        
+                            const key = s.archivedAt ? s.archivedAt : (currentLang === 'ar' ? 'أرشيف سابق غير محدد بوقت' : 'Unspecified Reset Archive');
 
-                        const receiptTxt = currentLang === 'ar' ? '📎 إيصال' : '📎 Receipt';
+                            if (!groups[key]) groups[key] = [];
 
-                        const noReceiptTxt = currentLang === 'ar' ? 'لا يوجد' : 'None';
+                            groups[key].push(s);
 
-                        
-
-                        const attachBtn = s.attachment ? 
-
-                            `<button type="button" onclick="viewAttachment('${s.id}')" title="Preview" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer flex items-center gap-1">${receiptTxt}</button>` : 
-
-                            `<span class="text-beige-400 dark:text-dark-700 text-[11px]">${noReceiptTxt}</span>`;
+                        });
 
 
 
-                        const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
+                        Object.keys(groups).forEach(resetGroupTime => {
 
-                        const isChecked = selectedSalesIds.has(Number(s.id)) ? 'checked' : '';
+                            const groupSales = groups[resetGroupTime];
 
-                        const archiveBadge = s.isArchived ? (currentLang === 'ar' ? '<span class="bg-gray-200 text-gray-700 text-[9px] px-1.5 py-0.5 rounded-full mr-1">أرشيف</span>' : '<span class="bg-gray-200 text-gray-700 text-[9px] px-1.5 py-0.5 rounded-full mr-1">Archived</span>') : '';
+                            const totalGroupSales = groupSales.reduce((sum, item) => sum + item.price, 0);
+
+                            const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
+
+                            const formattedResetTime = resetGroupTime.includes('-') ? formatDateTimeSimple(resetGroupTime) : resetGroupTime;
 
 
 
-                        salesTbody.innerHTML += `
+                            // إضافة شريط تجميعي علوي في الجدول لكل فترة تصفير
 
-                            <tr class="hover:bg-beige-50/50 dark:hover:bg-dark-200 transition ${s.scheduledTime && !s.confirmedReady ? 'bg-amber-50/30 dark:bg-dark-200/50' : ''} ${s.isArchived ? 'opacity-75 bg-gray-50 dark:bg-dark-200/30' : ''}">
+                            salesTbody.innerHTML += `
 
-                                <td class="p-2 sm:p-2.5 no-print text-center"><input type="checkbox" class="sale-checkbox cursor-pointer" data-id="${s.id}" ${isChecked} onchange="toggleSaleSelection(this, ${s.id})"></td>
+                                <tr class="bg-beige-800 dark:bg-dark-800 text-white font-bold no-print">
 
-                                <td class="p-2 sm:p-2.5 text-center font-bold text-beige-800 dark:text-dark-900 en-num text-xs">${shortId} ${archiveBadge}</td>
+                                    <td colspan="11" class="p-3 text-right">
 
-                                <td class="p-2 sm:p-2.5 text-center text-xs">${formatDateTime12H(s.dateTime)}</td>
+                                        <div class="flex items-center justify-between px-2">
 
-                                <td class="p-2 sm:p-2.5 text-center font-bold text-amber-800 dark:text-amber-400 text-xs">${formattedSched}</td>
+                                            <span class="text-xs sm:text-sm flex items-center gap-2">
 
-                                <td class="p-2 sm:p-2.5 text-center font-bold text-beige-900 dark:text-dark-900 text-xs">${s.name}</td>
+                                                <span>🔄</span> 
 
-                                <td class="p-2 sm:p-2.5 text-center en-num text-beige-700 dark:text-dark-800 text-xs">${s.phone}</td>
+                                                <span>${currentLang === 'ar' ? 'فترة تصفير بتاريخ ووقت:' : 'Reset Period At:'}</span> 
 
-                                <td class="p-2 sm:p-2.5 text-center text-beige-700 dark:text-dark-800 text-xs">${s.address}</td>
+                                                <span class="en-num font-extrabold text-amber-300">${formattedResetTime}</span>
 
-                                <td class="p-2 sm:p-2.5 text-center text-beige-800 dark:text-dark-900 font-medium text-xs">${s.item}</td>
+                                            </span>
 
-                                <td class="p-2 sm:p-2.5 text-center no-print">${attachBtn}</td>
+                                            <span class="text-xs bg-beige-900 dark:bg-dark-900 px-3 py-1 rounded-full text-emerald-400 font-extrabold en-num">
 
-                                <td class="p-2 sm:p-2.5 text-center font-bold text-emerald-600 dark:text-emerald-400 en-num text-xs">${Math.round(s.price)} ${currSymbol}</td>
+                                                ${currentLang === 'ar' ? 'إجمالي الطلبات المؤرشفة:' : 'Total Group Sales:'} ${Math.round(totalGroupSales)} ${currSymbol} (${groupSales.length} ${currentLang === 'ar' ? 'طلب' : 'orders'})
 
-                                <td class="p-2 sm:p-2.5 text-center no-print">
+                                            </span>
 
-                                    <div class="flex items-center justify-center gap-1">
+                                        </div>
 
-                                        <button type="button" onclick="openInvoice(${s.id})" title="Invoice" class="bg-blue-50 dark:bg-dark-200 hover:bg-blue-100 dark:hover:bg-dark-300 text-blue-700 dark:text-blue-400 p-1.5 rounded-lg text-xs transition cursor-pointer">📄</button>
+                                    </td>
 
-                                        <button type="button" onclick="openEditSale(${s.id})" title="Edit" class="bg-amber-50 dark:bg-dark-200 hover:bg-amber-100 dark:hover:bg-dark-300 text-amber-700 dark:text-amber-400 p-1.5 rounded-lg text-xs transition cursor-pointer">✏️</button>
+                                </tr>
 
-                                        <button type="button" onclick="deleteSale(${s.id})" title="Delete" class="bg-rose-50 dark:bg-dark-200 hover:bg-rose-100 dark:hover:bg-dark-300 text-rose-700 dark:text-rose-400 p-1.5 rounded-lg text-xs transition cursor-pointer">🗑️</button>
+                            `;
 
-                                    </div>
 
-                                </td>
 
-                            </tr>
+                            groupSales.forEach(s => {
 
-                        `;
+                                salesTbody.innerHTML += generateSaleRowHTML(s);
 
-                    });
+                            });
+
+                        });
+
+                    } else {
+
+                        filteredSales.forEach(s => {
+
+                            salesTbody.innerHTML += generateSaleRowHTML(s);
+
+                        });
+
+                    }
 
                 }
 
@@ -4996,6 +5076,64 @@
 
 
 
+        function generateExpRowHTML(ex) {
+
+            const formattedDate = formatDateTime12H(ex.date);
+
+            const isChecked = selectedExpenseIds.has(Number(ex.id)) ? 'checked' : '';
+
+            const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
+
+
+
+            const receiptTxt = currentLang === 'ar' ? '📎 إيصال' : '📎 Receipt';
+
+            const noReceiptTxt = currentLang === 'ar' ? 'لا يوجد' : 'None';
+
+            const attachBtn = ex.attachment ? 
+
+                `<button type="button" onclick="viewExpenseAttachment('${ex.id}')" title="Preview Receipt" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2.5 py-1.5 rounded-xl text-xs font-medium transition cursor-pointer flex items-center gap-1">${receiptTxt}</button>` : 
+
+                `<span class="text-beige-400 dark:text-dark-700 text-xs">${noReceiptTxt}</span>`;
+
+
+
+            return `
+
+                <tr class="hover:bg-beige-50/50 dark:hover:bg-dark-200 transition ${ex.isArchived ? 'opacity-90 bg-gray-50/70 dark:bg-dark-200/40' : ''}">
+
+                    <td class="p-3 sm:p-4 no-print text-center"><input type="checkbox" class="expense-checkbox cursor-pointer" data-id="${ex.id}" ${isChecked} onchange="toggleExpenseSelection(this, ${ex.id})"></td>
+
+                    <td class="p-3 sm:p-4 text-center">${formattedDate}</td>
+
+                    <td class="p-3 sm:p-4 text-center font-bold text-beige-900 dark:text-dark-900">${ex.title}</td>
+
+                    <td class="p-3 sm:p-4 text-center text-beige-500 dark:text-dark-700 text-xs">${ex.notes || '-'}</td>
+
+                    <td class="p-3 sm:p-4 text-center no-print">${attachBtn}</td>
+
+                    <td class="p-3 sm:p-4 text-center font-bold text-rose-600 dark:text-rose-400 en-num">${Math.round(ex.amount)} ${currSymbol}</td>
+
+                    <td class="p-3 sm:p-4 text-center no-print">
+
+                        <div class="flex items-center justify-center gap-1.5">
+
+                            <button type="button" onclick="openEditExp(${ex.id})" title="Edit Expense" class="bg-amber-50 dark:bg-dark-200 hover:bg-amber-100 dark:hover:bg-dark-300 text-amber-700 dark:text-amber-400 p-1.5 sm:p-2 rounded-xl text-xs transition cursor-pointer">✏️</button>
+
+                            <button type="button" onclick="deleteExp(${ex.id})" title="Delete Expense" class="bg-rose-50 dark:bg-dark-200 hover:bg-rose-100 dark:hover:bg-dark-300 text-rose-700 dark:text-rose-400 p-1.5 sm:p-2 rounded-xl text-xs transition cursor-pointer">🗑️</button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+
+
         function renderExpensesList(expList) {
 
             const expTbody = document.getElementById('expensesTableBody');
@@ -5014,63 +5152,87 @@
 
             }
 
-            const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
-
-            expList.forEach(ex => {
-
-                const formattedDate = formatDateTime12H(ex.date);
-
-                const isChecked = selectedExpenseIds.has(Number(ex.id)) ? 'checked' : '';
-
-                const archiveBadge = ex.isArchived ? (currentLang === 'ar' ? '<span class="bg-gray-200 text-gray-700 text-[10px] px-2 py-0.5 rounded-full mr-1">أرشيف تصفير</span>' : '<span class="bg-gray-200 text-gray-700 text-[10px] px-2 py-0.5 rounded-full mr-1">Archived</span>') : '';
 
 
+            if (currentExpensesFilter === 'archived') {
 
-                const receiptTxt = currentLang === 'ar' ? '📎 إيصال' : '📎 Receipt';
+                const groups = {};
 
-                const noReceiptTxt = currentLang === 'ar' ? 'لا يوجد' : 'None';
+                expList.forEach(ex => {
 
-                const attachBtn = ex.attachment ? 
+                    const key = ex.archivedAt ? ex.archivedAt : (currentLang === 'ar' ? 'أرشيف سابق غير محدد بوقت' : 'Unspecified Reset Archive');
 
-                    `<button type="button" onclick="viewExpenseAttachment('${ex.id}')" title="Preview Receipt" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2.5 py-1.5 rounded-xl text-xs font-medium transition cursor-pointer flex items-center gap-1">${receiptTxt}</button>` : 
+                    if (!groups[key]) groups[key] = [];
 
-                    `<span class="text-beige-400 dark:text-dark-700 text-xs">${noReceiptTxt}</span>`;
+                    groups[key].push(ex);
+
+                });
 
 
 
-                expTbody.innerHTML += `
+                Object.keys(groups).forEach(resetGroupTime => {
 
-                    <tr class="hover:bg-beige-50/50 dark:hover:bg-dark-200 transition ${ex.isArchived ? 'opacity-75 bg-gray-50 dark:bg-dark-200/30' : ''}">
+                    const groupExp = groups[resetGroupTime];
 
-                        <td class="p-3 sm:p-4 no-print text-center"><input type="checkbox" class="expense-checkbox cursor-pointer" data-id="${ex.id}" ${isChecked} onchange="toggleExpenseSelection(this, ${ex.id})"></td>
+                    const totalGroupAmount = groupExp.reduce((sum, item) => sum + item.amount, 0);
 
-                        <td class="p-3 sm:p-4 text-center">${formattedDate}</td>
+                    const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
 
-                        <td class="p-3 sm:p-4 text-center font-bold text-beige-900 dark:text-dark-900">${ex.title} ${archiveBadge}</td>
+                    const formattedResetTime = resetGroupTime.includes('-') ? formatDateTimeSimple(resetGroupTime) : resetGroupTime;
 
-                        <td class="p-3 sm:p-4 text-center text-beige-500 dark:text-dark-700 text-xs">${ex.notes || '-'}</td>
 
-                        <td class="p-3 sm:p-4 text-center no-print">${attachBtn}</td>
 
-                        <td class="p-3 sm:p-4 text-center font-bold text-rose-600 dark:text-rose-400 en-num">${Math.round(ex.amount)} ${currSymbol}</td>
+                    expTbody.innerHTML += `
 
-                        <td class="p-3 sm:p-4 text-center no-print">
+                        <tr class="bg-beige-800 dark:bg-dark-800 text-white font-bold no-print">
 
-                            <div class="flex items-center justify-center gap-1.5">
+                            <td colspan="7" class="p-3 text-right">
 
-                                <button type="button" onclick="openEditExp(${ex.id})" title="Edit Expense" class="bg-amber-50 dark:bg-dark-200 hover:bg-amber-100 dark:hover:bg-dark-300 text-amber-700 dark:text-amber-400 p-1.5 sm:p-2 rounded-xl text-xs transition cursor-pointer">✏️</button>
+                                <div class="flex items-center justify-between px-2">
 
-                                <button type="button" onclick="deleteExp(${ex.id})" title="Delete Expense" class="bg-rose-50 dark:bg-dark-200 hover:bg-rose-100 dark:hover:bg-dark-300 text-rose-700 dark:text-rose-400 p-1.5 sm:p-2 rounded-xl text-xs transition cursor-pointer">🗑️</button>
+                                    <span class="text-xs sm:text-sm flex items-center gap-2">
 
-                            </div>
+                                        <span>🔄</span> 
 
-                        </td>
+                                        <span>${currentLang === 'ar' ? 'فترة تصفير بتاريخ ووقت:' : 'Reset Period At:'}</span> 
 
-                    </tr>
+                                        <span class="en-num font-extrabold text-amber-300">${formattedResetTime}</span>
 
-                `;
+                                    </span>
 
-            });
+                                    <span class="text-xs bg-beige-900 dark:bg-dark-900 px-3 py-1 rounded-full text-rose-400 font-extrabold en-num">
+
+                                        ${currentLang === 'ar' ? 'إجمالي المصروفات المؤرشفة:' : 'Total Group Expenses:'} ${Math.round(totalGroupAmount)} ${currSymbol} (${groupExp.length} ${currentLang === 'ar' ? 'مصروف' : 'items'})
+
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+
+
+                    groupExp.forEach(ex => {
+
+                        expTbody.innerHTML += generateExpRowHTML(ex);
+
+                    });
+
+                });
+
+            } else {
+
+                expList.forEach(ex => {
+
+                    expTbody.innerHTML += generateExpRowHTML(ex);
+
+                });
+
+            }
 
         }
 
@@ -6334,9 +6496,9 @@
 
             const confirmMsg = currentLang === 'ar' ? 
 
-                'هل أنت متأكد تماماً من تصفير الأرقام وبدء فترة جديدة؟ سيتم أرشفة الطلبات والمصروفات الحالية بعلامة تصفير سحابياً، وستبدأ الأرباح والمؤشرات من الصفر مع الحفاظ الكامل على سجلات ودليل العملاء.' :
+                'هل أنت متأكد تماماً من تصفير الأرقام وبدء فترة جديدة؟ سيتم أرشفة الطلبات والمصروفات الحالية بعلامة وتاريخ تصفير دقيق، وستعرض في الأرشيف مجمعة تحت شريط علوي يوضح تاريخ وساعة تصفيرها.' :
 
-                'Are you sure you want to reset and start a new period? Current orders and expenses will be archived cloud-wide, and new period stats will start from zero while keeping customer records intact.';
+                'Are you sure you want to reset and start a new period? Current orders and expenses will be archived with exact reset timestamp and grouped under header bars in the archive.';
 
             
 
@@ -6346,15 +6508,41 @@
 
 
 
+                const now = new Date();
+
+                const resetTimestamp = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + ' ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
+
+
                 if(db.sales) {
 
-                    db.sales.forEach(s => { s.isArchived = true; });
+                    db.sales.forEach(s => { 
+
+                        if (!s.isArchived) {
+
+                            s.isArchived = true; 
+
+                            s.archivedAt = resetTimestamp;
+
+                        }
+
+                    });
 
                 }
 
                 if(db.expenses) {
 
-                    db.expenses.forEach(ex => { ex.isArchived = true; });
+                    db.expenses.forEach(ex => { 
+
+                        if (!ex.isArchived) {
+
+                            ex.isArchived = true; 
+
+                            ex.archivedAt = resetTimestamp;
+
+                        }
+
+                    });
 
                 }
 
@@ -6372,7 +6560,7 @@
 
                 
 
-                const successMsg = currentLang === 'ar' ? 'تمت عملية التصفير وأرشفة الفترة السابقة سحابياً بنجاح! الإحصائيات الآن تبدأ من الصفر.' : 'Period reset and archived in the cloud successfully!';
+                const successMsg = currentLang === 'ar' ? `تمت عملية التصفير بأرشفتها بنجاح بتاريخ ووقت: (${resetTimestamp})!` : `Period reset and archived at (${resetTimestamp}) successfully!`;
 
                 alert(successMsg);
 
@@ -6414,9 +6602,9 @@
 
             let csv = currentLang === 'ar' ? 
 
-                '﻿رقم الطلب؛وقت التسجيل؛وقت التوصيل المطلوب؛حالة الأرشيف؛حالة الجاهزية؛اسم العميل؛رقم الجوال؛العنوان؛وصف الطلب؛الملاحظات؛الإجمالي\n' :
+                '﻿رقم الطلب؛وقت التسجيل؛وقت التوصيل المطلوب؛حالة الأرشيف؛وقت التصفير؛حالة الجاهزية؛اسم العميل؛رقم الجوال؛العنوان؛وصف الطلب؛الملاحظات؛الإجمالي\n' :
 
-                '﻿Order ID;Created At;Scheduled Time;Archive Status;Status;Customer Name;Phone;Address;Order Description;Notes;Total\n';
+                '﻿Order ID;Created At;Scheduled Time;Archive Status;Archived At;Status;Customer Name;Phone;Address;Order Description;Notes;Total\n';
 
             
 
@@ -6429,6 +6617,8 @@
                 const schedTime = s.scheduledTime || (currentLang === 'ar' ? 'فوري' : 'Immediate');
 
                 const archiveState = s.isArchived ? (currentLang === 'ar' ? 'أرشيف تصفير' : 'Archived') : (currentLang === 'ar' ? 'الفترة الحالية' : 'Active');
+
+                const archivedAtTime = s.archivedAt || '';
 
                 const readyState = s.confirmedReady ? (currentLang === 'ar' ? 'تم التأكيد ✓' : 'Confirmed ✓') : (currentLang === 'ar' ? 'قيد الانتظار' : 'Pending');
 
@@ -6446,7 +6636,7 @@
 
 
 
-                csv += `"${shortId}";"${regTime}";"${schedTime}";"${archiveState}";"${readyState}";"${clientName}";"${phone}";"${address}";"${item}";"${notes}";${price}\n`;
+                csv += `"${shortId}";"${regTime}";"${schedTime}";"${archiveState}";"${archivedAtTime}";"${readyState}";"${clientName}";"${phone}";"${address}";"${item}";"${notes}";${price}\n`;
 
             });
 
