@@ -96,6 +96,14 @@
 
         
 
+        th, td {
+
+            text-align: center !important;
+
+        }
+
+
+
         th, .nowrap-text {
 
             white-space: nowrap !important;
@@ -168,7 +176,7 @@
 
             unicode-bidi: embed;
 
-            text-align: right !important;
+            text-align: center !important;
 
         }
 
@@ -184,7 +192,7 @@
 
             align-items: center;
 
-            justify-content: flex-end;
+            justify-content: center;
 
             gap: 6px;
 
@@ -542,7 +550,7 @@
 
         
 
-        <!-- الترويسة المعدلة لرفع و تكبير الشعار أكثر -->
+        <!-- الترويسة -->
 
         <header class="no-print flex flex-col md:flex-row justify-between items-center bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-sm mb-6 sm:mb-8 gap-3">
 
@@ -744,7 +752,7 @@
 
 
 
-        <!-- قسم المبيعات (الافتتاحي النشط) -->
+        <!-- قسم المبيعات -->
 
         <div id="sectionSales" class="space-y-6 animate-fade">
 
@@ -870,7 +878,7 @@
 
                 <div class="w-full overflow-x-auto">
 
-                    <table class="w-full text-right border-collapse min-w-[700px]" id="salesTable">
+                    <table class="w-full text-center border-collapse min-w-[700px]" id="salesTable">
 
                         <thead>
 
@@ -904,7 +912,7 @@
 
                         </thead>
 
-                        <tbody id="salesTableBody" class="divide-y divide-beige-100 dark:divide-dark-300 text-xs sm:text-sm"></tbody>
+                        <tbody id="salesTableBody" class="divide-y divide-beige-100 dark:divide-dark-300 text-xs sm:text-sm text-center"></tbody>
 
                     </table>
 
@@ -1106,7 +1114,7 @@
 
                 <div class="w-full overflow-x-auto">
 
-                    <table class="w-full text-right border-collapse min-w-[600px]" id="expensesTable">
+                    <table class="w-full text-center border-collapse min-w-[600px]" id="expensesTable">
 
                         <thead>
 
@@ -1132,7 +1140,7 @@
 
                         </thead>
 
-                        <tbody id="expensesTableBody" class="divide-y divide-beige-100 dark:divide-dark-300 text-xs sm:text-sm"></tbody>
+                        <tbody id="expensesTableBody" class="divide-y divide-beige-100 dark:divide-dark-300 text-xs sm:text-sm text-center"></tbody>
 
                     </table>
 
@@ -1181,6 +1189,20 @@
                     </div>
 
                     <div>
+
+                        <label class="block text-xs sm:text-sm font-medium text-beige-700 dark:text-dark-800 mb-2" data-i18n="lbl_num_format">نمط الأرقام لجميع بيانات الموقع</label>
+
+                        <select id="cfgNumFormat" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-beige-600 text-beige-900 dark:text-dark-900">
+
+                            <option value="en">أرقام غربية (0 1 2 3 4 5 6 7 8 9)</option>
+
+                            <option value="ar">أرقام عربية (٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩)</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="md:col-span-2">
 
                         <label class="block text-xs sm:text-sm font-medium text-beige-700 dark:text-dark-800 mb-2" data-i18n="lbl_font">اختيار الخط العربي</label>
 
@@ -1616,7 +1638,7 @@
 
                 <div class="flex flex-wrap gap-3 sm:gap-4 text-xs text-beige-600 dark:text-dark-700 mt-3">
 
-                    <div>📱 <span data-i18n="lbl_phone_prefix">رقم الجوال:</span> <span id="profClientPhone" class="font-bold text-beige-800 dark:text-dark-900"></span></div>
+                    <div>📱 <span data-i18n="lbl_phone_prefix">رقم الجوال:</span> <span id="profClientPhone" class="font-bold text-beige-800 dark:text-dark-900 en-num"></span></div>
 
                     <div>📍 <span data-i18n="lbl_address_prefix">العنوان:</span> <span id="profClientAddress" class="font-bold text-beige-800 dark:text-dark-900"></span></div>
 
@@ -1664,21 +1686,21 @@
 
             <div class="border border-beige-200 dark:border-dark-300 rounded-2xl overflow-x-auto">
 
-                <table class="w-full text-right border-collapse text-xs sm:text-sm min-w-[500px]" id="custOrdersTable">
+                <table class="w-full text-center border-collapse text-xs sm:text-sm min-w-[500px]" id="custOrdersTable">
 
                     <thead>
 
                         <tr class="bg-beige-100 dark:bg-dark-200 text-beige-800 dark:text-dark-900 text-xs font-bold border-b border-beige-200 dark:border-dark-300">
 
-                            <th class="p-3" data-i18n="th_order_id">رقم الطلب</th>
+                            <th class="p-3 text-center" data-i18n="th_order_id">رقم الطلب</th>
 
-                            <th class="p-3" data-i18n="th_date_time">التاريخ والوقت</th>
+                            <th class="p-3 text-center" data-i18n="th_date_time">التاريخ والوقت</th>
 
-                            <th class="p-3" data-i18n="th_item_name">وصف الطلب</th>
+                            <th class="p-3 text-center" data-i18n="th_item_name">وصف الطلب</th>
 
-                            <th class="p-3" data-i18n="th_notes">الملاحظات</th>
+                            <th class="p-3 text-center" data-i18n="th_notes">الملاحظات</th>
 
-                            <th class="p-3" data-i18n="th_amount">الإجمالي</th>
+                            <th class="p-3 text-center" data-i18n="th_amount">الإجمالي</th>
 
                             <th class="p-3 text-center" data-i18n="th_actions">الإجراءات</th>
 
@@ -1686,7 +1708,7 @@
 
                     </thead>
 
-                    <tbody id="customerOrdersTbody" class="divide-y divide-beige-100 dark:divide-dark-300"></tbody>
+                    <tbody id="customerOrdersTbody" class="divide-y divide-beige-100 dark:divide-dark-300 text-center"></tbody>
 
                 </table>
 
@@ -1916,7 +1938,7 @@
 
 
 
-    <!-- نافذة الفاتورة المنبثقة بتصميم بيجي راقي ومضبوط للطباعة والمعاينة -->
+    <!-- نافذة الفاتورة المنبثقة -->
 
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-6 overflow-y-auto z-50 animate-fade">
 
@@ -2234,6 +2256,8 @@
 
                 lbl_currency: 'رمز العملة (اختياري)',
 
+                lbl_num_format: 'نمط الأرقام لجميع بيانات الموقع',
+
                 lbl_font: 'اختيار الخط العربي',
 
                 lbl_logo: '🖼️ شعار المتجر (Logo)',
@@ -2452,13 +2476,15 @@
 
                 th_notes: 'Notes',
 
-                title_settings: '⚙️ Store Identity & Settings',
+                title_settings: '⚙️ Settings',
 
                 lbl_store_name: 'Store / Project Name',
 
                 lbl_store_desc: 'Store Description / Slogan',
 
                 lbl_currency: 'Currency Symbol (Optional)',
+
+                lbl_num_format: 'Number Format for Entire App',
 
                 lbl_font: 'Select Arabic Font',
 
@@ -2582,6 +2608,8 @@
 
                 currency: 'ر.س',
 
+                numberFormat: 'en',
+
                 font: 'Rubik',
 
                 logo: '',
@@ -2611,6 +2639,34 @@
         let pickerSelectedMonth = new Date().getMonth();
 
         let pickerSelectedDay = new Date().getDate();
+
+
+
+        // ------------------ دالة تحويل الأرقام الشاملة ------------------
+
+        function formatNums(str) {
+
+            if (str === null || str === undefined) return '';
+
+            const valStr = String(str);
+
+            const isArabicDigits = db.settings && db.settings.numberFormat === 'ar';
+
+            if (!isArabicDigits) return valStr;
+
+
+
+            const westernToEasternMap = {
+
+                '0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤',
+
+                '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩'
+
+            };
+
+            return valStr.replace(/[0-9]/g, w => westernToEasternMap[w] || w);
+
+        }
 
 
 
@@ -2680,7 +2736,7 @@
 
                 currentUser = user;
 
-                document.getElementById('userEmailMenuBadge').innerText = user.email;
+                document.getElementById('userEmailMenuBadge').innerText = formatNums(user.email);
 
                 
 
@@ -2930,7 +2986,7 @@
 
                     if(!db.settings) {
 
-                        db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
+                        db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', numberFormat: 'en', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
 
                     }
 
@@ -3128,13 +3184,11 @@
 
 
 
-            const alignClass = currentLang === 'ar' ? 'text-right' : 'text-left';
-
             document.querySelectorAll('table').forEach(t => {
 
                 t.classList.remove('text-right', 'text-left');
 
-                t.classList.add(alignClass);
+                t.classList.add('text-center');
 
             });
 
@@ -3154,7 +3208,7 @@
 
                 const mm = String(i).padStart(2, '0');
 
-                minSelect.innerHTML += `<option value="${mm}" ${mm === selectedMin ? 'selected' : ''}>${mm}</option>`;
+                minSelect.innerHTML += `<option value="${mm}" ${mm === selectedMin ? 'selected' : ''}>${formatNums(mm)}</option>`;
 
             }
 
@@ -3306,7 +3360,7 @@
 
             for(let y = 2024; y <= 2035; y++) {
 
-                yearSel.innerHTML += `<option value="${y}" ${y === pickerSelectedYear ? 'selected' : ''}>${y}</option>`;
+                yearSel.innerHTML += `<option value="${y}" ${y === pickerSelectedYear ? 'selected' : ''}>${formatNums(y)}</option>`;
 
             }
 
@@ -3362,7 +3416,7 @@
 
                     <div onclick="selectPickerDay(${d})" class="py-2 flex items-center justify-center rounded-xl cursor-pointer transition font-bold ${isSelected ? 'bg-beige-800 dark:bg-dark-800 text-white shadow-sm' : 'hover:bg-beige-200 dark:hover:bg-dark-300 text-beige-900 dark:text-dark-900'}">
 
-                        ${d}
+                        ${formatNums(d)}
 
                     </div>
 
@@ -3400,7 +3454,7 @@
 
             let finalVal = dateStr;
 
-            let displayStr = dateStr;
+            let displayStr = formatNums(dateStr);
 
 
 
@@ -3426,7 +3480,7 @@
 
                 const ampmTxt = currentLang === 'ar' ? (ampm === 'PM' ? 'مساءً' : 'صباحاً') : ampm;
 
-                displayStr = `${dateStr} | ${document.getElementById('pickerHour').value}:${min} ${ampmTxt}`;
+                displayStr = formatNums(`${dateStr} | ${document.getElementById('pickerHour').value}:${min}`) + ` ${ampmTxt}`;
 
             }
 
@@ -3464,7 +3518,7 @@
 
             const parts = cleanStr.split(' ');
 
-            const datePart = parts[0]; 
+            const datePart = formatNums(parts[0]); 
 
             
 
@@ -3488,7 +3542,7 @@
 
                 const formattedHours = String(hours).padStart(2, '0');
 
-                timeHtml = `<div class="en-num text-[11px] text-beige-500 dark:text-dark-700 mt-0.5">${formattedHours}:${minutes} ${ampm}</div>`;
+                timeHtml = `<div class="en-num text-[11px] text-beige-500 dark:text-dark-700 mt-0.5 text-center">${formatNums(formattedHours + ':' + minutes)} ${ampm}</div>`;
 
             }
 
@@ -3498,7 +3552,7 @@
 
 
 
-            return `<div><div class="flex items-center justify-center"><span class="en-num font-semibold text-beige-900 dark:text-dark-900">${datePart}</span>${checkIcon}</div>${timeHtml}</div>`;
+            return `<div class="text-center"><div class="flex items-center justify-center"><span class="en-num font-semibold text-beige-900 dark:text-dark-900 text-center">${datePart}</span>${checkIcon}</div>${timeHtml}</div>`;
 
         }
 
@@ -3512,7 +3566,7 @@
 
             const parts = cleanStr.split(' ');
 
-            const datePart = parts[0]; 
+            const datePart = formatNums(parts[0]); 
 
             
 
@@ -3536,7 +3590,7 @@
 
                 const formattedHours = String(hours).padStart(2, '0');
 
-                timeStr = ` - ${formattedHours}:${minutes} ${ampm}`;
+                timeStr = ` - ${formatNums(formattedHours + ':' + minutes)} ${ampm}`;
 
             }
 
@@ -3574,7 +3628,7 @@
 
                 const disp = document.getElementById('expenseDateDisplay');
 
-                if(disp) { disp.innerText = todayStr; disp.classList.remove('text-beige-500', 'dark:text-dark-700'); disp.classList.add('text-beige-900', 'dark:text-dark-900', 'font-bold'); }
+                if(disp) { disp.innerText = formatNums(todayStr); disp.classList.remove('text-beige-500', 'dark:text-dark-700'); disp.classList.add('text-beige-900', 'dark:text-dark-900', 'font-bold'); }
 
             }
 
@@ -3586,7 +3640,7 @@
 
             if(!db.settings) {
 
-                db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
+                db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', numberFormat: 'en', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
 
             }
 
@@ -3687,6 +3741,8 @@
             if(document.getElementById('cfgStoreDesc')) document.getElementById('cfgStoreDesc').value = s.storeDesc || '';
 
             if(document.getElementById('cfgCurrency')) document.getElementById('cfgCurrency').value = s.currency !== undefined ? s.currency : 'ر.س';
+
+            if(document.getElementById('cfgNumFormat')) document.getElementById('cfgNumFormat').value = s.numberFormat || 'en';
 
             if(document.getElementById('cfgFont')) document.getElementById('cfgFont').value = s.font || 'Rubik';
 
@@ -4084,7 +4140,7 @@
 
                 const disp = document.getElementById('expenseDateDisplay');
 
-                if(disp) { disp.innerText = todayStr; disp.className = 'text-beige-900 dark:text-dark-900 font-bold text-xs sm:text-sm picker-display-box'; }
+                if(disp) { disp.innerText = formatNums(todayStr); disp.className = 'text-beige-900 dark:text-dark-900 font-bold text-xs sm:text-sm picker-display-box'; }
 
             }
 
@@ -4166,7 +4222,7 @@
 
                 bar.classList.add('flex');
 
-                countEl.innerText = currentLang === 'ar' ? `تم تحديد ${selectedSalesIds.size} طلب` : `${selectedSalesIds.size} orders selected`;
+                countEl.innerText = currentLang === 'ar' ? `تم تحديد ${formatNums(selectedSalesIds.size)} طلب` : `${formatNums(selectedSalesIds.size)} orders selected`;
 
                 
 
@@ -4314,7 +4370,7 @@
 
                 bar.classList.add('flex');
 
-                countEl.innerText = currentLang === 'ar' ? `تم تحديد ${selectedCustomerPhones.size} عميل` : `${selectedCustomerPhones.size} customers selected`;
+                countEl.innerText = currentLang === 'ar' ? `تم تحديد ${formatNums(selectedCustomerPhones.size)} عميل` : `${formatNums(selectedCustomerPhones.size)} customers selected`;
 
                 
 
@@ -4438,7 +4494,7 @@
 
                 bar.classList.add('flex');
 
-                countEl.innerText = currentLang === 'ar' ? `تم تحديد ${selectedExpenseIds.size} مصروف` : `${selectedExpenseIds.size} expenses selected`;
+                countEl.innerText = currentLang === 'ar' ? `تم تحديد ${formatNums(selectedExpenseIds.size)} مصروف` : `${formatNums(selectedExpenseIds.size)} expenses selected`;
 
                 
 
@@ -4608,17 +4664,17 @@
 
             const tsEl = document.getElementById('totalSales');
 
-            if(tsEl) tsEl.querySelector('span').innerText = Math.round(totalSalesVal);
+            if(tsEl) tsEl.querySelector('span').innerText = formatNums(Math.round(totalSalesVal));
 
             const teEl = document.getElementById('totalExpenses');
 
-            if(teEl) teEl.querySelector('span').innerText = Math.round(totalExpVal);
+            if(teEl) teEl.querySelector('span').innerText = formatNums(Math.round(totalExpVal));
 
             
 
             const netProfitEl = document.getElementById('netProfit');
 
-            if(netProfitEl) netProfitEl.querySelector('span').innerText = Math.round(netProfitVal);
+            if(netProfitEl) netProfitEl.querySelector('span').innerText = formatNums(Math.round(netProfitVal));
 
 
 
@@ -4626,7 +4682,9 @@
 
 
 
-            const showSalesArchiveCol = (currentSalesFilter === 'archived');
+            // الشرط الجديد: إظهار عمود تاريخ التصفير عند اختيار تبويبة "الكل" أو تبويبة "أرشيف التصفير"
+
+            const showSalesArchiveCol = (currentSalesFilter === 'archived' || currentSalesFilter === 'all');
 
             const thSalesArch = document.getElementById('thSalesArchivedAt');
 
@@ -4738,7 +4796,7 @@
 
                     filteredSales.forEach(s => {
 
-                        const shortId = '#' + s.id.toString().slice(-6);
+                        const shortId = '#' + formatNums(s.id.toString().slice(-6));
 
                         const immediateTxt = currentLang === 'ar' ? '<span class="text-beige-400 dark:text-dark-700">فوري</span>' : '<span class="text-beige-400 dark:text-dark-700">Immediate</span>';
 
@@ -4754,9 +4812,9 @@
 
                         const attachBtn = s.attachment ? 
 
-                            `<button type="button" onclick="viewAttachment('${s.id}')" title="Preview" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer flex items-center gap-1">${receiptTxt}</button>` : 
+                            `<button type="button" onclick="viewAttachment('${s.id}')" title="Preview" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer flex items-center gap-1 mx-auto">${receiptTxt}</button>` : 
 
-                            `<span class="text-beige-400 dark:text-dark-700 text-[11px]">${noReceiptTxt}</span>`;
+                            `<span class="text-beige-400 dark:text-dark-700 text-[11px] text-center block">${noReceiptTxt}</span>`;
 
 
 
@@ -4786,7 +4844,7 @@
 
                                 <td class="p-2 sm:p-2.5 text-center font-bold text-beige-900 dark:text-dark-900 text-xs">${s.name}</td>
 
-                                <td class="p-2 sm:p-2.5 text-center en-num text-beige-700 dark:text-dark-800 text-xs">${s.phone}</td>
+                                <td class="p-2 sm:p-2.5 text-center en-num text-beige-700 dark:text-dark-800 text-xs">${formatNums(s.phone)}</td>
 
                                 <td class="p-2 sm:p-2.5 text-center text-beige-700 dark:text-dark-800 text-xs">${s.address}</td>
 
@@ -4794,7 +4852,7 @@
 
                                 <td class="p-2 sm:p-2.5 text-center no-print">${attachBtn}</td>
 
-                                <td class="p-2 sm:p-2.5 text-center font-bold text-emerald-600 dark:text-emerald-400 en-num text-xs">${Math.round(s.price)} ${currSymbol}</td>
+                                <td class="p-2 sm:p-2.5 text-center font-bold text-emerald-600 dark:text-emerald-400 en-num text-xs">${formatNums(Math.round(s.price))} ${currSymbol}</td>
 
                                 <td class="p-2 sm:p-2.5 text-center no-print">
 
@@ -4958,7 +5016,7 @@
 
                 const ordersTxt = currentLang === 'ar' ? 'طلبات' : 'orders';
 
-                countBadge.innerText = `${scheduledSales.length} ${ordersTxt}`;
+                countBadge.innerText = `${formatNums(scheduledSales.length)} ${ordersTxt}`;
 
                 alertList.innerHTML = '';
 
@@ -5040,7 +5098,9 @@
 
 
 
-            const showExpArchiveCol = (currentExpensesFilter === 'archived');
+            // الشرط الجديد: إظهار عمود تاريخ التصفير للمصروفات في تبويبة "الكل" أو "أرشيف التصفير"
+
+            const showExpArchiveCol = (currentExpensesFilter === 'archived' || currentExpensesFilter === 'all');
 
             const thExpArch = document.getElementById('thExpensesArchivedAt');
 
@@ -5088,9 +5148,9 @@
 
                 const attachBtn = ex.attachment ? 
 
-                    `<button type="button" onclick="viewExpenseAttachment('${ex.id}')" title="Preview Receipt" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2.5 py-1.5 rounded-xl text-xs font-medium transition cursor-pointer flex items-center gap-1">${receiptTxt}</button>` : 
+                    `<button type="button" onclick="viewExpenseAttachment('${ex.id}')" title="Preview Receipt" class="bg-emerald-50 dark:bg-dark-200 hover:bg-emerald-100 dark:hover:bg-dark-300 text-emerald-700 dark:text-emerald-400 px-2.5 py-1.5 rounded-xl text-xs font-medium transition cursor-pointer flex items-center gap-1 mx-auto">${receiptTxt}</button>` : 
 
-                    `<span class="text-beige-400 dark:text-dark-700 text-xs">${noReceiptTxt}</span>`;
+                    `<span class="text-beige-400 dark:text-dark-700 text-xs text-center block">${noReceiptTxt}</span>`;
 
 
 
@@ -5110,7 +5170,7 @@
 
                         <td class="p-3 sm:p-4 text-center no-print">${attachBtn}</td>
 
-                        <td class="p-3 sm:p-4 text-center font-bold text-rose-600 dark:text-rose-400 en-num">${Math.round(ex.amount)} ${currSymbol}</td>
+                        <td class="p-3 sm:p-4 text-center font-bold text-rose-600 dark:text-rose-400 en-num">${formatNums(Math.round(ex.amount))} ${currSymbol}</td>
 
                         <td class="p-3 sm:p-4 text-center no-print">
 
@@ -5210,11 +5270,11 @@
 
                                 </div>
 
-                                <span class="bg-beige-100 dark:bg-dark-200 text-beige-800 dark:text-dark-900 text-xs font-bold px-2.5 py-1 rounded-full en-num">${custSales.length} ${ordersTxt}</span>
+                                <span class="bg-beige-100 dark:bg-dark-200 text-beige-800 dark:text-dark-900 text-xs font-bold px-2.5 py-1 rounded-full en-num">${formatNums(custSales.length)} ${ordersTxt}</span>
 
                             </div>
 
-                            <p class="text-xs text-beige-600 dark:text-dark-700 mb-1 en-num">📱 ${c.phone}</p>
+                            <p class="text-xs text-beige-600 dark:text-dark-700 mb-1 en-num">📱 ${formatNums(c.phone)}</p>
 
                             <p class="text-xs text-beige-600 dark:text-dark-700 mb-1">📍 ${c.address}</p>
 
@@ -5230,7 +5290,7 @@
 
                                 <span class="text-xs text-beige-500 dark:text-dark-700 block">${totalSpendTxt}</span>
 
-                                <span class="font-bold text-emerald-600 dark:text-emerald-400 en-num text-xs sm:text-sm">${Math.round(totalSpent)} ${currSymbol}</span>
+                                <span class="font-bold text-emerald-600 dark:text-emerald-400 en-num text-xs sm:text-sm">${formatNums(Math.round(totalSpent))} ${currSymbol}</span>
 
                             </div>
 
@@ -5338,7 +5398,7 @@
 
                 if(sale.scheduledTime) {
 
-                    disp.innerText = sale.scheduledTime;
+                    disp.innerText = formatDateTimeSimple(sale.scheduledTime);
 
                     disp.className = 'text-beige-900 dark:text-dark-900 font-bold text-xs sm:text-sm picker-display-box';
 
@@ -5518,7 +5578,7 @@
 
             const disp = document.getElementById('editExpDateDisplay');
 
-            if(disp) { disp.innerText = dateOnly; disp.className = 'text-beige-900 dark:text-dark-900 font-bold text-xs sm:text-sm picker-display-box'; }
+            if(disp) { disp.innerText = formatNums(dateOnly); disp.className = 'text-beige-900 dark:text-dark-900 font-bold text-xs sm:text-sm picker-display-box'; }
 
 
 
@@ -5720,7 +5780,7 @@
 
             document.getElementById('profClientName').innerText = cust.name;
 
-            document.getElementById('profClientPhone').innerText = cust.phone;
+            document.getElementById('profClientPhone').innerText = formatNums(cust.phone);
 
             document.getElementById('profClientAddress').innerText = cust.address;
 
@@ -5736,9 +5796,9 @@
 
 
 
-            document.getElementById('profTotalCount').innerText = custSales.length;
+            document.getElementById('profTotalCount').innerText = formatNums(custSales.length);
 
-            document.getElementById('profTotalAmount').querySelector('span').innerText = Math.round(totalSpent);
+            document.getElementById('profTotalAmount').querySelector('span').innerText = formatNums(Math.round(totalSpent));
 
 
 
@@ -5760,21 +5820,21 @@
 
                     custSales.forEach(s => {
 
-                        const shortId = '#' + s.id.toString().slice(-6);
+                        const shortId = '#' + formatNums(s.id.toString().slice(-6));
 
                         tbody.innerHTML += `
 
-                            <tr class="hover:bg-beige-50/50 dark:hover:bg-dark-200">
+                            <tr class="hover:bg-beige-50/50 dark:hover:bg-dark-200 text-center">
 
-                                <td class="p-3 font-bold text-beige-800 dark:text-dark-900 en-num">${shortId}</td>
+                                <td class="p-3 font-bold text-beige-800 dark:text-dark-900 en-num text-center">${shortId}</td>
 
-                                <td class="p-3">${formatDateTime12H(s.dateTime)}</td>
+                                <td class="p-3 text-center">${formatDateTime12H(s.dateTime)}</td>
 
-                                <td class="p-3 font-bold text-beige-900 dark:text-dark-900">${s.item}</td>
+                                <td class="p-3 font-bold text-beige-900 dark:text-dark-900 text-center">${s.item}</td>
 
-                                <td class="p-3 text-beige-500 dark:text-dark-700 text-xs">${s.notes || '-'}</td>
+                                <td class="p-3 text-beige-500 dark:text-dark-700 text-xs text-center">${s.notes || '-'}</td>
 
-                                <td class="p-3 font-bold text-emerald-600 dark:text-emerald-400 en-num">${Math.round(s.price)} ${currSymbol}</td>
+                                <td class="p-3 font-bold text-emerald-600 dark:text-emerald-400 en-num text-center">${formatNums(Math.round(s.price))} ${currSymbol}</td>
 
                                 <td class="p-3 text-center">
 
@@ -6042,7 +6102,7 @@
 
 
 
-            document.getElementById('invId').innerText = '#' + sale.id.toString().slice(-6);
+            document.getElementById('invId').innerText = '#' + formatNums(sale.id.toString().slice(-6));
 
             document.getElementById('invDate').innerHTML = formatDateTimeSimple(sale.dateTime);
 
@@ -6070,7 +6130,7 @@
 
             document.getElementById('invClient').innerText = sale.name;
 
-            document.getElementById('invPhone').innerText = sale.phone;
+            document.getElementById('invPhone').innerText = formatNums(sale.phone);
 
             document.getElementById('invAddress').innerText = sale.address;
 
@@ -6080,7 +6140,7 @@
 
             document.getElementById('invItemNotes').innerText = sale.notes ? notesPrefix + sale.notes : '';
 
-            document.getElementById('invItemPrice').querySelector('span').innerText = Math.round(sale.price);
+            document.getElementById('invItemPrice').querySelector('span').innerText = formatNums(Math.round(sale.price));
 
             
 
@@ -6290,6 +6350,8 @@
 
             db.settings.currency = document.getElementById('cfgCurrency').value.trim();
 
+            db.settings.numberFormat = document.getElementById('cfgNumFormat').value;
+
             db.settings.font = document.getElementById('cfgFont').value;
 
             db.settings.thankMsg = document.getElementById('cfgThankMsg').value.trim();
@@ -6299,6 +6361,8 @@
             saveDb();
 
             applySettings();
+
+            updateUI();
 
             alert(i18nDict[currentLang].alert_settings_saved);
 
