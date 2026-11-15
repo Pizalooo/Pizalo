@@ -34,7 +34,9 @@
 
 
 
-    
+    <!-- مكتبة توليد كود QR Code -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 
 
@@ -51,10 +53,6 @@
 
 
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-
-
-
-
 
 
 
@@ -190,10 +188,6 @@
 
 
 
-        
-
-
-
         th, td {
 
 
@@ -206,10 +200,6 @@
 
 
 
-
-
-
-
         th, .nowrap-text {
 
 
@@ -219,10 +209,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -262,10 +248,6 @@
 
 
 
-
-
-
-
         input[type="month"] {
 
 
@@ -286,10 +268,6 @@
 
 
 
-
-
-
-
         /* توحيد محاذاة كافة خانات التعبئة والنصوص لليمين وبشكل ممتاز للغة العربية */
 
 
@@ -307,10 +285,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -338,10 +312,6 @@
 
 
 
-
-
-
-
         .en-num {
 
 
@@ -359,10 +329,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -398,10 +364,6 @@
 
 
 
-
-
-
-
         .time-badge {
 
 
@@ -422,7 +384,17 @@
 
 
 
+        /* تنسيق صورة الـ QR داخل الفاتورة */
 
+        #invQrCodeBox img, #invQrCodeBox canvas {
+
+            margin: 0 auto !important;
+
+            display: block !important;
+
+            border-radius: 6px;
+
+        }
 
 
 
@@ -442,10 +414,6 @@
 
 
 
-
-
-
-
         .animate-fade {
 
 
@@ -455,10 +423,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -475,10 +439,6 @@
 
 
             }
-
-
-
-            
 
 
 
@@ -546,10 +506,6 @@
 
 
 
-
-
-
-
             body.printing-section #custSectionDesc {
 
 
@@ -559,10 +515,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -614,10 +566,6 @@
 
 
 
-
-
-
-
             body.printing-section .printable-active-section .flex {
 
 
@@ -627,10 +575,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -655,10 +599,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -698,10 +638,6 @@
 
 
 
-
-
-
-
             body.printing-section td {
 
 
@@ -731,10 +667,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -775,10 +707,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -827,10 +755,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -898,10 +822,6 @@
 
 
 
-
-
-
-
     <!-- شاشة التحميل الأولية -->
 
 
@@ -927,10 +847,6 @@
 
 
     </div>
-
-
-
-
 
 
 
@@ -962,10 +878,6 @@
 
 
 
-
-
-
-
             <!-- تنبيه الأخطاء / الرسائل -->
 
 
@@ -975,10 +887,6 @@
 
 
             <div id="authSuccessMsg" class="hidden bg-emerald-50 dark:bg-dark-200 border border-emerald-200 text-emerald-700 dark:text-emerald-400 p-3 rounded-xl text-xs text-right"></div>
-
-
-
-
 
 
 
@@ -1030,10 +938,6 @@
 
 
 
-
-
-
-
                 <button type="submit" id="authSubmitBtn" class="w-full bg-beige-800 dark:bg-dark-800 hover:bg-beige-900 text-white font-bold py-3 rounded-xl text-sm transition shadow-sm cursor-pointer mt-2">
 
 
@@ -1047,10 +951,6 @@
 
 
             </form>
-
-
-
-
 
 
 
@@ -1086,19 +986,11 @@
 
 
 
-
-
-
-
     <!-- لوحة التحكم الرئيسية للموقع -->
 
 
 
     <div id="mainDashboard" class="hidden max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8 w-full">
-
-
-
-        
 
 
 
@@ -1138,15 +1030,7 @@
 
 
 
-            
-
-
-
             <div class="flex items-center gap-2 sm:gap-3 flex-wrap justify-center md:justify-end w-full md:w-auto">
-
-
-
-
 
 
 
@@ -1163,10 +1047,6 @@
 
 
                 </div>
-
-
-
-
 
 
 
@@ -1190,10 +1070,6 @@
 
 
 
-
-
-
-
                     <div id="userMenuContent" class="hidden absolute left-0 md:left-0 right-auto mt-2 w-56 rounded-2xl shadow-xl bg-white dark:bg-dark-100 border border-beige-200 dark:border-dark-300 z-50 overflow-hidden animate-fade">
 
 
@@ -1214,10 +1090,6 @@
 
 
 
-
-
-
-
                         <div class="p-1.5 space-y-1">
 
 
@@ -1234,10 +1106,6 @@
 
 
 
-
-
-
-
                             <button onclick="toggleDarkMode(); closeUserMenu();" class="w-full text-right px-3 py-2 rounded-xl text-xs font-bold text-beige-800 dark:text-dark-900 hover:bg-beige-100 dark:hover:bg-dark-200 transition flex items-center gap-2 cursor-pointer">
 
 
@@ -1247,10 +1115,6 @@
 
 
                             </button>
-
-
-
-
 
 
 
@@ -1266,15 +1130,7 @@
 
 
 
-
-
-
-
                             <div class="border-t border-beige-200 dark:border-dark-300 my-1"></div>
-
-
-
-
 
 
 
@@ -1302,19 +1158,11 @@
 
 
 
-
-
-
-
             </div>
 
 
 
         </header>
-
-
-
-
 
 
 
@@ -1355,10 +1203,6 @@
 
 
         </div>
-
-
-
-
 
 
 
@@ -1419,10 +1263,6 @@
 
 
         </div>
-
-
-
-
 
 
 
@@ -1502,10 +1342,6 @@
 
 
 
-
-
-
-
         <!-- قسم المبيعات -->
 
 
@@ -1546,10 +1382,6 @@
 
 
 
-                    
-
-
-
                     <div class="flex flex-col">
 
 
@@ -1582,10 +1414,6 @@
 
 
 
-
-
-
-
                     <div class="flex flex-col">
 
 
@@ -1599,10 +1427,6 @@
 
 
                     </div>
-
-
-
-
 
 
 
@@ -1627,10 +1451,6 @@
 
 
             </div>
-
-
-
-
 
 
 
@@ -1714,10 +1534,6 @@
 
 
 
-
-
-
-
                 <div id="salesBulkActions" class="no-print bg-amber-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 sm:px-6 py-3 rounded-xl hidden flex-wrap items-center justify-between gap-2">
 
 
@@ -1747,10 +1563,6 @@
 
 
                 </div>
-
-
-
-
 
 
 
@@ -1846,10 +1658,6 @@
 
 
 
-
-
-
-
         <!-- قسم دليل العملاء -->
 
 
@@ -1879,10 +1687,6 @@
 
 
                 </div>
-
-
-
-
 
 
 
@@ -1946,10 +1750,6 @@
 
 
 
-
-
-
-
                 <div id="customersBulkActions" class="no-print bg-amber-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 sm:px-6 py-3 rounded-xl hidden flex-wrap items-center justify-between gap-2">
 
 
@@ -1978,10 +1778,6 @@
 
 
 
-
-
-
-
                 <div id="customersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
 
 
@@ -1991,10 +1787,6 @@
 
 
         </div>
-
-
-
-
 
 
 
@@ -2026,10 +1818,6 @@
 
 
 
-                    
-
-
-
                     <div class="flex flex-col">
 
 
@@ -2058,10 +1846,6 @@
 
 
 
-
-
-
-
                     <div class="flex flex-col">
 
 
@@ -2086,10 +1870,6 @@
 
 
 
-
-
-
-
                     <input type="text" id="expenseNotes" placeholder="ملاحظات المصروف (اختياري)" class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-beige-600 md:col-span-3 text-beige-900 dark:text-dark-900 w-full" data-i18n-ph="ph_exp_notes">
 
 
@@ -2111,10 +1891,6 @@
 
 
             </div>
-
-
-
-
 
 
 
@@ -2158,10 +1934,6 @@
 
 
 
-                    
-
-
-
                     <div class="flex items-center gap-2 w-full md:w-auto">
 
 
@@ -2190,10 +1962,6 @@
 
 
 
-
-
-
-
                 <div id="expensesBulkActions" class="no-print bg-amber-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 sm:px-6 py-3 rounded-xl hidden flex-wrap items-center justify-between gap-2">
 
 
@@ -2219,10 +1987,6 @@
 
 
                 </div>
-
-
-
-
 
 
 
@@ -2302,10 +2066,6 @@
 
 
 
-
-
-
-
         <!-- قسم الإعدادات -->
 
 
@@ -2319,10 +2079,6 @@
 
 
                 <h2 class="text-base sm:text-lg font-bold text-beige-800 dark:text-dark-900 border-b border-beige-200 dark:border-dark-300 pb-3" data-i18n="title_settings">الإعدادات</h2>
-
-
-
-                
 
 
 
@@ -2534,10 +2290,6 @@
 
 
 
-
-
-
-
                 <div class="border-t border-beige-200 dark:border-dark-300 pt-6">
 
 
@@ -2582,7 +2334,17 @@
 
 
 
+                <!-- حقل إضافة رابط كود الـ QR للفاتورة -->
 
+                <div class="border-t border-beige-200 dark:border-dark-300 pt-6">
+
+                    <label class="block text-xs sm:text-sm font-bold text-beige-800 dark:text-dark-900 mb-2" data-i18n="lbl_qr_url">🔗 رابط كود الـ QR داخل الفاتورة (اختياري)</label>
+
+                    <input type="url" id="cfgQrUrl" placeholder="https://example.com" dir="ltr" class="w-full bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:border-beige-600 text-beige-900 dark:text-dark-900 text-left" style="direction: ltr !important; text-align: left !important;">
+
+                    <p class="text-xs text-beige-500 dark:text-dark-700 mt-1" data-i18n="hint_qr_url">أدخل أي رابط (متجرك، تقييم جوجل، حساب انستجرام...) وسيظهر تلقائياً ككود QR في منتصف أسفل الفاتورة.</p>
+
+                </div>
 
 
 
@@ -2599,10 +2361,6 @@
 
 
                 </div>
-
-
-
-
 
 
 
@@ -2662,10 +2420,6 @@
 
 
 
-
-
-
-
                 <!-- زر تصفير وبدء فترة جديدة -->
 
 
@@ -2698,10 +2452,6 @@
 
 
 
-
-
-
-
                 <div class="pt-4 border-t border-beige-200 dark:border-dark-300 flex justify-end">
 
 
@@ -2730,15 +2480,7 @@
 
 
 
-
-
-
-
     </div>
-
-
-
-
 
 
 
@@ -2767,10 +2509,6 @@
 
 
             </div>
-
-
-
-
 
 
 
@@ -2866,10 +2604,6 @@
 
 
 
-
-
-
-
             <div class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 p-2 sm:p-3 rounded-2xl">
 
 
@@ -2891,10 +2625,6 @@
 
 
             </div>
-
-
-
-
 
 
 
@@ -2966,10 +2696,6 @@
 
 
 
-
-
-
-
             <div class="flex gap-2 sm:gap-3 pt-2">
 
 
@@ -2991,10 +2717,6 @@
 
 
     </div>
-
-
-
-
 
 
 
@@ -3114,10 +2836,6 @@
 
 
 
-
-
-
-
     <!-- نافذة تعديل بيانات العميل الأساسية -->
 
 
@@ -3222,10 +2940,6 @@
 
 
 
-
-
-
-
     <!-- نافذة عرض حساب وجميع طلبات العميل وملاحظاته -->
 
 
@@ -3239,10 +2953,6 @@
 
 
             <button onclick="closeModal('customerProfileModal')" class="absolute left-5 sm:left-6 top-5 sm:top-6 text-beige-500 dark:text-dark-700 hover:text-beige-900 dark:hover:text-dark-900 text-2xl font-bold cursor-pointer">✕</button>
-
-
-
-            
 
 
 
@@ -3298,10 +3008,6 @@
 
 
 
-
-
-
-
             <div class="bg-beige-50 dark:bg-dark-200 border border-beige-200 dark:border-dark-300 p-4 rounded-2xl mb-6 space-y-2">
 
 
@@ -3315,10 +3021,6 @@
 
 
             </div>
-
-
-
-
 
 
 
@@ -3359,10 +3061,6 @@
 
 
             </div>
-
-
-
-
 
 
 
@@ -3430,10 +3128,6 @@
 
 
 
-
-
-
-
             <div class="mt-6 pt-4 border-t border-beige-200 dark:border-dark-300 flex justify-between items-center">
 
 
@@ -3471,10 +3165,6 @@
 
 
     </div>
-
-
-
-
 
 
 
@@ -3674,10 +3364,6 @@
 
 
 
-
-
-
-
     <!-- نافذة معاينة المرفق / الإيصال -->
 
 
@@ -3719,10 +3405,6 @@
 
 
     </div>
-
-
-
-
 
 
 
@@ -3874,10 +3556,6 @@
 
 
 
-
-
-
-
     <!-- نافذة الفاتورة المنبثقة -->
 
 
@@ -3891,10 +3569,6 @@
 
 
             <button onclick="closeInvoice()" class="no-print absolute left-4 sm:left-6 top-4 sm:top-6 text-beige-600 hover:text-beige-900 text-2xl font-bold cursor-pointer">✕</button>
-
-
-
-            
 
 
 
@@ -3926,10 +3600,6 @@
 
 
 
-
-
-
-
             <div class="space-y-4 sm:space-y-5 flex-1 flex flex-col justify-center mt-1">
 
 
@@ -3954,10 +3624,6 @@
 
 
 
-
-
-
-
                     <div id="invScheduledWrapper" class="no-print bg-amber-100/60 border border-amber-300 p-3 rounded-xl hidden">
 
 
@@ -3971,10 +3637,6 @@
 
 
                     </div>
-
-
-
-
 
 
 
@@ -4026,10 +3688,6 @@
 
 
 
-
-
-
-
                 <div class="space-y-1">
 
 
@@ -4058,10 +3716,6 @@
 
 
 
-
-
-
-
                 <div class="bg-beige-200/80 p-4 sm:p-5 rounded-2xl border-2 border-beige-300 flex justify-between items-center shadow-sm">
 
 
@@ -4082,7 +3736,21 @@
 
 
 
+            <!-- كود الاستجابة السريعة QR Code في أسفل الفاتورة في المنتصف محاط بشريط بيج/بُني متناسق -->
 
+            <div id="invQrContainer" class="hidden flex flex-col items-center justify-center pt-2">
+
+                <div class="bg-beige-100 border-2 border-beige-600 rounded-2xl p-2.5 shadow-sm flex flex-col items-center justify-center">
+
+                    <div class="bg-white p-1.5 rounded-xl border border-beige-300">
+
+                        <div id="invQrCodeBox" class="flex items-center justify-center"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
 
 
@@ -4095,10 +3763,6 @@
 
 
             </div>
-
-
-
-
 
 
 
@@ -4142,10 +3806,6 @@
 
 
 
-
-
-
-
     <!-- جافاسكريبت التشغيل الأساسي مع المصادقة وFirebase -->
 
 
@@ -4186,10 +3846,6 @@
 
 
 
-
-
-
-
         firebase.initializeApp(firebaseConfig);
 
 
@@ -4202,19 +3858,11 @@
 
 
 
-
-
-
-
         let currentUser = null;
 
 
 
         let isSignUpMode = false;
-
-
-
-
 
 
 
@@ -4234,10 +3882,6 @@
 
 
 
-
-
-
-
         let selectedSalesIds = new Set();
 
 
@@ -4250,15 +3894,7 @@
 
 
 
-
-
-
-
         let unsubscribeFirestore = null;
-
-
-
-
 
 
 
@@ -4531,6 +4167,14 @@
 
 
                 btn_remove_logo: 'إزالة الشعار 🗑️',
+
+
+
+                lbl_qr_url: '🔗 رابط كود الـ QR داخل الفاتورة (اختياري)',
+
+
+
+                hint_qr_url: 'أدخل أي رابط (متجرك، تقييم جوجل، حساب انستجرام...) وسيظهر تلقائياً ككود QR في منتصف أسفل الفاتورة.',
 
 
 
@@ -4990,6 +4634,14 @@
 
 
 
+                lbl_qr_url: '🔗 Invoice QR Code URL (Optional)',
+
+
+
+                hint_qr_url: 'Enter any link (store, Google reviews, Instagram...) and it will appear as a QR code at the bottom center of the invoice.',
+
+
+
                 lbl_thank_msg: 'Thank You Message at Bottom of Invoice',
 
 
@@ -5182,10 +4834,6 @@
 
 
 
-
-
-
-
         let db = {
 
 
@@ -5230,6 +4878,10 @@
 
 
 
+                qrUrl: '',
+
+
+
                 thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!'
 
 
@@ -5242,10 +4894,6 @@
 
 
 
-
-
-
-
         let currentEditingSaleId = null;
 
 
@@ -5255,10 +4903,6 @@
 
 
         let activeCustomerForProfile = null;
-
-
-
-
 
 
 
@@ -5279,10 +4923,6 @@
 
 
         let pickerSelectedDay = new Date().getDate();
-
-
-
-
 
 
 
@@ -5310,10 +4950,6 @@
 
 
 
-
-
-
-
             const westernToEasternMap = {
 
 
@@ -5338,15 +4974,7 @@
 
 
 
-
-
-
-
         // ------------------ إدارة القائمة الرأسية ------------------
-
-
-
-
 
 
 
@@ -5378,10 +5006,6 @@
 
 
 
-
-
-
-
         function closeUserMenu() {
 
 
@@ -5403,10 +5027,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -5434,15 +5054,7 @@
 
 
 
-
-
-
-
         // ------------------ إدارة المصادقة (Auth Functions) ------------------
-
-
-
-        
 
 
 
@@ -5462,10 +5074,6 @@
 
 
 
-
-
-
-
             if (user) {
 
 
@@ -5478,10 +5086,6 @@
 
 
 
-                
-
-
-
                 loadingScreen.classList.add('hidden');
 
 
@@ -5491,10 +5095,6 @@
 
 
                 mainDashboard.classList.remove('hidden');
-
-
-
-
 
 
 
@@ -5518,10 +5118,6 @@
 
 
 
-                
-
-
-
                 loadingScreen.classList.add('hidden');
 
 
@@ -5539,10 +5135,6 @@
 
 
         });
-
-
-
-
 
 
 
@@ -5582,19 +5174,11 @@
 
 
 
-
-
-
-
             errorMsg.classList.add('hidden');
 
 
 
             successMsg.classList.add('hidden');
-
-
-
-
 
 
 
@@ -5654,10 +5238,6 @@
 
 
 
-
-
-
-
         async function handleAuthSubmit(e) {
 
 
@@ -5686,10 +5266,6 @@
 
 
 
-
-
-
-
             errorMsg.classList.add('hidden');
 
 
@@ -5703,10 +5279,6 @@
 
 
             submitBtn.classList.add('opacity-50');
-
-
-
-
 
 
 
@@ -5798,10 +5370,6 @@
 
 
 
-
-
-
-
         async function handleForgotPassword() {
 
 
@@ -5818,19 +5386,11 @@
 
 
 
-
-
-
-
             errorMsg.classList.add('hidden');
 
 
 
             successMsg.classList.add('hidden');
-
-
-
-
 
 
 
@@ -5851,10 +5411,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -5918,10 +5474,6 @@
 
 
 
-
-
-
-
         function logoutUser() {
 
 
@@ -5942,19 +5494,11 @@
 
 
 
-
-
-
-
         function subscribeToUserData(userId) {
 
 
 
             if (unsubscribeFirestore) unsubscribeFirestore();
-
-
-
-
 
 
 
@@ -5974,7 +5518,7 @@
 
 
 
-                        db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', numberFormat: 'en', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
+                        db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', numberFormat: 'en', font: 'Rubik', logo: '', qrUrl: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
 
 
 
@@ -6018,15 +5562,7 @@
 
 
 
-
-
-
-
         // ------------------ الوظائف العامة وإدارة البيانات ------------------
-
-
-
-
 
 
 
@@ -6062,10 +5598,6 @@
 
 
 
-
-
-
-
         function validatePositiveAmount(amount) {
 
 
@@ -6082,10 +5614,6 @@
 
 
 
-
-
-
-
         function validateNotEmptyText(text) {
 
 
@@ -6095,10 +5623,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -6122,10 +5646,6 @@
 
 
 
-
-
-
-
         function applyDarkMode() {
 
 
@@ -6139,10 +5659,6 @@
 
 
             const menuTextEl = document.getElementById('menuDarkModeText');
-
-
-
-
 
 
 
@@ -6186,10 +5702,6 @@
 
 
 
-
-
-
-
         function toggleLanguage() {
 
 
@@ -6226,10 +5738,6 @@
 
 
 
-
-
-
-
         function applyLanguage() {
 
 
@@ -6243,10 +5751,6 @@
 
 
             htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-
-
-
-
 
 
 
@@ -6266,10 +5770,6 @@
 
 
 
-
-
-
-
             const menuTextEl = document.getElementById('menuDarkModeText');
 
 
@@ -6283,10 +5783,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -6314,10 +5810,6 @@
 
 
 
-
-
-
-
             document.querySelectorAll('[data-i18n-ph]').forEach(el => {
 
 
@@ -6342,10 +5834,6 @@
 
 
 
-
-
-
-
             const pickerHeader = document.getElementById('pickerDaysHeader');
 
 
@@ -6366,10 +5854,6 @@
 
 
 
-
-
-
-
             document.querySelectorAll('table').forEach(t => {
 
 
@@ -6387,10 +5871,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -6430,10 +5910,6 @@
 
 
 
-
-
-
-
         function openCustomPicker(targetInputId, isDateOnly = false) {
 
 
@@ -6443,10 +5919,6 @@
 
 
             pickerIsDateOnly = isDateOnly;
-
-
-
-            
 
 
 
@@ -6495,10 +5967,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -6582,10 +6050,6 @@
 
 
 
-                    
-
-
-
                     document.getElementById('pickerHour').value = String(h).padStart(2, '0');
 
 
@@ -6622,10 +6086,6 @@
 
 
 
-
-
-
-
             populateMinutesSelect(initialMin);
 
 
@@ -6635,10 +6095,6 @@
 
 
             renderPickerCalendar();
-
-
-
-
 
 
 
@@ -6663,10 +6119,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -6695,10 +6147,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -6738,10 +6186,6 @@
 
 
 
-
-
-
-
         function renderPickerCalendar() {
 
 
@@ -6758,19 +6202,11 @@
 
 
 
-
-
-
-
             pickerSelectedYear = parseInt(ySel.value, 10);
 
 
 
             pickerSelectedMonth = parseInt(mSel.value, 10);
-
-
-
-
 
 
 
@@ -6786,19 +6222,11 @@
 
 
 
-
-
-
-
             const firstDayIndex = new Date(pickerSelectedYear, pickerSelectedMonth, 1).getDay();
 
 
 
             const totalDays = new Date(pickerSelectedYear, pickerSelectedMonth + 1, 0).getDate();
-
-
-
-
 
 
 
@@ -6811,10 +6239,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -6854,10 +6278,6 @@
 
 
 
-
-
-
-
         function selectPickerDay(day) {
 
 
@@ -6874,19 +6294,11 @@
 
 
 
-
-
-
-
         function saveCustomPickerSelection() {
 
 
 
             if(!pickerTargetInputId) return;
-
-
-
-
 
 
 
@@ -6902,19 +6314,11 @@
 
 
 
-
-
-
-
             let finalVal = dateStr;
 
 
 
             let displayStr = formatNums(dateStr);
-
-
-
-
 
 
 
@@ -6934,19 +6338,11 @@
 
 
 
-
-
-
-
                 if(ampm === 'PM' && h < 12) h += 12;
 
 
 
                 if(ampm === 'AM' && h === 12) h = 0;
-
-
-
-
 
 
 
@@ -6970,15 +6366,7 @@
 
 
 
-
-
-
-
             document.getElementById(pickerTargetInputId).value = finalVal;
-
-
-
-            
 
 
 
@@ -7006,19 +6394,11 @@
 
 
 
-
-
-
-
             closeCustomPicker();
 
 
 
         }
-
-
-
-
 
 
 
@@ -7039,10 +6419,6 @@
 
 
             const datePart = formatNums(parts[0]); 
-
-
-
-            
 
 
 
@@ -7070,10 +6446,6 @@
 
 
 
-                
-
-
-
                 hours = hours % 12;
 
 
@@ -7094,15 +6466,7 @@
 
 
 
-
-
-
-
             const checkIcon = confirmedReady ? `<span class="inline-flex items-center justify-center w-4 h-4 bg-emerald-500 text-white text-[10px] rounded-md shadow-sm mx-1 align-middle" title="Ready">✓</span>` : '';
-
-
-
-
 
 
 
@@ -7111,10 +6475,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -7135,10 +6495,6 @@
 
 
             const datePart = formatNums(parts[0]); 
-
-
-
-            
 
 
 
@@ -7166,10 +6522,6 @@
 
 
 
-                
-
-
-
                 hours = hours % 12;
 
 
@@ -7190,19 +6542,11 @@
 
 
 
-
-
-
-
             return `${datePart}${timeStr}`;
 
 
 
         }
-
-
-
-
 
 
 
@@ -7215,10 +6559,6 @@
 
 
             applyLanguage();
-
-
-
-
 
 
 
@@ -7235,10 +6575,6 @@
 
 
             if(monthInput) monthInput.value = yearMonth;
-
-
-
-            
 
 
 
@@ -7270,10 +6606,6 @@
 
 
 
-
-
-
-
         function applySettings() {
 
 
@@ -7282,7 +6614,7 @@
 
 
 
-                db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', numberFormat: 'en', font: 'Rubik', logo: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
+                db.settings = { storeName: '', storeDesc: '', currency: 'ر.س', numberFormat: 'en', font: 'Rubik', logo: '', qrUrl: '', thankMsg: 'شكراً لتعاملك معنا، نتطلع لخدمتك دائماً!' };
 
 
 
@@ -7291,10 +6623,6 @@
 
 
             const s = db.settings;
-
-
-
-            
 
 
 
@@ -7338,10 +6666,6 @@
 
 
 
-
-
-
-
             const headerStoreDescEl = document.getElementById('headerStoreDesc');
 
 
@@ -7382,10 +6706,6 @@
 
 
 
-            
-
-
-
             if(s.font) {
 
 
@@ -7398,10 +6718,6 @@
 
 
 
-
-
-
-
             const logoEl = document.getElementById('headerLogo');
 
 
@@ -7411,10 +6727,6 @@
 
 
             const btnRemLogo = document.getElementById('btnRemoveLogo');
-
-
-
-            
 
 
 
@@ -7454,10 +6766,6 @@
 
 
 
-
-
-
-
             document.querySelectorAll('.currencyLabel').forEach(el => {
 
 
@@ -7467,10 +6775,6 @@
 
 
             });
-
-
-
-
 
 
 
@@ -7494,15 +6798,15 @@
 
 
 
+            if(document.getElementById('cfgQrUrl')) document.getElementById('cfgQrUrl').value = s.qrUrl || '';
+
+
+
             if(document.getElementById('cfgThankMsg')) document.getElementById('cfgThankMsg').value = s.thankMsg || '';
 
 
 
         }
-
-
-
-
 
 
 
@@ -7542,10 +6846,6 @@
 
 
 
-
-
-
-
             const activeSec = document.getElementById('section' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
 
 
@@ -7570,10 +6870,6 @@
 
 
 
-
-
-
-
             if(tabId === 'customers') renderCustomers();
 
 
@@ -7583,10 +6879,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -7646,10 +6938,6 @@
 
 
 
-
-
-
-
         function setExpensesFilter(filterType) {
 
 
@@ -7706,10 +6994,6 @@
 
 
 
-
-
-
-
         function checkCustomerAutoFill() {
 
 
@@ -7726,15 +7010,7 @@
 
 
 
-            
-
-
-
             if(!phoneInput || !nameInput || !addressInput) return;
-
-
-
-
 
 
 
@@ -7743,10 +7019,6 @@
 
 
             if(!cleanPhone) return;
-
-
-
-
 
 
 
@@ -7771,10 +7043,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -7818,10 +7086,6 @@
 
 
 
-
-
-
-
             if (!validateNotEmptyText(name) || !validateNotEmptyText(address) || !validateNotEmptyText(item)) {
 
 
@@ -7835,10 +7099,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -7862,10 +7122,6 @@
 
 
 
-
-
-
-
             if (!validatePositiveAmount(priceVal)) {
 
 
@@ -7886,19 +7142,11 @@
 
 
 
-
-
-
-
             const now = new Date();
 
 
 
             const dateTimeStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + ' ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
-
-
-
-
 
 
 
@@ -7946,10 +7194,6 @@
 
 
 
-
-
-
-
         function finalizeAddSale(dateTimeStr, scheduledTime, name, phone, address, item, price, notes, attachment) {
 
 
@@ -7990,19 +7234,11 @@
 
 
 
-
-
-
-
             if(!db.sales) db.sales = [];
 
 
 
             db.sales.unshift(newSale);
-
-
-
-
 
 
 
@@ -8054,10 +7290,6 @@
 
 
 
-
-
-
-
             saveDb();
 
 
@@ -8079,10 +7311,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -8111,10 +7339,6 @@
 
 
             const fileInput = document.getElementById('expenseAttachment');
-
-
-
-
 
 
 
@@ -8154,10 +7378,6 @@
 
 
 
-
-
-
-
             const now = new Date();
 
 
@@ -8167,10 +7387,6 @@
 
 
             const fullDateTime = `${dateInput} ${timePart}`;
-
-
-
-
 
 
 
@@ -8214,10 +7430,6 @@
 
 
 
-
-
-
-
         function finalizeAddExpense(fullDateTime, title, amount, notes, attachment) {
 
 
@@ -8238,10 +7450,6 @@
 
 
 
-
-
-
-
             if(!db.expenses) db.expenses = [];
 
 
@@ -8255,10 +7463,6 @@
 
 
             document.getElementById('expenseForm').reset();
-
-
-
-            
 
 
 
@@ -8290,19 +7494,11 @@
 
 
 
-            
-
-
-
             updateUI();
 
 
 
         }
-
-
-
-
 
 
 
@@ -8358,10 +7554,6 @@
 
 
 
-
-
-
-
         function toggleSaleSelection(cb, id) {
 
 
@@ -8406,10 +7598,6 @@
 
 
 
-
-
-
-
         function updateSalesBulkBar() {
 
 
@@ -8430,10 +7618,6 @@
 
 
 
-
-
-
-
             if(selectedSalesIds.size > 0) {
 
 
@@ -8447,10 +7631,6 @@
 
 
                 countEl.innerText = currentLang === 'ar' ? `تم تحديد ${formatNums(selectedSalesIds.size)} طلب` : `${formatNums(selectedSalesIds.size)} orders selected`;
-
-
-
-                
 
 
 
@@ -8506,10 +7686,6 @@
 
 
 
-
-
-
-
         function bulkMarkSalesReady() {
 
 
@@ -8558,10 +7734,6 @@
 
 
 
-
-
-
-
         function bulkDeleteSales() {
 
 
@@ -8599,10 +7771,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -8658,10 +7826,6 @@
 
 
 
-
-
-
-
         function toggleCustomerSelection(cb, phone) {
 
 
@@ -8702,10 +7866,6 @@
 
 
 
-
-
-
-
         function updateCustomersBulkBar() {
 
 
@@ -8726,10 +7886,6 @@
 
 
 
-
-
-
-
             if(selectedCustomerPhones.size > 0) {
 
 
@@ -8743,10 +7899,6 @@
 
 
                 countEl.innerText = currentLang === 'ar' ? `تم تحديد ${formatNums(selectedCustomerPhones.size)} عميل` : `${formatNums(selectedCustomerPhones.size)} customers selected`;
-
-
-
-                
 
 
 
@@ -8802,10 +7954,6 @@
 
 
 
-
-
-
-
         function bulkDeleteCustomers() {
 
 
@@ -8843,10 +7991,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -8902,10 +8046,6 @@
 
 
 
-
-
-
-
         function toggleExpenseSelection(cb, id) {
 
 
@@ -8950,10 +8090,6 @@
 
 
 
-
-
-
-
         function updateExpensesBulkBar() {
 
 
@@ -8974,10 +8110,6 @@
 
 
 
-
-
-
-
             if(selectedExpenseIds.size > 0) {
 
 
@@ -8991,10 +8123,6 @@
 
 
                 countEl.innerText = currentLang === 'ar' ? `تم تحديد ${formatNums(selectedExpenseIds.size)} مصروف` : `${formatNums(selectedExpenseIds.size)} expenses selected`;
-
-
-
-                
 
 
 
@@ -9050,10 +8178,6 @@
 
 
 
-
-
-
-
         function bulkDeleteExpenses() {
 
 
@@ -9091,10 +8215,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -9202,10 +8322,6 @@
 
 
 
-
-
-
-
             const styleTag = document.createElement('style');
 
 
@@ -9222,15 +8338,7 @@
 
 
 
-
-
-
-
             printSection(sectionKey);
-
-
-
-
 
 
 
@@ -9258,10 +8366,6 @@
 
 
 
-
-
-
-
         function updateUI() {
 
 
@@ -9282,10 +8386,6 @@
 
 
 
-
-
-
-
             const salesArr = db.sales || [];
 
 
@@ -9294,19 +8394,11 @@
 
 
 
-
-
-
-
             const activeSalesForStats = salesArr.filter(s => !s.isArchived && s.dateTime.startsWith(filterVal));
 
 
 
             const activeExpensesForStats = expArr.filter(ex => !ex.isArchived && ex.date.startsWith(filterVal));
-
-
-
-
 
 
 
@@ -9319,10 +8411,6 @@
 
 
             const netProfitVal = totalSalesVal - totalExpVal;
-
-
-
-
 
 
 
@@ -9342,10 +8430,6 @@
 
 
 
-            
-
-
-
             const netProfitEl = document.getElementById('netProfit');
 
 
@@ -9354,19 +8438,7 @@
 
 
 
-
-
-
-
             checkScheduledAlerts();
-
-
-
-
-
-
-
-            // الشرط الجديد: إظهار عمود تاريخ التصفير عند اختيار تبويبة "الكل" أو تبويبة "أرشيف التصفير"
 
 
 
@@ -9391,10 +8463,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -9435,10 +8503,6 @@
 
 
                                     s.item.toLowerCase().includes(searchVal);
-
-
-
-                
 
 
 
@@ -9490,19 +8554,11 @@
 
 
 
-
-
-
-
                 return matchSearch && matchFilter;
 
 
 
             });
-
-
-
-
 
 
 
@@ -9554,10 +8610,6 @@
 
 
 
-
-
-
-
             const salesTbody = document.getElementById('salesTableBody');
 
 
@@ -9606,19 +8658,11 @@
 
 
 
-                        
-
-
-
                         const receiptTxt = currentLang === 'ar' ? '📎 إيصال' : '📎 Receipt';
 
 
 
                         const noReceiptTxt = currentLang === 'ar' ? 'لا يوجد' : 'None';
-
-
-
-                        
 
 
 
@@ -9631,10 +8675,6 @@
 
 
                             `<span class="text-beige-400 dark:text-dark-700 text-[11px] text-center block">${noReceiptTxt}</span>`;
-
-
-
-
 
 
 
@@ -9651,10 +8691,6 @@
 
 
                         const archivedAtTd = showSalesArchiveCol ? `<td class="p-2 sm:p-2.5 text-center text-xs text-rose-700 dark:text-rose-400">${s.archivedAt ? formatDateTime12H(s.archivedAt) : '-'}</td>` : '';
-
-
-
-
 
 
 
@@ -9758,19 +8794,11 @@
 
 
 
-
-
-
-
             renderExpensesList(filteredExpenses);
 
 
 
         }
-
-
-
-
 
 
 
@@ -9786,10 +8814,6 @@
 
 
 
-
-
-
-
             const container = document.getElementById('attachmentContentContainer');
 
 
@@ -9799,10 +8823,6 @@
 
 
             container.innerHTML = '';
-
-
-
-
 
 
 
@@ -9834,10 +8854,6 @@
 
 
 
-
-
-
-
             const modal = document.getElementById('attachmentModal');
 
 
@@ -9862,10 +8878,6 @@
 
 
 
-
-
-
-
         function viewExpenseAttachment(expId) {
 
 
@@ -9878,10 +8890,6 @@
 
 
 
-
-
-
-
             const container = document.getElementById('attachmentContentContainer');
 
 
@@ -9891,10 +8899,6 @@
 
 
             container.innerHTML = '';
-
-
-
-
 
 
 
@@ -9926,10 +8930,6 @@
 
 
 
-
-
-
-
             const modal = document.getElementById('attachmentModal');
 
 
@@ -9954,10 +8954,6 @@
 
 
 
-
-
-
-
         function checkScheduledAlerts() {
 
 
@@ -9978,10 +8974,6 @@
 
 
 
-            
-
-
-
             const now = new Date();
 
 
@@ -9991,10 +8983,6 @@
 
 
             const tomorrowStr = tomorrow.getFullYear() + '-' + String(tomorrow.getMonth() + 1).padStart(2, '0') + '-' + String(tomorrow.getDate()).padStart(2, '0');
-
-
-
-
 
 
 
@@ -10018,10 +9006,6 @@
 
 
 
-
-
-
-
             if (scheduledSales.length > 0) {
 
 
@@ -10042,19 +9026,11 @@
 
 
 
-                
-
-
-
                 const btnReadyTxt = currentLang === 'ar' ? '✓ جاهز' : '✓ Ready';
 
 
 
                 const btnInvTxt = currentLang === 'ar' ? 'عرض الفاتورة' : 'View Invoice';
-
-
-
-
 
 
 
@@ -10134,10 +9110,6 @@
 
 
 
-
-
-
-
         function confirmOrderReadyPrompt(id) {
 
 
@@ -10178,10 +9150,6 @@
 
 
 
-
-
-
-
         function renderExpensesList(expList) {
 
 
@@ -10191,14 +9159,6 @@
 
 
             if(!expTbody) return;
-
-
-
-
-
-
-
-            // الشرط الجديد: إظهار عمود تاريخ التصفير للمصروفات في تبويبة "الكل" أو "أرشيف التصفير"
 
 
 
@@ -10223,10 +9183,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -10282,10 +9238,6 @@
 
 
 
-
-
-
-
                 const receiptTxt = currentLang === 'ar' ? '📎 إيصال' : '📎 Receipt';
 
 
@@ -10303,10 +9255,6 @@
 
 
                     `<span class="text-beige-400 dark:text-dark-700 text-xs text-center block">${noReceiptTxt}</span>`;
-
-
-
-
 
 
 
@@ -10386,10 +9334,6 @@
 
 
 
-
-
-
-
         function renderCustomers() {
 
 
@@ -10414,19 +9358,11 @@
 
 
 
-
-
-
-
             const customersArr = db.customers || [];
 
 
 
             const filtered = customersArr.filter(c => c.name.toLowerCase().includes(searchVal) || c.phone.includes(searchVal));
-
-
-
-
 
 
 
@@ -10450,15 +9386,7 @@
 
 
 
-
-
-
-
             const currSymbol = db.settings && db.settings.currency ? db.settings.currency : '';
-
-
-
-
 
 
 
@@ -10475,10 +9403,6 @@
 
 
                 const joinedFormatted = c.createdAt ? formatDateTimeSimple(c.createdAt) : (currentLang === 'ar' ? 'غير محدد' : 'Unset');
-
-
-
-
 
 
 
@@ -10503,10 +9427,6 @@
 
 
                 const isChecked = selectedCustomerPhones.has(c.phone) ? 'checked' : '';
-
-
-
-
 
 
 
@@ -10626,10 +9546,6 @@
 
 
 
-
-
-
-
         function deleteSale(id) {
 
 
@@ -10659,10 +9575,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -10698,10 +9610,6 @@
 
 
 
-
-
-
-
         function deleteCustomer(phone) {
 
 
@@ -10727,10 +9635,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -10778,10 +9682,6 @@
 
 
 
-            
-
-
-
             document.getElementById('editScheduledTime').value = sale.scheduledTime || '';
 
 
@@ -10826,19 +9726,11 @@
 
 
 
-
-
-
-
             document.getElementById('editItemNotes').value = sale.notes || '';
 
 
 
             document.getElementById('editSaleAttachment').value = '';
-
-
-
-            
 
 
 
@@ -10866,10 +9758,6 @@
 
 
 
-
-
-
-
         function saveSaleEdit(e) {
 
 
@@ -10883,10 +9771,6 @@
 
 
             if(!sale) return;
-
-
-
-
 
 
 
@@ -10919,10 +9803,6 @@
 
 
             const fileInput = document.getElementById('editSaleAttachment');
-
-
-
-
 
 
 
@@ -10978,10 +9858,6 @@
 
 
 
-
-
-
-
             if(sale.scheduledTime !== newSched) {
 
 
@@ -10991,10 +9867,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -11023,10 +9895,6 @@
 
 
             sale.notes = notes;
-
-
-
-
 
 
 
@@ -11090,10 +9958,6 @@
 
 
 
-
-
-
-
         function cancelEditSale() {
 
 
@@ -11103,10 +9967,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -11142,10 +10002,6 @@
 
 
 
-            
-
-
-
             const dateOnly = ex.date.split(' ')[0];
 
 
@@ -11162,19 +10018,11 @@
 
 
 
-
-
-
-
             document.getElementById('editExpNotes').value = ex.notes || '';
 
 
 
             document.getElementById('editExpAttachment').value = '';
-
-
-
-
 
 
 
@@ -11202,10 +10050,6 @@
 
 
 
-
-
-
-
         function saveExpEdit(e) {
 
 
@@ -11222,19 +10066,11 @@
 
 
 
-
-
-
-
             const title = document.getElementById('editExpTitle').value.trim();
 
 
 
             const amountVal = document.getElementById('editExpAmount').value;
-
-
-
-
 
 
 
@@ -11270,10 +10106,6 @@
 
 
 
-
-
-
-
             const dateInput = document.getElementById('editExpDate').value;
 
 
@@ -11295,10 +10127,6 @@
 
 
             ex.notes = document.getElementById('editExpNotes').value.trim();
-
-
-
-
 
 
 
@@ -11366,10 +10194,6 @@
 
 
 
-
-
-
-
         function openAddCustomerModal() {
 
 
@@ -11398,10 +10222,6 @@
 
 
 
-
-
-
-
         function saveNewCustomer(e) {
 
 
@@ -11426,10 +10246,6 @@
 
 
 
-
-
-
-
             if (!validateNotEmptyText(name) || !validateNotEmptyText(address)) {
 
 
@@ -11443,10 +10259,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -11470,10 +10282,6 @@
 
 
 
-
-
-
-
             if(!db.customers) db.customers = [];
 
 
@@ -11494,19 +10302,11 @@
 
 
 
-
-
-
-
             const now = new Date();
 
 
 
             const dateTimeStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + ' ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
-
-
-
-
 
 
 
@@ -11534,10 +10334,6 @@
 
 
 
-
-
-
-
         function openCustomerProfile(phone) {
 
 
@@ -11551,10 +10347,6 @@
 
 
             activeCustomerForProfile = cust;
-
-
-
-
 
 
 
@@ -11578,10 +10370,6 @@
 
 
 
-
-
-
-
             const custSales = (db.sales || []).filter(s => s.phone === cust.phone || s.name === cust.name);
 
 
@@ -11590,19 +10378,11 @@
 
 
 
-
-
-
-
             document.getElementById('profTotalCount').innerText = formatNums(custSales.length);
 
 
 
             document.getElementById('profTotalAmount').querySelector('span').innerText = formatNums(Math.round(totalSpent));
-
-
-
-
 
 
 
@@ -11706,10 +10486,6 @@
 
 
 
-
-
-
-
             const modal = document.getElementById('customerProfileModal');
 
 
@@ -11731,10 +10507,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -11762,15 +10534,7 @@
 
 
 
-
-
-
-
             closeModal('customerProfileModal');
-
-
-
-
 
 
 
@@ -11798,10 +10562,6 @@
 
 
 
-
-
-
-
         function cancelCustomerEdit() {
 
 
@@ -11823,10 +10583,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -11854,10 +10610,6 @@
 
 
 
-
-
-
-
             if (!validateNotEmptyText(newName) || !validateNotEmptyText(newAddress)) {
 
 
@@ -11871,10 +10623,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -11898,10 +10646,6 @@
 
 
 
-
-
-
-
             const cust = (db.customers || []).find(c => c.phone === origPhone);
 
 
@@ -11919,10 +10663,6 @@
 
 
                 cust.address = newAddress;
-
-
-
-
 
 
 
@@ -11962,19 +10702,11 @@
 
 
 
-
-
-
-
                 saveDb();
 
 
 
                 closeModal('editCustomerModal');
-
-
-
-                
 
 
 
@@ -11999,10 +10731,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -12050,10 +10778,6 @@
 
 
 
-
-
-
-
         function openInvoice(saleId) {
 
 
@@ -12067,10 +10791,6 @@
 
 
             if(!sale) return;
-
-
-
-
 
 
 
@@ -12114,10 +10834,6 @@
 
 
 
-
-
-
-
             const invStoreNameEl = document.getElementById('invStoreName');
 
 
@@ -12155,10 +10871,6 @@
 
 
             }
-
-
-
-
 
 
 
@@ -12202,19 +10914,11 @@
 
 
 
-
-
-
-
             document.getElementById('invId').innerText = '#' + formatNums(sale.id.toString().slice(-6));
 
 
 
             document.getElementById('invDate').innerHTML = formatDateTimeSimple(sale.dateTime);
-
-
-
-            
 
 
 
@@ -12254,10 +10958,6 @@
 
 
 
-
-
-
-
             document.getElementById('invClient').innerText = sale.name;
 
 
@@ -12286,7 +10986,47 @@
 
 
 
-            
+            // توليد وعرض كود QR إذا كان هناك رابط مضاف في الإعدادات
+
+            const qrContainer = document.getElementById('invQrContainer');
+
+            const qrBox = document.getElementById('invQrCodeBox');
+
+            if (qrContainer && qrBox) {
+
+                qrBox.innerHTML = '';
+
+                if (s.qrUrl && s.qrUrl.trim() !== '') {
+
+                    qrContainer.classList.remove('hidden');
+
+                    if (typeof QRCode !== 'undefined') {
+
+                        new QRCode(qrBox, {
+
+                            text: s.qrUrl.trim(),
+
+                            width: 85,
+
+                            height: 85,
+
+                            colorDark: "#3a3020",
+
+                            colorLight: "#ffffff",
+
+                            correctLevel: QRCode.CorrectLevel.M
+
+                        });
+
+                    }
+
+                } else {
+
+                    qrContainer.classList.add('hidden');
+
+                }
+
+            }
 
 
 
@@ -12295,10 +11035,6 @@
 
 
             document.getElementById('invThankMsg').innerText = s.thankMsg || defaultThank;
-
-
-
-
 
 
 
@@ -12323,10 +11059,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -12398,10 +11130,6 @@
 
 
 
-
-
-
-
         function closeInvoice() {
 
 
@@ -12427,10 +11155,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -12462,15 +11186,7 @@
 
 
 
-
-
-
-
         // ------------------ معالجة الشعار وضمان حفظه سحابياً ------------------
-
-
-
-
 
 
 
@@ -12483,10 +11199,6 @@
 
 
             if (!file) return;
-
-
-
-
 
 
 
@@ -12519,10 +11231,6 @@
 
 
                     let height = img.height;
-
-
-
-
 
 
 
@@ -12570,10 +11278,6 @@
 
 
 
-
-
-
-
                     canvas.width = width;
 
 
@@ -12590,15 +11294,7 @@
 
 
 
-
-
-
-
                     const compressedBase64 = canvas.toDataURL('image/png', 0.85);
-
-
-
-
 
 
 
@@ -12607,10 +11303,6 @@
 
 
                     db.settings.logo = compressedBase64;
-
-
-
-                    
 
 
 
@@ -12639,10 +11331,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -12678,10 +11366,6 @@
 
 
 
-
-
-
-
         function saveSettings() {
 
 
@@ -12710,11 +11394,11 @@
 
 
 
+            db.settings.qrUrl = document.getElementById('cfgQrUrl').value.trim();
+
+
+
             db.settings.thankMsg = document.getElementById('cfgThankMsg').value.trim();
-
-
-
-            
 
 
 
@@ -12735,10 +11419,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -12778,10 +11458,6 @@
 
 
 
-
-
-
-
         function importBackupJSON(event) {
 
 
@@ -12794,10 +11470,6 @@
 
 
 
-
-
-
-
             const confirmMsg = currentLang === 'ar' ? 
 
 
@@ -12807,10 +11479,6 @@
 
 
                 'Are you sure you want to import this backup? Current cloud data will be replaced by the imported data.';
-
-
-
-
 
 
 
@@ -12902,10 +11570,6 @@
 
 
 
-
-
-
-
         function resetPeriodData() {
 
 
@@ -12922,10 +11586,6 @@
 
 
 
-            
-
-
-
             if (confirm(confirmMsg)) {
 
 
@@ -12934,19 +11594,11 @@
 
 
 
-
-
-
-
                 const now = new Date();
 
 
 
                 const archiveDateTimeStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + ' ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
-
-
-
-
 
 
 
@@ -13014,15 +11666,7 @@
 
 
 
-
-
-
-
                 saveDb();
-
-
-
-
 
 
 
@@ -13035,10 +11679,6 @@
 
 
                 updateUI();
-
-
-
-                
 
 
 
@@ -13055,10 +11695,6 @@
 
 
         }
-
-
-
-
 
 
 
@@ -13102,10 +11738,6 @@
 
 
 
-
-
-
-
         function exportData() {
 
 
@@ -13118,10 +11750,6 @@
 
 
 
-            
-
-
-
             let csv = currentLang === 'ar' ? 
 
 
@@ -13131,10 +11759,6 @@
 
 
                 '﻿Order ID;Created At;Reset Date;Scheduled Time;Archive Status;Status;Customer Name;Phone;Address;Order Description;Notes;Total\n';
-
-
-
-            
 
 
 
@@ -13190,19 +11814,11 @@
 
 
 
-
-
-
-
                 csv += `"${shortId}";"${regTime}";"${archTime}";"${schedTime}";"${archiveState}";"${readyState}";"${clientName}";"${phone}";"${address}";"${item}";"${notes}";${price}\n`;
 
 
 
             });
-
-
-
-
 
 
 
