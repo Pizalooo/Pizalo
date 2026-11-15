@@ -387,15 +387,11 @@
         /* تنسيق صورة الـ QR داخل الفاتورة */
 
         #invQrCodeBox img, #invQrCodeBox canvas {
+
             margin: 0 auto !important;
+
             border-radius: 6px;
-        }
-        /* منع ظهور نسختين من كود QR عند الطباعة من الكمبيوتر */
-        #invQrCodeBox canvas:not(:only-child) {
-            display: none !important;
-        }
-        #invQrCodeBox img {
-            display: block !important;
+
         }
 
 
@@ -11019,6 +11015,16 @@
                             correctLevel: QRCode.CorrectLevel.M
 
                         });
+
+                        const qrCanvas = qrBox.querySelector('canvas');
+
+                        if (qrCanvas) {
+
+                            const qrDataUrl = qrCanvas.toDataURL('image/png');
+
+                            qrBox.innerHTML = `<img src="${qrDataUrl}" alt="QR Code" style="width:85px;height:85px;display:block;margin:0 auto;border-radius:6px;">`;
+
+                        }
 
                     }
 
